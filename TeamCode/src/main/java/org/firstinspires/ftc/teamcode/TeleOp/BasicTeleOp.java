@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Functions.Rotate;
 public class BasicTeleOp extends OpMode {
     private DcMotor leftMotor, rightMotor, leftMotorBack, rightMotorBack;
     private Move move;
+    //comentariu
     private Rotate rotate;
     @Override
     public void init() {
