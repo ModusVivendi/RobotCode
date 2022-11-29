@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.Functions.RotationDetector;
 import org.firstinspires.ftc.teamcode.Functions.VoltageReader;
 
 @Autonomous(name = "TestMoveAutocorrect2", group = "Concept")
-@Disabled
+//@Disabled
 public class MoveAutocorrectTest extends LinearOpMode {
     private DcMotor leftMotor, rightMotor, leftMotorBack, rightMotorBack, armMotorLeft, armMotorRight;
     private Move move;
@@ -31,8 +31,8 @@ public class MoveAutocorrectTest extends LinearOpMode {
         rightMotor = hardwareMap.dcMotor.get("FR");
         leftMotorBack = hardwareMap.dcMotor.get("BL");
         rightMotorBack = hardwareMap.dcMotor.get("BR");
-        armMotorLeft = hardwareMap.dcMotor.get("AML");
-        armMotorRight = hardwareMap.dcMotor.get("AMR");
+       // armMotorLeft = hardwareMap.dcMotor.get("AML");
+        //armMotorRight = hardwareMap.dcMotor.get("AMR");
         move = new Move(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
         rotate = new Rotate(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
         VoltageSensor VS = this.hardwareMap.voltageSensor.iterator().next();
