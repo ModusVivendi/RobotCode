@@ -42,9 +42,6 @@ public class Move{
 
     }
 
-    // Initializam motoarele altfel
-    //INTREABA DURDEU
-
     /**
      * This methoda also initialises the motors but in another way.
      * @param motorHolder
