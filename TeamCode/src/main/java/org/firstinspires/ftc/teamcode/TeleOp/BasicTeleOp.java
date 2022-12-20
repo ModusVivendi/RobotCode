@@ -46,10 +46,10 @@ public class BasicTeleOp extends OpMode {
     public void loop() {
         if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
             if(Math.abs(gamepad1.left_stick_x)>=Math.abs(gamepad1.left_stick_y)){
-                rotate.RotateRaw(1, gamepad1.left_stick_x);
+                rotate.RotateRaw(2, gamepad1.left_stick_x);
             }
             else{
-                move.MoveRaw(1, gamepad1.left_stick_y);
+                move.MoveRaw(2, gamepad1.left_stick_y);
             }
         }
 //        else if(gamepad1.dpad_up)
@@ -62,29 +62,29 @@ public class BasicTeleOp extends OpMode {
 //        }
         else if(gamepad1.dpad_left)
         {
-            rotate.RotateFull(2);
+            rotate.RotateFull(1);
         }
         else if(gamepad1.dpad_right)
         {
-            rotate.RotateFull(1);
+            rotate.RotateFull(2);
         }
         else if(gamepad1.right_bumper)
         {
-            move.MoveRaw(4, 0.5);
+            move.MoveRaw(4, 1);
         }
         else if(gamepad1.left_bumper)
         {
-            move.MoveRaw(3, 0.5);
+            move.MoveRaw(3, 1);
         }
         else{
             move.MoveStop();
         }
 
         if(gamepad1.right_trigger>0){
-            move.MoveRaw(2,gamepad1.right_trigger);
+            move.MoveRaw(1,gamepad1.right_trigger);
         }
         if(gamepad1.left_trigger>0){
-            move.MoveRaw(1,gamepad1.left_trigger);
+            move.MoveRaw(2,gamepad1.left_trigger);
         }
         if (gamepad1.right_trigger == 0 && gamepad1.left_trigger == 0){
             move.MoveStop();
