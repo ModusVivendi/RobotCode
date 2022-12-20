@@ -60,7 +60,6 @@ public class NewEncoderMove {
         leftBackPos = 0;
         rightFrontPos = 0;
         rightBackPos = 0;
-
         leftFrontPos += leftFrontTarget;
         leftBackPos += leftBackTarget;
         rightFrontPos += rightFrontTarget;
