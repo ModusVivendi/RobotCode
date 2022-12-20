@@ -33,6 +33,7 @@ public class TestNewEncoder extends LinearOpMode {
         encoderMove.DriveTo(-1000,-1000,-1000,-1000,0.5,opModeIsActive());
         sleep(500);
         encoderMove.DriveTo(-1100,-1100,1100,1100,0.5,opModeIsActive());
+        sleep(500);
     }
 }
 

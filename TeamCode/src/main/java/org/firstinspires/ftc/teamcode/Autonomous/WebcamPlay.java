@@ -1,4 +1,4 @@
-/* Copyright (c) 2019 FIRST. All rights reserved.
+package org.firstinspires.ftc.teamcode.Autonomous;/* Copyright (c) 2019 FIRST. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted (subject to the limitations in the disclaimer below) provided that
@@ -27,33 +27,28 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Autonomous;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.CRServo;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+
 import java.util.List;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.teamcode.Functions.ClawServos;
 import org.firstinspires.ftc.teamcode.Functions.Move;
-import org.firstinspires.ftc.teamcode.Functions.Unused.UltimateGoal.Pistol;
+import org.firstinspires.ftc.teamcode.Functions.NewEncoderMove;
 import org.firstinspires.ftc.teamcode.Functions.Rotate;
-import org.firstinspires.ftc.teamcode.Functions.Unused.UltimateGoal.Aspirator;
-import org.firstinspires.ftc.teamcode.Functions.VoltageReader;
 
 /**
- * This 2020-2021 OpMode illustrates the basics of using the TensorFlow Object Detection API to
- * determine the position of the Ultimate Goal game elements.
+ * This 2022-2023 OpMode illustrates the basics of using the TensorFlow Object Detection API to
+ * determine which image is being presented to the robot.
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
@@ -61,25 +56,39 @@ import org.firstinspires.ftc.teamcode.Functions.VoltageReader;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@TeleOp(name = "WebcamDetector", group = "Concept")
-@Disabled
-public class WebcamDetector extends LinearOpMode {
-    int Zone=1;
-    private ElapsedTime runtime = new ElapsedTime();
-    private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
-    private static final String LABEL_FIRST_ELEMENT = "Quad";
-    private static final String LABEL_SECOND_ELEMENT = "Single";
-    public String label=null;
-    private DcMotor leftMotor, rightMotor, leftMotorBack, rightMotorBack /*vaccumMotor*/, /*left_pistol,*/right_pistol;
-    private DcMotor spagheteMotor;
-    public ModernRoboticsI2cRangeSensor rangeFinder = null;
-    private Servo push_ring;
-    private CRServo arm_servo;
-    public Move move;
-    public Rotate rotate;
-    public VoltageReader voltageReader;
-    public Aspirator aspirator;
-    public Pistol pistol;
+@Autonomous(name = "WebcamPLay", group = "Concept")
+//@Disabled
+public class WebcamPlay extends LinearOpMode {
+
+    /*
+     * Specify the source for the Tensor Flow Model.
+     * If the TensorFlowLite object model is included in the Robot Controller App as an "asset",
+     * the OpMode must to load it using loadModelFromAsset().  However, if a team generated model
+     * has been downloaded to the Robot Controller's SD FLASH memory, it must to be loaded using loadModelFromFile()
+     * Here we assume it's an Asset.    Also see method initTfod() below .
+     */
+   private static final String TFOD_MODEL_ASSET = "PowerPlay.tflite";
+  //  private static final String TFOD_MODEL_ASSET = "ModelPlay.tflite";
+   // private static final String TFOD_MODEL_FILE  = "/sdcard/FIRST/tflitemodels/customModel.tflite";
+    private String label = null;
+    private boolean isFound = false;
+    private NewEncoderMove newEncoderMove;
+    private DcMotor leftMotor, rightMotor, leftMotorBack, rightMotorBack, armMotor;
+    private Servo leftServo, rightServo;
+    private Move move;
+    private Rotate rotate;
+    private ClawServos clawServos;
+
+    private static final String[] LABELS = {
+            "1 Bolt",
+            "2 Bulb",
+            "3 Panel"
+    };
+    private static final String[] LabelsCustom = {
+            "0 Yellow",
+            "1 Pink",
+            "2 Blue"
+    };
     /*
      * IMPORTANT: You need to obtain your own license key to use Vuforia. The string below with which
      * 'parameters.vuforiaLicenseKey' is initialized is for illustration only, and will not function.
@@ -93,7 +102,11 @@ public class WebcamDetector extends LinearOpMode {
      * and paste it in to your code on the next line, between the double quotes.
      */
     private static final String VUFORIA_KEY =
-            " AeK2PvT/////AAABmTTCnhmbVUgFg93ZCRG8vUF1RRs5KbLEL7ILBtDXxAX3VJNJBBvkAEB2xBQ6yqr9yOlQWKwHR9mAKBkwOX7SUJJwHIwNimUwhfIpyQ6bsANOY67gAgPxBNXO2TGp7WXAAi+h/JVHjTPBJVMMmah9JURERd1w50biR4+6Mltk44izNVkJuH5RVuxyX2BpK7BlCDsus8/o7280n6CaQeJwqkZwW7WVuzdzyi0JdZL5nmgCHOI65lNQrKKu9ldVA4NBabfk6Lj5kSvd40ue4fUJRzPxPuiSoxgpJ5PFpsmuCPyJN5EOO1EITRSqXvtHZfYChrxIQKjtut+ihbbW8f6y3KeQqpRq5WbQxuQ6cPbuBhJf";
+            " AZQwvYv/////AAABmS6VvtqnbUU+sIysr2M9qZxgQ5j1eZcxwv8H9oZB7YbizuyZiF7DOgB3/NXqHX88yJwq02Fi/naR" +
+                    "IWLBYcKc74VkEnrax08NkxGLMzr9a6f+mGp+Zr0ItYfygz6Qr5o2YvW9rILeo4ii3B98bvrvZTiT+CFcizfvg" +
+                    "cQ6xkMEdtT3mnUbayzi1Xt1R05iNyl5vdKzeIUyHliZgF7RRZ/tgVyjEFMhEmYSk7YNzjFzlnKc3M9QJmLQsXS" +
+                    "+dCM5uYh35pa2lkJ8yOTvwvsD+td1Zld79Ry+ZbmqFtrFdx7HUsbDLzHB08ulwW33aEfC3eFKC11EAru/xAloUx" +
+                    "MrjZqW6zksyVfiZKLmlCFPE2vc++BZ ";
 
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
@@ -109,29 +122,26 @@ public class WebcamDetector extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
         initTfod();
-        VoltageSensor VS =  this.hardwareMap.voltageSensor.iterator().next();
-        voltageReader = new VoltageReader(VS);
-        telemetry.addData("Status", "Initialized");
-        //   vaccumMotor = hardwareMap.dcMotor.get("VM");
         leftMotor = hardwareMap.dcMotor.get("FL");
         rightMotor = hardwareMap.dcMotor.get("FR");
         leftMotorBack = hardwareMap.dcMotor.get("BL");
         rightMotorBack = hardwareMap.dcMotor.get("BR");
-        push_ring = hardwareMap.servo.get("PR");
-        //spagheteMotor = hardwareMap.dcMotor.get("SM");
-        // left_pistol = hardwareMap.dcMotor.get("LP");
-        right_pistol = hardwareMap.dcMotor.get("RP");
-        // Tell the driver that initialization is complete.
-        telemetry.addData("Status", "Initialized");
+        armMotor = hardwareMap.dcMotor.get("AM");
+        leftServo = hardwareMap.servo.get("LS");
+        rightServo = hardwareMap.servo.get("RS");
         move = new Move(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
         rotate = new Rotate(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
-        // aspirator = new Aspirator( spagheteMotor);
-      //  pistol = new Pistol(right_pistol, voltageReader);
+        clawServos = new ClawServos(leftServo, rightServo);
+        newEncoderMove = new NewEncoderMove(leftMotor, leftMotorBack, rightMotor, rightMotorBack);
+
+        rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        rightMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        leftMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         /**
          * Activate TensorFlow Object Detection before we wait for the start command.
@@ -142,83 +152,103 @@ public class WebcamDetector extends LinearOpMode {
 
             // The TensorFlow software will scale the input images from the camera to a lower resolution.
             // This can result in lower detection accuracy at longer distances (> 55cm or 22").
-            // If your target is at distance greater than 50 cm (20") you can adjust the magnification value
+            // If your target is at distance greater than 50 cm (20") you can increase the magnification value
             // to artificially zoom in to the center of image.  For best results, the "aspectRatio" argument
             // should be set to the value of the images used to create the TensorFlow Object Detection model
             // (typically 16/9).
-            tfod.setZoom(2.5, 16.0/9.0);
+            tfod.setZoom(1.7, 16.0/9.0);
         }
 
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
-        ElapsedTime runtime = new ElapsedTime();
-        int number=0;
-        //   if (opModeIsActive()) {
-        if(opModeIsActive()) {
-            telemetry.addData("number=", number);
-            if (tfod != null) {
+        int number = 0;
+        if (tfod!=null) {
+            while (isFound==false) {
                 // getUpdatedRecognitions() will return null if no new information is available since
                 // the last time that call was made.
                 List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                 if (updatedRecognitions != null) {
-                    telemetry.addData("# Object Detected", updatedRecognitions.size());
-
-                    // step through the list of recognitions and display boundary info.
+                    telemetry.addData("# Objects Detected", updatedRecognitions.size());
                     number++;
-                    int i = 0;
+                    // step through the list of recognitions and display image position/size information for each one
+                    // Note: "Image number" refers to the randomized image orientation/number
                     for (Recognition recognition : updatedRecognitions) {
-                        telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+                        double col = (recognition.getLeft() + recognition.getRight()) / 2;
+                        double row = (recognition.getTop() + recognition.getBottom()) / 2;
+                        double width = Math.abs(recognition.getRight() - recognition.getLeft());
+                        double height = Math.abs(recognition.getTop() - recognition.getBottom());
 
-                        label=recognition.getLabel();
-                        telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                                recognition.getLeft(), recognition.getTop());
-                        telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                                recognition.getRight(), recognition.getBottom());
+                        label = recognition.getLabel();
+
+
+                        telemetry.addData("", " ");
+                        telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
+                        telemetry.addData("- Position (Row/Col)", "%.0f / %.0f", row, col);
+                        telemetry.addData("- Size (Width/Height)", "%.0f / %.0f", width, height);
+
+                        if(label.equals("1 Bolt"))
+                        {
+                            isFound = true;
+                            break;
+                        }
+                        else if(label.equals("2 Bulb"))
+                        {
+                            isFound = true;
+                            break;
+                        }
+                        else if(label.equals("3 Panel"))
+                        {
+                            isFound = true;
+                            break;
+                        }
+
                     }
-                    //NumberOfRings=i;
                     telemetry.update();
                 }
-
-
-            }
-            if(label!=null)
-            {
-                if(label.equals(LABEL_SECOND_ELEMENT))
-                {
-                    telemetry.addData("Zone", "B");
-                    Zone=2;
-                }
-                if(label.equals(LABEL_FIRST_ELEMENT))
-                {
-                    telemetry.addData("Zone","C");
-                    Zone=3;
-                }
-            }
-            else if(label==null)
-            {
-                telemetry.addData("Zone","A");
-                Zone=1;
-            }
-            else
-            {
-                telemetry.addData("Zone","NEM");
-                Zone=0;
             }
         }
-        // sleep(2000);
+        if(label!=null)
+        {
+            if(label.equals("1 Bolt"))
+            {
+                Bolt();
+            }
+            else if(label.equals("2 Bulb"))
+            {
+                Bulb();
 
-
-        //    }
-
-
-        //telemetry.update();
-
+            }
+            else if(label.equals("3 Panel"))
+            {
+                Panel();
+            }
+        }
     }
 
-    public int Zone(){
-        return Zone;
+    private void Bolt()
+    {
+        newEncoderMove.DriveTo(500,-500,-500,500,0.7,opModeIsActive());
+        sleep(1000);
+        newEncoderMove.DriveTo(1000,1000,1000,1000,0.7,opModeIsActive());
+        sleep(500);
+        newEncoderMove.DriveTo(-500,-500,500,500,0.7,opModeIsActive());
+    }
+
+    private void Bulb()
+    {
+        newEncoderMove.DriveTo(-1000,1000,1000,-1000,0.7,opModeIsActive());
+        sleep(500);
+    }
+
+    private void Panel()
+    {
+        newEncoderMove.DriveTo(-1000,1000,1000,-1000,0.7,opModeIsActive());
+        sleep(500);
+        newEncoderMove.DriveTo(1000,1000,1000,1000,0.7,opModeIsActive());
+        sleep(500);
+        newEncoderMove.DriveTo(-500,-500,500,500,0.7,opModeIsActive());
     }
 
     /**
@@ -233,11 +263,8 @@ public class WebcamDetector extends LinearOpMode {
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
         parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam");
 
-
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
-
-        // Loading trackables is not necessary for the TensorFlow Object Detection engine.
     }
 
     /**
@@ -247,11 +274,15 @@ public class WebcamDetector extends LinearOpMode {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-        tfodParameters.minResultConfidence = 0.8f;
+        tfodParameters.minResultConfidence = 0.65f;
+        tfodParameters.isModelTensorFlow2 = true;
+        tfodParameters.inputSize = 300;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+
+        // Use loadModelFromAsset() if the TF Model is built in as an asset by Android Studio
+        // Use loadModelFromFile() if you have downloaded a custom team model to the Robot Controller's FLASH.
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
+     //   tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LabelsCustom);
+        // tfod.loadModelFromFile(TFOD_MODEL_FILE, LabelsCustom);
     }
-
 }
- 
-
