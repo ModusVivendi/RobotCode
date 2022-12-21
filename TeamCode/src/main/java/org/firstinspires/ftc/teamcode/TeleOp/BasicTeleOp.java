@@ -37,11 +37,6 @@ public class BasicTeleOp extends OpMode {
         leftMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
