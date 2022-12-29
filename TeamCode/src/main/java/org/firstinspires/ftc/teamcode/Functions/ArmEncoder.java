@@ -36,9 +36,9 @@ public class ArmEncoder {
 
         armMotor.setTargetPosition(armPos);
 
-        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
         armMotor.setPower(power);
+
+        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         while(armMotor.isBusy())
         {
