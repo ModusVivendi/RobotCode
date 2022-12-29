@@ -32,9 +32,9 @@ public class TestNewEncoder extends LinearOpMode {
 
         waitForStart();
 
-        armEncoder.goTo(1500, 0.7);
+        armEncoder.goTo(3080, 0.7);
         sleep(5000);
-        armEncoder.goTo(-1500,0.5);
+        armEncoder.goTo(-3080,0.5);
        // encoderMove.DriveTo(1000,1000,1000,1000,0.5, opModeIsActive());
       //  sleep(1000);
       //  encoderMove.DriveTo(-1000,1000,1000,-1000,0.5,opModeIsActive());
