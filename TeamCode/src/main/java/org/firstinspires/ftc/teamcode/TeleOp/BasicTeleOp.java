@@ -19,6 +19,7 @@ public class BasicTeleOp extends OpMode {
     private Move move;
     private Rotate rotate;
     private ClawServos clawServos;
+    private ArmEncoder armEncoder;
     @Override
     public void init() {
         leftMotor = hardwareMap.dcMotor.get("FL");
@@ -31,14 +32,13 @@ public class BasicTeleOp extends OpMode {
         move = new Move(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
         rotate = new Rotate(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
         clawServos = new ClawServos(leftServo, rightServo);
+        armEncoder = new ArmEncoder(armMotor);
 
         rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         rightMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         leftMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     @Override
@@ -51,14 +51,6 @@ public class BasicTeleOp extends OpMode {
                 move.MoveRaw(2, gamepad1.left_stick_y);
             }
         }
-//        else if(gamepad1.dpad_up)
-//        {
-//            move.MoveFull(2);
-//        }
-//        else if(gamepad1.dpad_down)
-//        {
-//            move.MoveFull(1);
-//        }
         else if(gamepad1.dpad_left)
         {
             rotate.RotateFull(1);
@@ -98,6 +90,10 @@ public class BasicTeleOp extends OpMode {
         {
             leftServo.setPosition(0);
             rightServo.setPosition(1);
+        }
+        if(gamepad1.b)
+        {
+            armEncoder.goTo(10, 0.6);
         }
         if(gamepad1.right_stick_y!=0)
         {

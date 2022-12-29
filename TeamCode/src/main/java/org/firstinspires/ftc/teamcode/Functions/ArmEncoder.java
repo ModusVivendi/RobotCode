@@ -10,46 +10,32 @@ public class ArmEncoder {
      * Made by David
      */
     private DcMotor armMotor;
-    private ElapsedTime runtime = new ElapsedTime();
-    public ArmEncoder(DcMotor _AM)
-    {
-        armMotor = _AM;
-        Init();
-    }
+    private int armPos;
     public void Init()
     {
         /**
          * Runs the motor using encoders.
          */
-        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-    public void goTo(int ticks)
-    {
-        /**
-         * Motor is stopped and the encoder value is reset to 0.
-         */
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armPos = 0;
+    }
+    public ArmEncoder(DcMotor _AM)
+    {
+        armMotor = _AM;
+        Init();
+    }
 
-        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        /**
-         * Sets the ticks target of the motors.
-         */
-        armMotor.setTargetPosition(ticks);
-
-        /**
-         * Runs to the ticks value that we want.
-         */
+    public void goTo(int armTarget, double power)
+    {
+        armPos = 0;
+        armPos+=armTarget;
+        armMotor.setTargetPosition(armPos);
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armMotor.setPower(power);
 
-        /**
-         * Sets the velocity of the motors.
-         */
-//        armMotor.setVelocity(velocity);
-        /**
-         * This while is/can be empty because we need to run the function until the motors have reached the target
-         */
+        while(armMotor.isBusy())
+        {
 
-
+        }
     }
 }
