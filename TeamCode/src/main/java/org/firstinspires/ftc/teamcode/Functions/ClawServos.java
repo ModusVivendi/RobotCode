@@ -16,12 +16,12 @@ public class ClawServos {
     public void Open()
     {
         leftServo.setPosition(1);
-        rightServo.setPosition(0);
+        rightServo.setPosition(1);
         status1 = true;
     }
     public void Close() {
         leftServo.setPosition(0);
-        rightServo.setPosition(0.8);
+        rightServo.setPosition(0);
         status1 = false;
     }
 

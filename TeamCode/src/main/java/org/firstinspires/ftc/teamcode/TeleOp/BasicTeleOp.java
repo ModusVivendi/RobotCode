@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Functions.ArmEncoder;
@@ -20,6 +21,9 @@ public class BasicTeleOp extends OpMode {
     private Rotate rotate;
     private ClawServos clawServos;
     private ArmEncoder armEncoder;
+    int armTarget = 0;
+    double armSpeed = 0 ;
+    String armCurrentDirection = "up";
     @Override
     public void init() {
         leftMotor = hardwareMap.dcMotor.get("FL");
@@ -33,6 +37,8 @@ public class BasicTeleOp extends OpMode {
         rotate = new Rotate(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
         clawServos = new ClawServos(leftServo, rightServo);
         armEncoder = new ArmEncoder(armMotor);
+
+
 
         rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         rightMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -82,26 +88,29 @@ public class BasicTeleOp extends OpMode {
         }
         if(gamepad1.x)
         {
-           // clawServos.SwitchAndWait(1,getRuntime());
-            leftServo.setPosition(1);
-            rightServo.setPosition(0);
+            clawServos.SwitchAndWait(1,getRuntime());
+           // leftServo.setPosition(1);
+            //rightServo.setPosition(1);
         }
-        if(gamepad1.a)
+        if(gamepad1.b) // Arm Up
         {
-            leftServo.setPosition(0);
-            rightServo.setPosition(1);
+            armCurrentDirection = "up";
+
+            armEncoder.goTo(2000,0.6);
+            while(gamepad1.b)
+            {
+
+            }
         }
-        if(gamepad1.b)
+        else if(gamepad1.y) //Arm Down
         {
-            armEncoder.goTo(10, 0.6);
+            armCurrentDirection = "down";
+            armEncoder.goTo(0,0.6);
         }
-        if(gamepad1.right_stick_y!=0)
-        {
-            armMotor.setPower(gamepad1.right_stick_y);
-        }
-        if(gamepad1.right_stick_y==0)
+        if(armCurrentDirection.equals("down"))
         {
             armMotor.setPower(0);
+            armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
     }
 }

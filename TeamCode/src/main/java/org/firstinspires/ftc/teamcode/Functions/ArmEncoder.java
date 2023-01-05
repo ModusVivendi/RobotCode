@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Functions;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class ArmEncoder {
@@ -18,6 +19,9 @@ public class ArmEncoder {
          */
         armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armMotor.setDirection(DcMotor.Direction.REVERSE);
+        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         armPos = 0;
     }
     public ArmEncoder(DcMotor _AM)
@@ -28,7 +32,7 @@ public class ArmEncoder {
 
     public void goTo(int armTarget, double power)
     {
-        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+      //  armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         armPos = 0;
 
@@ -36,16 +40,15 @@ public class ArmEncoder {
 
         armMotor.setTargetPosition(armPos);
 
-        armMotor.setPower(power);
-
         armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        armMotor.setPower(power);
 
         while(armMotor.isBusy())
         {
 
         }
 
-       // armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 }
