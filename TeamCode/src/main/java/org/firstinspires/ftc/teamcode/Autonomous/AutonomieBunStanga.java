@@ -140,7 +140,7 @@ public class AutonomieBunStanga extends LinearOpMode {
             encoderMove.DriveTo(-2500,2500,2500,-2500,0.8,opModeIsActive());
             sleep(200);
             encoderMove.DriveTo(1000,1000,1000,1000,0.8,opModeIsActive());
-                 
+
         }
 
     }
