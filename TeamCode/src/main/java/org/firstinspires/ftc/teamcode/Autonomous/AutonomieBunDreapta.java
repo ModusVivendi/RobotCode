@@ -67,12 +67,14 @@ public class AutonomieBunDreapta extends LinearOpMode {
             closeServo(leftServo,rightServo);
             sleep(200);
             encoderMove.DriveTo(-1250,1250,1250,-1250,0.8,opModeIsActive());
+            sleep(100);
+            encoderMove.DriveTo(-100,-100,100,100,0.8,opModeIsActive());
+            sleep(100);
+            encoderMove.DriveTo(1010,1010,1010,1010,0.8,opModeIsActive());
             sleep(500);
-            encoderMove.DriveTo(1060,1060,1060,1060,0.8,opModeIsActive());
+            encoderMove.DriveTo(-875,875,875,-875,0.8, opModeIsActive());
             sleep(500);
-            encoderMove.DriveTo(-860,860,860,-860,0.8, opModeIsActive());
-            sleep(500);
-            armEncoder.goTo(2815,0.5);
+            armEncoder.goTo(2840,0.8);
             sleep(500);
             encoderMove.DriveTo(120,120,120,120,0.5,opModeIsActive());
             sleep(200);
@@ -88,6 +90,7 @@ public class AutonomieBunDreapta extends LinearOpMode {
             sleep(200);
             encoderMove.DriveTo(2500,-2500,-2500,2500,0.8,opModeIsActive());
             sleep(200);
+            encoderMove.DriveTo(1000,1000,1000,1000,0.8,opModeIsActive());
         }
         else if(currentPosition=="CENTER")
         {
@@ -95,11 +98,13 @@ public class AutonomieBunDreapta extends LinearOpMode {
             sleep(200);
             encoderMove.DriveTo(-1250,1250,1250,-1250,0.8,opModeIsActive());
             sleep(500);
-            encoderMove.DriveTo(1060,1060,1060,1060,0.8,opModeIsActive());
+            encoderMove.DriveTo(-100,-100,100,100,0.8,opModeIsActive());
+            sleep(100);
+            encoderMove.DriveTo(1010,1010,1010,1010,0.8,opModeIsActive());
             sleep(500);
-            encoderMove.DriveTo(-860,860,860,-860,0.8, opModeIsActive());
+            encoderMove.DriveTo(-875,875,875,-875,0.8, opModeIsActive());
             sleep(500);
-            armEncoder.goTo(2815,0.5);
+            armEncoder.goTo(2840,0.8);
             sleep(500);
             encoderMove.DriveTo(120,120,120,120,0.5,opModeIsActive());
             sleep(200);
@@ -110,10 +115,12 @@ public class AutonomieBunDreapta extends LinearOpMode {
             armEncoder.goTo(0,0.5);
             sleep(200);
             encoderMove.DriveTo(700,-700,-700,700,0.8,opModeIsActive());
-            sleep(500);
-            encoderMove.DriveTo(1200,1200,1200,1200,0.8,opModeIsActive());
             sleep(200);
-            encoderMove.DriveTo(1000,-1000,-1000,1000,0.8,opModeIsActive());
+            encoderMove.DriveTo(-50,-50,50,50,0.8,opModeIsActive());
+            sleep(100);
+            encoderMove.DriveTo(1000,1000,1000,1000,0.8,opModeIsActive());
+            sleep(200);
+            encoderMove.DriveTo(1200,-1200,-1200,1200,0.8,opModeIsActive());
             sleep(200);
         }
         else if(currentPosition=="LEFT")
@@ -121,14 +128,16 @@ public class AutonomieBunDreapta extends LinearOpMode {
             closeServo(leftServo,rightServo);
             sleep(200);
             encoderMove.DriveTo(-1250,1250,1250,-1250,0.8,opModeIsActive());
+            sleep(200);
+            encoderMove.DriveTo(-100,-100,100,100,0.8,opModeIsActive());
+            sleep(100);
+            encoderMove.DriveTo(1000,1000,1000,1000,0.8,opModeIsActive());
+            sleep(200);
+            encoderMove.DriveTo(-875,875,875,-875,0.8, opModeIsActive());
+            sleep(200);
+            armEncoder.goTo(2840,0.8);
             sleep(500);
-            encoderMove.DriveTo(1060,1060,1060,1060,0.8,opModeIsActive());
-            sleep(500);
-            encoderMove.DriveTo(-860,860,860,-860,0.8, opModeIsActive());
-            sleep(500);
-            armEncoder.goTo(2815,0.5);
-            sleep(500);
-            encoderMove.DriveTo(120,120,120,120,0.5,opModeIsActive());
+            encoderMove.DriveTo(130,130,130,130,0.5,opModeIsActive());
             sleep(200);
             openServo(leftServo,rightServo);
             sleep(200);
