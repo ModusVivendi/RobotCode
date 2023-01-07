@@ -97,7 +97,7 @@ public class BasicTeleOp extends OpMode {
         {
             armCurrentDirection = "up";
 
-            armEncoder.goTo(2835,0.6);
+            armEncoder.goTo(2845,1);
             while(gamepad1.b)
             {
 
@@ -106,13 +106,13 @@ public class BasicTeleOp extends OpMode {
         else if(gamepad2.dpad_down) //Arm Down
         {
             armCurrentDirection = "down";
-            armEncoder.goTo(0,0.6);
+            armEncoder.goTo(0,0.8);
         }
         if(gamepad1.dpad_up) // Arm Up
         {
             armCurrentDirection = "up";
 
-            armEncoder.goTo(2835,0.6);
+            armEncoder.goTo(2845,1);
             while(gamepad1.b)
             {
 
@@ -121,7 +121,7 @@ public class BasicTeleOp extends OpMode {
         else if(gamepad1.dpad_down) //Arm Down
         {
             armCurrentDirection = "down";
-            armEncoder.goTo(0,0.6);
+            armEncoder.goTo(0,0.8);
         }
         if(armCurrentDirection.equals("down"))
         {
