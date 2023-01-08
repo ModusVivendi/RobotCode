@@ -55,14 +55,6 @@ public class BasicTeleOp extends OpMode {
             }
 
         }
-        else if(gamepad1.dpad_left)
-        {
-            rotate.RotateFull(1);
-        }
-        else if(gamepad1.dpad_right)
-        {
-            rotate.RotateFull(2);
-        }
         else if(gamepad1.right_bumper)
         {
             move.MoveRaw(4, 1);
@@ -97,31 +89,144 @@ public class BasicTeleOp extends OpMode {
         {
             armCurrentDirection = "up";
 
-            armEncoder.goTo(2845,1);
-            while(gamepad1.b)
+            armEncoder.goTo(2855,1);
+            while(armMotor.isBusy())
             {
+                if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
+                    if(Math.abs(gamepad1.left_stick_x)>=Math.abs(gamepad1.left_stick_y)){
+                        rotate.RotateRaw(2, gamepad1.left_stick_x);
+                    }
 
+                }
+                else if(gamepad1.right_bumper)
+                {
+                    move.MoveRaw(4, 1);
+                }
+                else if(gamepad1.left_bumper)
+                {
+                    move.MoveRaw(3, 1);
+                }
+                else{
+                    move.MoveStop();
+                }
+
+                if(gamepad1.right_trigger>0){
+                    move.MoveRaw(1,gamepad1.right_trigger);
+                }
+                if(gamepad1.left_trigger>0){
+                    move.MoveRaw(2,gamepad1.left_trigger);
+                }
+                if (gamepad1.right_trigger == 0 && gamepad1.left_trigger == 0){
+                    move.MoveStop();
+                }
             }
         }
         else if(gamepad2.dpad_down) //Arm Down
         {
             armCurrentDirection = "down";
             armEncoder.goTo(0,0.8);
+            while(armMotor.isBusy())
+            {
+                if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
+                    if(Math.abs(gamepad1.left_stick_x)>=Math.abs(gamepad1.left_stick_y)){
+                        rotate.RotateRaw(2, gamepad1.left_stick_x);
+                    }
+
+                }
+                else if(gamepad1.right_bumper)
+                {
+                    move.MoveRaw(4, 1);
+                }
+                else if(gamepad1.left_bumper)
+                {
+                    move.MoveRaw(3, 1);
+                }
+                else{
+                    move.MoveStop();
+                }
+
+                if(gamepad1.right_trigger>0){
+                    move.MoveRaw(1,gamepad1.right_trigger);
+                }
+                if(gamepad1.left_trigger>0){
+                    move.MoveRaw(2,gamepad1.left_trigger);
+                }
+                if (gamepad1.right_trigger == 0 && gamepad1.left_trigger == 0){
+                    move.MoveStop();
+                }
+            }
         }
         if(gamepad1.dpad_up) // Arm Up
         {
             armCurrentDirection = "up";
 
-            armEncoder.goTo(2845,1);
-            while(gamepad1.b)
+            armEncoder.goTo(2855,1);
+            while(armMotor.isBusy())
             {
+                if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
+                    if(Math.abs(gamepad1.left_stick_x)>=Math.abs(gamepad1.left_stick_y)){
+                        rotate.RotateRaw(2, gamepad1.left_stick_x);
+                    }
 
+                }
+                else if(gamepad1.right_bumper)
+                {
+                    move.MoveRaw(4, 1);
+                }
+                else if(gamepad1.left_bumper)
+                {
+                    move.MoveRaw(3, 1);
+                }
+                else{
+                    move.MoveStop();
+                }
+
+                if(gamepad1.right_trigger>0){
+                    move.MoveRaw(1,gamepad1.right_trigger);
+                }
+                if(gamepad1.left_trigger>0){
+                    move.MoveRaw(2,gamepad1.left_trigger);
+                }
+                if (gamepad1.right_trigger == 0 && gamepad1.left_trigger == 0){
+                    move.MoveStop();
+                }
             }
+
         }
         else if(gamepad1.dpad_down) //Arm Down
         {
             armCurrentDirection = "down";
             armEncoder.goTo(0,0.8);
+            while (armMotor.isBusy())
+            {
+                if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
+                    if(Math.abs(gamepad1.left_stick_x)>=Math.abs(gamepad1.left_stick_y)){
+                        rotate.RotateRaw(2, gamepad1.left_stick_x);
+                    }
+
+                }
+                else if(gamepad1.right_bumper)
+                {
+                    move.MoveRaw(4, 1);
+                }
+                else if(gamepad1.left_bumper)
+                {
+                    move.MoveRaw(3, 1);
+                }
+                else{
+                    move.MoveStop();
+                }
+
+                if(gamepad1.right_trigger>0){
+                    move.MoveRaw(1,gamepad1.right_trigger);
+                }
+                if(gamepad1.left_trigger>0){
+                    move.MoveRaw(2,gamepad1.left_trigger);
+                }
+                if (gamepad1.right_trigger == 0 && gamepad1.left_trigger == 0){
+                    move.MoveStop();
+                }
+            }
         }
         if(armCurrentDirection.equals("down"))
         {

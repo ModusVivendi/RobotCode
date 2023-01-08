@@ -29,7 +29,6 @@ public class ArmEncoder {
         armMotor = _AM;
         Init();
     }
-
     public void goTo(int armTarget, double power)
     {
       //  armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -44,10 +43,10 @@ public class ArmEncoder {
 
         armMotor.setPower(power);
 
-        while(armMotor.isBusy())
-        {
-
-        }
+//        while(armMotor.isBusy())
+//        {
+//
+//        }
 
 
     }
