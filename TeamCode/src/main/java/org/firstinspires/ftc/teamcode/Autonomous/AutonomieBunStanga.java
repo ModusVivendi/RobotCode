@@ -18,7 +18,7 @@ public class AutonomieBunStanga extends LinearOpMode {
     private SleeveDetection sleeveDetection;
     private OpenCvCamera camera;
     private DcMotor leftMotor, leftMotorBack, rightMotor, rightMotorBack, armMotorLeft, armMotorRight;
-    private Servo leftServo, rightServo;
+    private Servo leftServo;
     private NewEncoderMove encoderMove;
     private ArmEncoder armEncoder;
     // Name of the Webcam to be set in the config
@@ -38,7 +38,6 @@ public class AutonomieBunStanga extends LinearOpMode {
         rightMotorBack = hardwareMap.dcMotor.get("BR");
         armMotorLeft = hardwareMap.dcMotor.get("AML");
         leftServo = hardwareMap.servo.get("LS");
-        rightServo = hardwareMap.servo.get("RS");
 
         encoderMove = new NewEncoderMove(leftMotor,leftMotorBack,rightMotor,rightMotorBack);
         armEncoder = new ArmEncoder(armMotorLeft, armMotorRight);
@@ -65,7 +64,7 @@ public class AutonomieBunStanga extends LinearOpMode {
         currentPosition = String.valueOf(sleeveDetection.getPosition());
         if(currentPosition=="RIGHT")
         {
-            closeServo(leftServo,rightServo);
+            closeServo(leftServo);
             sleep(200);
             encoderMove.DriveTo(1250,-1250,-1250,1250,0.8,opModeIsActive());
             sleep(500);
@@ -81,7 +80,7 @@ public class AutonomieBunStanga extends LinearOpMode {
             sleep(500);
             encoderMove.DriveTo(130,130,130,130,0.5,opModeIsActive());
             sleep(200);
-            openServo(leftServo,rightServo);
+            openServo(leftServo);
             sleep(200);
             encoderMove.DriveTo(-120,-120,-120,-120,0.5,opModeIsActive());
             sleep(200);
@@ -96,7 +95,7 @@ public class AutonomieBunStanga extends LinearOpMode {
         }
         else if(currentPosition=="CENTER")
         {
-            closeServo(leftServo,rightServo);
+            closeServo(leftServo);
             sleep(200);
             encoderMove.DriveTo(1250,-1250,-1250,1250,0.8,opModeIsActive());
             sleep(500);
@@ -112,7 +111,7 @@ public class AutonomieBunStanga extends LinearOpMode {
             sleep(500);
             encoderMove.DriveTo(130,130,130,130,0.5,opModeIsActive());
             sleep(200);
-            openServo(leftServo,rightServo);
+            openServo(leftServo);
             sleep(200);
             encoderMove.DriveTo(-120,-120,-120,-120,0.5,opModeIsActive());
             sleep(200);
@@ -131,7 +130,7 @@ public class AutonomieBunStanga extends LinearOpMode {
         }
         else if(currentPosition=="LEFT")
         {
-            closeServo(leftServo,rightServo);
+            closeServo(leftServo);
             sleep(200);
             encoderMove.DriveTo(1250,-1250,-1250,1250,0.8,opModeIsActive());
             sleep(500);
@@ -147,7 +146,7 @@ public class AutonomieBunStanga extends LinearOpMode {
             sleep(500);
             encoderMove.DriveTo(130,130,130,130,0.5,opModeIsActive());
             sleep(200);
-            openServo(leftServo,rightServo);
+            openServo(leftServo);
             sleep(200);
             encoderMove.DriveTo(-120,-120,-120,-120,0.5,opModeIsActive());
             sleep(200);
@@ -168,14 +167,14 @@ public class AutonomieBunStanga extends LinearOpMode {
         }
 
     }
-    private void openServo(Servo _LS, Servo _RS)
+    private void openServo(Servo _LS)
     {
         _LS.setPosition(1);
-        _RS.setPosition(1);
+
     }
-    private void closeServo(Servo _LS, Servo _RS)
+    private void closeServo(Servo _LS)
     {
         _LS.setPosition(0);
-        _RS.setPosition(0);
+
     }
 }
