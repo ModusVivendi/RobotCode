@@ -10,38 +10,48 @@ public class ArmEncoder {
     /**
      * Made by David
      */
-    private DcMotor armMotor;
-    private int armPos;
+    private DcMotor armMotorLeft, armMotorRight;
+    private int armLeftPos, armRightPos;
     public void Init()
     {
         /**
          * Runs the motor using encoders.
          */
-        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
        // armMotor.setDirection(DcMotor.Direction.REVERSE);
-        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        armPos = 0;
+        armLeftPos = 0;
+        armRightPos = 0;
     }
-    public ArmEncoder(DcMotor _AM)
+    public ArmEncoder(DcMotor _AML, DcMotor _AMR)
     {
-        armMotor = _AM;
+        armMotorLeft= _AML;
+        armMotorRight= _AMR;
         Init();
     }
-    public void goTo(int armTarget, double power)
+    public void goTo(int armLeftTarget, int armRightTarget, double power)
     {
       //  armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        armPos = 0;
+        armLeftPos = 0;
+        armRightPos = 0;
 
-        armPos+=armTarget;
+        armLeftPos+=armLeftTarget;
+        armRightPos+=armRightTarget;
 
-        armMotor.setTargetPosition(armPos);
+        armMotorLeft.setTargetPosition(armLeftPos);
+        armMotorRight.setTargetPosition(armRightPos);
 
-        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armMotorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        armMotor.setPower(power);
+        armMotorLeft.setPower(power);
+        armMotorRight.setPower(power);
 
 //        while(armMotor.isBusy())
 //        {

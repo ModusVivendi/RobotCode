@@ -17,7 +17,7 @@ public class AutonomieBunStanga extends LinearOpMode {
 
     private SleeveDetection sleeveDetection;
     private OpenCvCamera camera;
-    private DcMotor leftMotor, leftMotorBack, rightMotor, rightMotorBack, armMotor;
+    private DcMotor leftMotor, leftMotorBack, rightMotor, rightMotorBack, armMotorLeft, armMotorRight;
     private Servo leftServo, rightServo;
     private NewEncoderMove encoderMove;
     private ArmEncoder armEncoder;
@@ -36,12 +36,12 @@ public class AutonomieBunStanga extends LinearOpMode {
         leftMotorBack = hardwareMap.dcMotor.get("BL");
         rightMotor = hardwareMap.dcMotor.get("FR");
         rightMotorBack = hardwareMap.dcMotor.get("BR");
-        armMotor = hardwareMap.dcMotor.get("AM");
+        armMotorLeft = hardwareMap.dcMotor.get("AML");
         leftServo = hardwareMap.servo.get("LS");
         rightServo = hardwareMap.servo.get("RS");
 
         encoderMove = new NewEncoderMove(leftMotor,leftMotorBack,rightMotor,rightMotorBack);
-        armEncoder = new ArmEncoder(armMotor);
+        armEncoder = new ArmEncoder(armMotorLeft, armMotorRight);
 
 
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
@@ -73,8 +73,8 @@ public class AutonomieBunStanga extends LinearOpMode {
             sleep(500);
             encoderMove.DriveTo(710,-710,-710,710,0.8, opModeIsActive());
             sleep(500);
-            armEncoder.goTo(2855,0.8);
-            while(armMotor.isBusy())
+            armEncoder.goTo(2855,2855,0.8);
+            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
 
             }
@@ -85,8 +85,8 @@ public class AutonomieBunStanga extends LinearOpMode {
             sleep(200);
             encoderMove.DriveTo(-120,-120,-120,-120,0.5,opModeIsActive());
             sleep(200);
-            armEncoder.goTo(0,0.5);
-            while(armMotor.isBusy())
+            armEncoder.goTo(0,0,0.5);
+            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
 
             }
@@ -104,8 +104,8 @@ public class AutonomieBunStanga extends LinearOpMode {
             sleep(500);
             encoderMove.DriveTo(750,-750,-750,750,0.8, opModeIsActive());
             sleep(500);
-            armEncoder.goTo(2855,0.8);
-            while(armMotor.isBusy())
+            armEncoder.goTo(2855,2855,0.8);
+            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
 
             }
@@ -116,8 +116,8 @@ public class AutonomieBunStanga extends LinearOpMode {
             sleep(200);
             encoderMove.DriveTo(-120,-120,-120,-120,0.5,opModeIsActive());
             sleep(200);
-            armEncoder.goTo(0,0.5);
-            while(armMotor.isBusy())
+            armEncoder.goTo(0,0,0.5);
+            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
 
             }
@@ -139,8 +139,8 @@ public class AutonomieBunStanga extends LinearOpMode {
             sleep(500);
             encoderMove.DriveTo(780,-780,-780,780,0.8, opModeIsActive());
             sleep(500);
-            armEncoder.goTo(2855,0.8);
-            while(armMotor.isBusy())
+            armEncoder.goTo(2855,2855,0.8);
+            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
 
             }
@@ -151,8 +151,8 @@ public class AutonomieBunStanga extends LinearOpMode {
             sleep(200);
             encoderMove.DriveTo(-120,-120,-120,-120,0.5,opModeIsActive());
             sleep(200);
-            armEncoder.goTo(0,0.5);
-            while(armMotor.isBusy())
+            armEncoder.goTo(0,0,0.5);
+            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
 
             }
