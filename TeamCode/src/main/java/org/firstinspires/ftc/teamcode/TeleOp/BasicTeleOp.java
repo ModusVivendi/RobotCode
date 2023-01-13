@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.Functions.Rotate;
 @TeleOp(name="Basic TeleOp", group="GAME")
 public class BasicTeleOp extends OpMode {
     private DcMotor leftMotor, rightMotor, leftMotorBack, rightMotorBack;
-    private DcMotor armMotor;
+    private DcMotor armMotorLeft, armMotorRight;
     private Servo leftServo, rightServo;
     private Move move;
     private Rotate rotate;
@@ -30,13 +30,14 @@ public class BasicTeleOp extends OpMode {
         rightMotor = hardwareMap.dcMotor.get("FR");
         leftMotorBack = hardwareMap.dcMotor.get("BL");
         rightMotorBack = hardwareMap.dcMotor.get("BR");
-        armMotor = hardwareMap.dcMotor.get("AM");
+        armMotorLeft = hardwareMap.dcMotor.get("AML");
+        armMotorRight = hardwareMap.dcMotor.get("AMR");
         leftServo = hardwareMap.servo.get("LS");
         rightServo = hardwareMap.servo.get("RS");
         move = new Move(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
         rotate = new Rotate(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
         clawServos = new ClawServos(leftServo, rightServo);
-        armEncoder = new ArmEncoder(armMotor);
+        armEncoder = new ArmEncoder(armMotorLeft, armMotorRight);
 
 
 
@@ -89,8 +90,8 @@ public class BasicTeleOp extends OpMode {
         {
             armCurrentDirection = "up";
 
-            armEncoder.goTo(2855,1);
-            while(armMotor.isBusy())
+            armEncoder.goTo(2855, 2855,1);
+            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
                 if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
                     if(Math.abs(gamepad1.left_stick_x)>=Math.abs(gamepad1.left_stick_y)){
@@ -124,8 +125,8 @@ public class BasicTeleOp extends OpMode {
         else if(gamepad2.dpad_down) //Arm Down
         {
             armCurrentDirection = "down";
-            armEncoder.goTo(0,0.8);
-            while(armMotor.isBusy())
+            armEncoder.goTo(0,0,0.8);
+            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
                 if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
                     if(Math.abs(gamepad1.left_stick_x)>=Math.abs(gamepad1.left_stick_y)){
@@ -160,8 +161,8 @@ public class BasicTeleOp extends OpMode {
         {
             armCurrentDirection = "up";
 
-            armEncoder.goTo(2855,1);
-            while(armMotor.isBusy())
+            armEncoder.goTo(2855,2855,1);
+            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
                 if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
                     if(Math.abs(gamepad1.left_stick_x)>=Math.abs(gamepad1.left_stick_y)){
@@ -196,8 +197,8 @@ public class BasicTeleOp extends OpMode {
         else if(gamepad1.dpad_down) //Arm Down
         {
             armCurrentDirection = "down";
-            armEncoder.goTo(0,0.8);
-            while (armMotor.isBusy())
+            armEncoder.goTo(0,0,0.8);
+            while (armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
                 if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
                     if(Math.abs(gamepad1.left_stick_x)>=Math.abs(gamepad1.left_stick_y)){
@@ -230,8 +231,10 @@ public class BasicTeleOp extends OpMode {
         }
         if(armCurrentDirection.equals("down"))
         {
-            armMotor.setPower(0);
-            armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            armMotorLeft.setPower(0);
+            armMotorRight.setPower(0);
+            armMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            armMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
     }
 }
