@@ -37,6 +37,7 @@ public class AutonomieBunStanga extends LinearOpMode {
         rightMotor = hardwareMap.dcMotor.get("FR");
         rightMotorBack = hardwareMap.dcMotor.get("BR");
         armMotorLeft = hardwareMap.dcMotor.get("AML");
+        armMotorRight = hardwareMap.dcMotor.get("AMR");
         leftServo = hardwareMap.servo.get("LS");
 
         encoderMove = new NewEncoderMove(leftMotor,leftMotorBack,rightMotor,rightMotorBack);
@@ -64,105 +65,44 @@ public class AutonomieBunStanga extends LinearOpMode {
         currentPosition = String.valueOf(sleeveDetection.getPosition());
         if(currentPosition=="RIGHT")
         {
-            closeServo(leftServo);
-            sleep(200);
-            encoderMove.DriveTo(1250,-1250,-1250,1250,0.8,opModeIsActive());
-            sleep(500);
-            encoderMove.DriveTo(955,955,955,955,0.8,opModeIsActive());
-            sleep(500);
-            encoderMove.DriveTo(710,-710,-710,710,0.8, opModeIsActive());
-            sleep(500);
-            armEncoder.goTo(2855,2855,0.8);
-            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
-            {
-
-            }
-            sleep(500);
-            encoderMove.DriveTo(130,130,130,130,0.5,opModeIsActive());
-            sleep(200);
             openServo(leftServo);
+            sleep(1000);
+            armEncoder.goTo(100,100,1);
+            encoderMove.DriveTo(-150,-150,-150,-150,0.8,opModeIsActive());
+            sleep(100);
+            encoderMove.DriveTo(1250,-1250,-1250,1250,0.8,opModeIsActive());
             sleep(200);
-            encoderMove.DriveTo(-120,-120,-120,-120,0.5,opModeIsActive());
+            encoderMove.DriveTo(-1000,-1000,-1000,-1000,0.8,opModeIsActive());
             sleep(200);
-            armEncoder.goTo(0,0,0.5);
-            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
-            {
-
-            }
-            sleep(200);
-            encoderMove.DriveTo(-720,720,720,-720,0.8,opModeIsActive());
-            sleep(500);
+            armEncoder.goTo(0,0,1);
         }
         else if(currentPosition=="CENTER")
         {
-            closeServo(leftServo);
-            sleep(200);
-            encoderMove.DriveTo(1250,-1250,-1250,1250,0.8,opModeIsActive());
-            sleep(500);
-            encoderMove.DriveTo(990,990,990,990,0.8,opModeIsActive());
-            sleep(500);
-            encoderMove.DriveTo(750,-750,-750,750,0.8, opModeIsActive());
-            sleep(500);
-            armEncoder.goTo(2855,2855,0.8);
-            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
-            {
-
-            }
-            sleep(500);
-            encoderMove.DriveTo(130,130,130,130,0.5,opModeIsActive());
-            sleep(200);
             openServo(leftServo);
+            sleep(1000);
+            armEncoder.goTo(100,100,1);
+            encoderMove.DriveTo(-150,-150,-150,-150,0.8,opModeIsActive());
+            sleep(100);
+            encoderMove.DriveTo(1200,-1200,-1200,1200,0.8,opModeIsActive());
             sleep(200);
-            encoderMove.DriveTo(-120,-120,-120,-120,0.5,opModeIsActive());
+            encoderMove.DriveTo(-2000,-2000,-2000,-2000,0.8,opModeIsActive());
             sleep(200);
-            armEncoder.goTo(0,0,0.5);
-            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
-            {
-
-            }
+            encoderMove.DriveTo(1200,-1200,-1200,1200,0.8,opModeIsActive());
             sleep(200);
-            encoderMove.DriveTo(-700,700,700,-700,0.8,opModeIsActive());
-            sleep(500);
-            encoderMove.DriveTo(1200,1200,1200,1200,0.8,opModeIsActive());
-            sleep(200);
-            encoderMove.DriveTo(-1100,1100,1100,-1100,0.8,opModeIsActive());
-            sleep(200);
+            armEncoder.goTo(0,0,1);
         }
         else if(currentPosition=="LEFT")
         {
-            closeServo(leftServo);
-            sleep(200);
-            encoderMove.DriveTo(1250,-1250,-1250,1250,0.8,opModeIsActive());
-            sleep(500);
-            encoderMove.DriveTo(990,990,990,990,0.8,opModeIsActive());
-            sleep(500);
-            encoderMove.DriveTo(780,-780,-780,780,0.8, opModeIsActive());
-            sleep(500);
-            armEncoder.goTo(2855,2855,0.8);
-            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
-            {
-
-            }
-            sleep(500);
-            encoderMove.DriveTo(130,130,130,130,0.5,opModeIsActive());
-            sleep(200);
             openServo(leftServo);
+            sleep(1000);
+            armEncoder.goTo(100,100,1);
+            encoderMove.DriveTo(-150,-150,-150,-150,0.8,opModeIsActive());
+            sleep(100);
+            encoderMove.DriveTo(1250,-1250,-1250,1250,0.8,opModeIsActive());
             sleep(200);
-            encoderMove.DriveTo(-120,-120,-120,-120,0.5,opModeIsActive());
+            encoderMove.DriveTo(-1000,-1000,-1000,-1000,0.8,opModeIsActive());
             sleep(200);
-            armEncoder.goTo(0,0,0.5);
-            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
-            {
-
-            }
-            sleep(200);
-            encoderMove.DriveTo(-700,700,700,-700,0.8,opModeIsActive());
-            sleep(500);
-            encoderMove.DriveTo(-900,-900,-900,-900,0.8,opModeIsActive());
-            sleep(200);
-            encoderMove.DriveTo(-2500,2500,2500,-2500,0.8,opModeIsActive());
-            sleep(200);
-            encoderMove.DriveTo(1000,1000,1000,1000,0.8,opModeIsActive());
+            armEncoder.goTo(0,0,1);
 
         }
 

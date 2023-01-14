@@ -24,7 +24,7 @@ public class ArmEncoder {
        // armMotor.setDirection(DcMotor.Direction.REVERSE);
         armMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
+        armMotorRight.setDirection(DcMotor.Direction.REVERSE);
         armLeftPos = 0;
         armRightPos = 0;
     }

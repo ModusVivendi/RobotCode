@@ -84,44 +84,57 @@ public class BasicTeleOp extends OpMode {
         {
             clawServos.SwitchAndWait(1,getRuntime());
         }
+        if(gamepad2.y)
+        {
+            int i=0;
+            closeServo(leftServo);
+            while(i<=100)
+            {
+                i++;
+            }
+            openServo(leftServo);
+
+        }
         if(gamepad1.x)
         {
             clawServos.SwitchAndWait(1,getRuntime());
-
         }
         if(gamepad2.dpad_up) // Arm Up
         {
             armCurrentDirection = "up";
-            armEncoder.goTo(714,714,1);
-            if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
-                if(Math.abs(gamepad1.left_stick_x)>=Math.abs(gamepad1.left_stick_y)){
-                    rotate.RotateRaw(2, gamepad1.left_stick_x);
+            armEncoder.goTo(720,714,1);
+            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
+            {
+                if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
+                    if(Math.abs(gamepad1.left_stick_x)>=Math.abs(gamepad1.left_stick_y)){
+                        rotate.RotateRaw(2, gamepad1.left_stick_x);
+                    }
+
+                }
+                else if(gamepad1.right_bumper)
+                {
+                    move.MoveRaw(4, 1);
+                }
+                else if(gamepad1.left_bumper)
+                {
+                    move.MoveRaw(3, 1);
+                }
+                else{
+                    move.MoveStop();
                 }
 
+                if(gamepad1.right_trigger>0){
+                    move.MoveRaw(1,gamepad1.right_trigger);
+                }
+                if(gamepad1.left_trigger>0){
+                    move.MoveRaw(2,gamepad1.left_trigger);
+                }
+                if (gamepad1.right_trigger == 0 && gamepad1.left_trigger == 0){
+                    move.MoveStop();
+                }
             }
-            else if(gamepad1.right_bumper)
-            {
-                move.MoveRaw(4, 1);
-            }
-            else if(gamepad1.left_bumper)
-            {
-                move.MoveRaw(3, 1);
-            }
-            else{
-                move.MoveStop();
-            }
-
-            if(gamepad1.right_trigger>0){
-                move.MoveRaw(1,gamepad1.right_trigger);
-            }
-            if(gamepad1.left_trigger>0){
-                move.MoveRaw(2,gamepad1.left_trigger);
-            }
-            if (gamepad1.right_trigger == 0 && gamepad1.left_trigger == 0){
-                move.MoveStop();
-            }
-            servosUp(topLeftServo,topRightServo);
-            armEncoder.goTo(2142, 2142,1);
+            servosDown(topLeftServo,topRightServo);
+            armEncoder.goTo(2170, 2142,1);
             while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
                 if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
@@ -156,8 +169,10 @@ public class BasicTeleOp extends OpMode {
         else if(gamepad2.dpad_down) //Arm Down
         {
             armCurrentDirection = "down";
+            // closeServo(leftServo);
+            servosUp(topLeftServo,topRightServo);
             armEncoder.goTo(0,0,0.8);
-            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
+            while (armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
                 if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
                     if(Math.abs(gamepad1.left_stick_x)>=Math.abs(gamepad1.left_stick_y)){
@@ -187,11 +202,12 @@ public class BasicTeleOp extends OpMode {
                     move.MoveStop();
                 }
             }
+            closeServo(leftServo);
         }
         if(gamepad1.dpad_up) // Arm Up
         {
             armCurrentDirection = "up";
-            armEncoder.goTo(714,714,1);
+            armEncoder.goTo(720,714,1);
             while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
                 if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
@@ -222,8 +238,8 @@ public class BasicTeleOp extends OpMode {
                     move.MoveStop();
                 }
             }
-            servosUp(topLeftServo,topRightServo);
-            armEncoder.goTo(2142, 2142,1);
+            servosDown(topLeftServo,topRightServo);
+            armEncoder.goTo(2170, 2142,1);
             while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
                 if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
@@ -259,6 +275,8 @@ public class BasicTeleOp extends OpMode {
         else if(gamepad1.dpad_down) //Arm Down
         {
             armCurrentDirection = "down";
+           // closeServo(leftServo);
+            servosUp(topLeftServo,topRightServo);
             armEncoder.goTo(0,0,0.8);
             while (armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
@@ -290,6 +308,7 @@ public class BasicTeleOp extends OpMode {
                     move.MoveStop();
                 }
             }
+            closeServo(leftServo);
         }
         if(armCurrentDirection.equals("down"))
         {
@@ -298,15 +317,24 @@ public class BasicTeleOp extends OpMode {
             armMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             armMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
+
+    }
+    private void openServo(Servo _LS)
+    {
+        _LS.setPosition(1);
+    }
+    private void closeServo(Servo _LS)
+    {
+        _LS.setPosition(0);
     }
     private void servosUp(Servo topLeftServo, Servo topRightServo)
     {
         topLeftServo.setPosition(1);
-        topRightServo.setPosition(1);
+        topRightServo.setPosition(0);
     }
     private void servosDown(Servo topLeftServo, Servo topRightServo)
     {
         topLeftServo.setPosition(0);
-        topRightServo.setPosition(0);
+        topRightServo.setPosition(1);
     }
 }

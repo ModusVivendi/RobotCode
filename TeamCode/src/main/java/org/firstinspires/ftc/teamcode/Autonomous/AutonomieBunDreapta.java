@@ -64,126 +64,44 @@ public class AutonomieBunDreapta extends LinearOpMode {
         currentPosition = String.valueOf(sleeveDetection.getPosition());
         if(currentPosition=="RIGHT")
         {
-            closeServo(leftServo);
-            sleep(200);
-            encoderMove.DriveTo(150,150,150,150,0.8,opModeIsActive());
+            openServo(leftServo);
+            sleep(1000);
+            armEncoder.goTo(100,100,1);
+            encoderMove.DriveTo(-150,-150,-150,-150,0.8,opModeIsActive());
             sleep(100);
             encoderMove.DriveTo(-1250,1250,1250,-1250,0.8,opModeIsActive());
-            sleep(100);
-
-            encoderMove.DriveTo(-100,-100,100,100,0.8,opModeIsActive());
-            sleep(100);
-            encoderMove.DriveTo(1010,1010,1010,1010,0.8,opModeIsActive());
-            sleep(500);
-            encoderMove.DriveTo(-400,-400,400,400,0.8,opModeIsActive());
-            sleep(500);
-            armEncoder.goTo(2855,2855,0.8);
-            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
-            {
-
-            }
-            sleep(500);
-            encoderMove.DriveTo(225,225,225,225,0.5,opModeIsActive());
             sleep(200);
-            openServo(leftServo);
+            encoderMove.DriveTo(-1000,-1000,-1000,-1000,0.8,opModeIsActive());
             sleep(200);
-            encoderMove.DriveTo(-140,-140,-140,-140,0.5,opModeIsActive());
-            sleep(200);
-            armEncoder.goTo(0,0,0.5);
-            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
-            {
-
-            }
-            sleep(200);
-            encoderMove.DriveTo(400,400,-400,-400,0.8,opModeIsActive());
-            sleep(500);
-            encoderMove.DriveTo(-1200,-1200,-1200,-1200,0.8,opModeIsActive());
-            sleep(200);
-            encoderMove.DriveTo(2500,-2500,-2500,2500,0.8,opModeIsActive());
-            sleep(200);
-            encoderMove.DriveTo(1000,1000,1000,1000,0.8,opModeIsActive());
+            armEncoder.goTo(0,0,1);
         }
         else if(currentPosition=="CENTER")
         {
-            closeServo(leftServo);
-            sleep(200);
-            encoderMove.DriveTo(150,150,150,150,0.8,opModeIsActive());
-            sleep(100);
-            encoderMove.DriveTo(-1250,1250,1250,-1250,0.8,opModeIsActive());
-            sleep(500);
-            encoderMove.DriveTo(-100,-100,100,100,0.8,opModeIsActive());
-            sleep(100);
-            encoderMove.DriveTo(1010,1010,1010,1010,0.8,opModeIsActive());
-            sleep(500);
-            encoderMove.DriveTo(-400,-400,400,400,0.8,opModeIsActive());
-            sleep(200);
-            armEncoder.goTo(2855,2855,0.8);
-            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
-            {
-
-            }
-            sleep(500);
-            encoderMove.DriveTo(225,225,225,225,0.5,opModeIsActive());
-            sleep(200);
             openServo(leftServo);
-            sleep(200);
-            encoderMove.DriveTo(-120,-120,-120,-120,0.5,opModeIsActive());
-            sleep(200);
-            armEncoder.goTo(0,0,0.5);
-            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
-            {
-
-            }
-            sleep(200);
-            encoderMove.DriveTo(400,400,-400,-400,0.8,opModeIsActive());
-            sleep(200);
-            encoderMove.DriveTo(150,-150,-150,150,0.8,opModeIsActive());
-            sleep(200);
-            encoderMove.DriveTo(1000,1000,1000,1000,0.8,opModeIsActive());
-            sleep(200);
+            sleep(1000);
+            armEncoder.goTo(100,100,1);
+            encoderMove.DriveTo(-150,-150,-150,-150,0.8,opModeIsActive());
+            sleep(100);
             encoderMove.DriveTo(1200,-1200,-1200,1200,0.8,opModeIsActive());
             sleep(200);
-            encoderMove.DriveTo(-200,-200,-200,-200,0.8,opModeIsActive());
-            sleep(100);
-            encoderMove.DriveTo(50,50,-50,-50,0.8,opModeIsActive());
+            encoderMove.DriveTo(-2000,-2000,-2000,-2000,0.8,opModeIsActive());
             sleep(200);
+            encoderMove.DriveTo(-1200,1200,1200,-1200,0.8,opModeIsActive());
+            sleep(200);
+            armEncoder.goTo(0,0,1);
         }
         else if(currentPosition=="LEFT")
         {
-            closeServo(leftServo);
-            sleep(200);
-            encoderMove.DriveTo(150,150,150,150,0.8,opModeIsActive());
-            sleep(100);
-            encoderMove.DriveTo(-1250,1250,1250,-1250,0.8,opModeIsActive());
-            sleep(200);
-            encoderMove.DriveTo(-100,-100,100,100,0.8,opModeIsActive());
-            sleep(100);
-            encoderMove.DriveTo(1000,1000,1000,1000,0.8,opModeIsActive());
-            sleep(200);
-            encoderMove.DriveTo(-400,-400,400,400,0.8,opModeIsActive());
-            sleep(200);
-            armEncoder.goTo(2855,2855,0.8);
-            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
-            {
-
-            }
-            sleep(500);
-            encoderMove.DriveTo(225,225,225,225,0.5,opModeIsActive());
-            sleep(200);
             openServo(leftServo);
+            sleep(1000);
+            armEncoder.goTo(100,100,1);
+            encoderMove.DriveTo(-150,-150,-150,-150,0.8,opModeIsActive());
+            sleep(100);
+            encoderMove.DriveTo(1250,-1250,-1250,1250,0.8,opModeIsActive());
             sleep(200);
-            encoderMove.DriveTo(-140,-140,-140,-140,0.5,opModeIsActive());
+            encoderMove.DriveTo(-1000,-1000,-1000,-1000,0.8,opModeIsActive());
             sleep(200);
-            armEncoder.goTo(0,0,0.5);
-            while(armMotorLeft.isBusy() && armMotorRight.isBusy())
-            {
-
-            }
-            sleep(200);
-            encoderMove.DriveTo(400,400,-400,-400,0.8,opModeIsActive());
-            sleep(200);
-            encoderMove.DriveTo(50,50,-50,-50,0.8,opModeIsActive());
-            sleep(200);
+            armEncoder.goTo(0,0,1);
         }
 
 
