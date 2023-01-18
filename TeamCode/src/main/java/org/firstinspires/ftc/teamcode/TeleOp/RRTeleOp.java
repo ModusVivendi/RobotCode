@@ -11,7 +11,9 @@ import org.firstinspires.ftc.teamcode.Functions.ClawServos;
 import org.firstinspires.ftc.teamcode.Functions.Move;
 import org.firstinspires.ftc.teamcode.Functions.Rotate;
 import org.firstinspires.ftc.teamcode.Functions.TopServos;
+import org.firstinspires.ftc.teamcode.RoadRunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.RoadRunner.drive.StandardTrackingWheelLocalizer;
+import org.firstinspires.ftc.teamcode.RoadRunner.drive.advanced.PoseStorage;
 
 @TeleOp(name="RRTeleOp", group = "GAME")
 public class RRTeleOp extends LinearOpMode {
@@ -43,17 +45,34 @@ public class RRTeleOp extends LinearOpMode {
         clawServos = new ClawServos(leftServo);
         armEncoder = new ArmEncoder(armMotorLeft, armMotorRight);
         topServos = new TopServos(topLeftServo,topRightServo);
-        StandardTrackingWheelLocalizer localizer = new StandardTrackingWheelLocalizer(hardwareMap);
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
+
+
+        drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        drive.setPoseEstimate(PoseStorage.currentPose);
 
         waitForStart();
 
-        while(opModeIsActive()) {
-            localizer.update();
-            Pose2d myPose = localizer.getPoseEstimate();
+        if (isStopRequested()) return;
 
-            telemetry.addData("x", myPose.getX());
-            telemetry.addData("y", myPose.getY());
-            telemetry.addData("heading", myPose.getHeading());
+        while(opModeIsActive() && !isStopRequested()) {
+            drive.setWeightedDrivePower(
+                    new Pose2d(
+                            -gamepad1.left_stick_y,
+                            -gamepad1.left_stick_x,
+                            -gamepad1.right_stick_x
+                    )
+            );
+
+            drive.update();
+
+            Pose2d poseEstimate = drive.getPoseEstimate();
+
+            telemetry.addData("x", poseEstimate.getX());
+            telemetry.addData("y", poseEstimate.getY());
+            telemetry.addData("heading", poseEstimate.getHeading());
+            telemetry.update();
 
             if(gamepad2.x)
             {
