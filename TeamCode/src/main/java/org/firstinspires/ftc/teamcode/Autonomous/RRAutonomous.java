@@ -14,7 +14,7 @@ public class RRAutonomous extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         Trajectory trajectory1 = drive.trajectoryBuilder(new Pose2d())
-                .forward(100)
+                .strafeLeft(50)
                 .build();
         waitForStart();
         if(isStopRequested()) return;

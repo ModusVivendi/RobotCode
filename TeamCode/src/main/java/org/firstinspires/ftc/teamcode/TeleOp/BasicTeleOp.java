@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.Functions.TopServos;
 public class BasicTeleOp extends OpMode {
     private DcMotor leftMotor, rightMotor, leftMotorBack, rightMotorBack;
     private DcMotor armMotorLeft, armMotorRight;
-    private Servo leftServo, topLeftServo, topRightServo;
+    private Servo clawServo, topServo;
     private Move move;
     private Rotate rotate;
     private ClawServos clawServos;
@@ -34,14 +34,14 @@ public class BasicTeleOp extends OpMode {
         rightMotorBack = hardwareMap.dcMotor.get("BR");
         armMotorLeft = hardwareMap.dcMotor.get("AML");
         armMotorRight = hardwareMap.dcMotor.get("AMR");
-        leftServo = hardwareMap.servo.get("LS");
-        topLeftServo = hardwareMap.servo.get("TLS");
-        topRightServo = hardwareMap.servo.get("TRS");
+        clawServo = hardwareMap.servo.get("CS");
+        topServo = hardwareMap.servo.get("TS");
+        //topRightServo = hardwareMap.servo.get("TRS");
         move = new Move(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
         rotate = new Rotate(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
-        clawServos = new ClawServos(leftServo);
+        clawServos = new ClawServos(clawServo);
         armEncoder = new ArmEncoder(armMotorLeft, armMotorRight);
-        topServos = new TopServos(topLeftServo,topRightServo);
+        topServos = new TopServos(topServo);
 
 
         rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -87,12 +87,12 @@ public class BasicTeleOp extends OpMode {
         if(gamepad2.y)
         {
             int i=0;
-            closeServo(leftServo);
+            closeServo(clawServo);
             while(i<=100)
             {
                 i++;
             }
-            openServo(leftServo);
+            openServo(clawServo);
 
         }
         if(gamepad1.x)
@@ -102,7 +102,7 @@ public class BasicTeleOp extends OpMode {
         if(gamepad2.dpad_up) // Arm Up
         {
             armCurrentDirection = "up";
-            armEncoder.goTo(720,714,1);
+            armEncoder.goTo(1000,1000,1);
             while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
                 if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
@@ -133,8 +133,8 @@ public class BasicTeleOp extends OpMode {
                     move.MoveStop();
                 }
             }
-            servosDown(topLeftServo,topRightServo);
-            armEncoder.goTo(2170, 2142,1);
+            servosDown(topServo);
+            armEncoder.goTo(2000, 2000,1);
             while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
                 if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
@@ -170,7 +170,7 @@ public class BasicTeleOp extends OpMode {
         {
             armCurrentDirection = "down";
             // closeServo(leftServo);
-            servosUp(topLeftServo,topRightServo);
+            servosUp(topServo);
             armEncoder.goTo(0,0,0.8);
             while (armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
@@ -202,7 +202,7 @@ public class BasicTeleOp extends OpMode {
                     move.MoveStop();
                 }
             }
-            closeServo(leftServo);
+            closeServo(clawServo);
         }
         if(gamepad1.dpad_up) // Arm Up
         {
@@ -238,7 +238,7 @@ public class BasicTeleOp extends OpMode {
                     move.MoveStop();
                 }
             }
-            servosDown(topLeftServo,topRightServo);
+            servosDown(topServo);
             armEncoder.goTo(2170, 2142,1);
             while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
@@ -276,7 +276,7 @@ public class BasicTeleOp extends OpMode {
         {
             armCurrentDirection = "down";
            // closeServo(leftServo);
-            servosUp(topLeftServo,topRightServo);
+            servosUp(topServo);
             armEncoder.goTo(0,0,0.8);
             while (armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
@@ -308,7 +308,7 @@ public class BasicTeleOp extends OpMode {
                     move.MoveStop();
                 }
             }
-            closeServo(leftServo);
+            closeServo(clawServo);
         }
         if(armCurrentDirection.equals("down"))
         {
@@ -327,14 +327,14 @@ public class BasicTeleOp extends OpMode {
     {
         _LS.setPosition(0);
     }
-    private void servosUp(Servo topLeftServo, Servo topRightServo)
-    {
-        topLeftServo.setPosition(1);
-        topRightServo.setPosition(0);
-    }
-    private void servosDown(Servo topLeftServo, Servo topRightServo)
+    private void servosUp(Servo topLeftServo)
     {
         topLeftServo.setPosition(0);
-        topRightServo.setPosition(1);
+        //topRightServo.setPosition(0);
+    }
+    private void servosDown(Servo topLeftServo)
+    {
+        topLeftServo.setPosition(1);
+        //topRightServo.setPosition(1);
     }
 }

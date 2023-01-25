@@ -20,7 +20,7 @@ public class RRTeleOp extends LinearOpMode {
 
     private DcMotor leftMotor, rightMotor, leftMotorBack, rightMotorBack;
     private DcMotor armMotorLeft, armMotorRight;
-    private Servo leftServo, topLeftServo, topRightServo;
+    private Servo clawServo, topServo;
     private Move move;
     private Rotate rotate;
     private ClawServos clawServos;
@@ -37,14 +37,13 @@ public class RRTeleOp extends LinearOpMode {
         rightMotorBack = hardwareMap.dcMotor.get("BR");
         armMotorLeft = hardwareMap.dcMotor.get("AML");
         armMotorRight = hardwareMap.dcMotor.get("AMR");
-        leftServo = hardwareMap.servo.get("LS");
-        topLeftServo = hardwareMap.servo.get("TLS");
-        topRightServo = hardwareMap.servo.get("TRS");
+        clawServo = hardwareMap.servo.get("CS");
+        topServo = hardwareMap.servo.get("TS");
         move = new Move(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
         rotate = new Rotate(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
-        clawServos = new ClawServos(leftServo);
+        clawServos = new ClawServos(clawServo);
         armEncoder = new ArmEncoder(armMotorLeft, armMotorRight);
-        topServos = new TopServos(topLeftServo,topRightServo);
+        topServos = new TopServos(topServo);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
 
@@ -114,7 +113,7 @@ public class RRTeleOp extends LinearOpMode {
                 if (gamepad1.right_trigger == 0 && gamepad1.left_trigger == 0){
                     move.MoveStop();
                 }
-                servosUp(topLeftServo,topRightServo);
+                servosUp(topServo);
                 armEncoder.goTo(2142, 2142,1);
                 while(armMotorLeft.isBusy() && armMotorRight.isBusy())
                 {
@@ -184,9 +183,8 @@ public class RRTeleOp extends LinearOpMode {
             }
         }
     }
-    private void servosUp(Servo topLeftServo, Servo topRightServo)
+    private void servosUp(Servo topServo)
     {
-        topLeftServo.setPosition(1);
-        topRightServo.setPosition(1);
+        topServo.setPosition(1);
     }
 }
