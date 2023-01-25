@@ -46,6 +46,11 @@ public class RRTeleOp extends LinearOpMode {
         topServos = new TopServos(topServo);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
+        rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        rightMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        leftMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
 
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
