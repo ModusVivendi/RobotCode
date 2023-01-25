@@ -31,16 +31,15 @@ public class RRAutonomous extends LinearOpMode {
 
         TrajectorySequence secondTraj = drive.trajectorySequenceBuilder(new Pose2d(-60.70, -12.38, Math.toRadians(0.0)))
                 .forward(48.0)
-                .strafeLeft(5.0)
+                .turn(45.0)
                 .build();
 
         TrajectorySequence splineTraj = drive.trajectorySequenceBuilder(new Pose2d(-12.70, -0.0, Math.toRadians(0.0)))
-                .forward(48.0)
-                .strafeLeft(5.0)
+                .lineToSplineHeading(new Pose2d(60.14, -12.09, Math.toRadians(-3.75)))
                 .build();
         waitForStart();
         if(isStopRequested()) return;
-        drive.followTrajectorySequence(basictTraj);
+        drive.followTrajectorySequence(secondTraj);
 
     }
 }
