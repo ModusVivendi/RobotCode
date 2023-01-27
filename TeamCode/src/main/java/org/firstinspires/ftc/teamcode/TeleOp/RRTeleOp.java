@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -52,144 +53,275 @@ public class RRTeleOp extends LinearOpMode {
         leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
 
-
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         drive.setPoseEstimate(PoseStorage.currentPose);
+
+        servosUp(topServo);
 
         waitForStart();
 
         if (isStopRequested()) return;
 
+        Pose2d poseEstimate = drive.getPoseEstimate();
+        telemetry.addData("x", poseEstimate.getX());
+        telemetry.addData("y", poseEstimate.getY());
+        telemetry.addData("heading", poseEstimate.getHeading());
+        telemetry.update();
+
         while(opModeIsActive() && !isStopRequested()) {
+            Vector2d input = new Vector2d(
+                    -gamepad1.left_stick_y,
+                    -gamepad1.left_stick_x
+            ).rotated(poseEstimate.getHeading());
+
             drive.setWeightedDrivePower(
                     new Pose2d(
-                            -gamepad1.left_stick_y,
-                            -gamepad1.left_stick_x,
+                            input.getX(),
+                            input.getY(),
                             -gamepad1.right_stick_x
                     )
             );
 
             drive.update();
 
-            Pose2d poseEstimate = drive.getPoseEstimate();
+            poseEstimate = drive.getPoseEstimate();
 
             telemetry.addData("x", poseEstimate.getX());
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", poseEstimate.getHeading());
             telemetry.update();
 
-            if(gamepad2.x)
-            {
-                clawServos.SwitchAndWait(1,getRuntime());
+            if (gamepad2.x) {
+                clawServos.SwitchAndWait(1, getRuntime());
             }
-            if(gamepad1.x)
-            {
-                clawServos.SwitchAndWait(1,getRuntime());
+            if (gamepad2.y) {
+                int i = 0;
+                closeServo(clawServo);
+                while (i <= 100) {
+                    i++;
+                }
+                openServo(clawServo);
 
             }
-            if(gamepad2.dpad_up) // Arm Up
+            if (gamepad1.x) {
+                clawServos.SwitchAndWait(1, getRuntime());
+            }
+            if (gamepad2.dpad_up) // Arm Up
             {
                 armCurrentDirection = "up";
-                armEncoder.goTo(714,714,1);
-                if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
-                    if(Math.abs(gamepad1.left_stick_x)>=Math.abs(gamepad1.left_stick_y)){
-                        rotate.RotateRaw(2, gamepad1.left_stick_x);
-                    }
+                armEncoder.goTo(1000, 1000, 1);
+                while (armMotorLeft.isBusy() && armMotorRight.isBusy()) {
+                    input = new Vector2d(
+                            -gamepad1.left_stick_y,
+                            -gamepad1.left_stick_x
+                    ).rotated(poseEstimate.getHeading());
 
+                    drive.setWeightedDrivePower(
+                            new Pose2d(
+                                    input.getX(),
+                                    input.getY(),
+                                    -gamepad1.right_stick_x
+                            )
+                    );
+                    drive.update();
                 }
-                else if(gamepad1.right_bumper)
-                {
-                    move.MoveRaw(4, 1);
-                }
-                else if(gamepad1.left_bumper)
-                {
-                    move.MoveRaw(3, 1);
-                }
-                else{
-                    move.MoveStop();
+                servosDown(topServo);
+                armEncoder.goTo(3000, 3000, 1);
+                while (armMotorLeft.isBusy() && armMotorRight.isBusy()) {
+                    input = new Vector2d(
+                            -gamepad1.left_stick_y,
+                            -gamepad1.left_stick_x
+                    ).rotated(poseEstimate.getHeading());
+                    drive.setWeightedDrivePower(
+                            new Pose2d(
+                                    input.getX(),
+                                    input.getY(),
+                                    -gamepad1.right_stick_x
+                            )
+                    );
+
+                    drive.update();
                 }
 
-                if(gamepad1.right_trigger>0){
-                    move.MoveRaw(1,gamepad1.right_trigger);
-                }
-                if(gamepad1.left_trigger>0){
-                    move.MoveRaw(2,gamepad1.left_trigger);
-                }
-                if (gamepad1.right_trigger == 0 && gamepad1.left_trigger == 0){
-                    move.MoveStop();
-                }
-                servosUp(topServo);
-                armEncoder.goTo(2142, 2142,1);
-                while(armMotorLeft.isBusy() && armMotorRight.isBusy())
-                {
-                    if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
-                        if(Math.abs(gamepad1.left_stick_x)>=Math.abs(gamepad1.left_stick_y)){
-                            rotate.RotateRaw(2, gamepad1.left_stick_x);
-                        }
-
-                    }
-                    else if(gamepad1.right_bumper)
-                    {
-                        move.MoveRaw(4, 1);
-                    }
-                    else if(gamepad1.left_bumper)
-                    {
-                        move.MoveRaw(3, 1);
-                    }
-                    else{
-                        move.MoveStop();
-                    }
-
-                    if(gamepad1.right_trigger>0){
-                        move.MoveRaw(1,gamepad1.right_trigger);
-                    }
-                    if(gamepad1.left_trigger>0){
-                        move.MoveRaw(2,gamepad1.left_trigger);
-                    }
-                    if (gamepad1.right_trigger == 0 && gamepad1.left_trigger == 0){
-                        move.MoveStop();
-                    }
-                }
-            }
-            else if(gamepad2.dpad_down) //Arm Down
+            } else if (gamepad2.dpad_down) //Arm Down
             {
                 armCurrentDirection = "down";
-                armEncoder.goTo(0,0,0.8);
-                while(armMotorLeft.isBusy() && armMotorRight.isBusy())
+                // closeServo(leftServo);
+                servosUp(topServo);
+                armEncoder.goTo(-10, -10, 0.7);
+                while (armMotorLeft.isBusy() && armMotorRight.isBusy()) {
+                    input = new Vector2d(
+                            -gamepad1.left_stick_y,
+                            -gamepad1.left_stick_x
+                    ).rotated(poseEstimate.getHeading());
+                    drive.setWeightedDrivePower(
+                            new Pose2d(
+                                    input.getX(),
+                                    input.getY(),
+                                    -gamepad1.right_stick_x
+                            )
+                    );
+
+                    drive.update();
+                }
+                closeServo(clawServo);
+            }
+            if (gamepad1.dpad_up) // Arm Up
+            {
+                armCurrentDirection = "up";
+                armEncoder.goTo(1000, 1000, 1);
+                while (armMotorLeft.isBusy() && armMotorRight.isBusy()) {
+                    input = new Vector2d(
+                            -gamepad1.left_stick_y,
+                            -gamepad1.left_stick_x
+                    ).rotated(poseEstimate.getHeading());
+                    drive.setWeightedDrivePower(
+                            new Pose2d(
+                                    input.getX(),
+                                    input.getY(),
+                                    -gamepad1.right_stick_x
+                            )
+                    );
+
+                    drive.update();
+                }
+                servosDown(topServo);
+                armEncoder.goTo(3000, 3000, 1);
+                while (armMotorLeft.isBusy() && armMotorRight.isBusy()) {
+                    input = new Vector2d(
+                            -gamepad1.left_stick_y,
+                            -gamepad1.left_stick_x
+                    ).rotated(poseEstimate.getHeading());
+                    drive.setWeightedDrivePower(
+                            new Pose2d(
+                                    input.getX(),
+                                    input.getY(),
+                                    -gamepad1.right_stick_x
+                            )
+                    );
+
+                    drive.update();
+                }
+
+            }
+            else if(gamepad2.dpad_left) // Arm level 1
+            {
+                armCurrentDirection = "up";
+                armEncoder.goTo(1300, 1300, 1);
+                while (armMotorLeft.isBusy() && armMotorRight.isBusy()) {
+                    input = new Vector2d(
+                            -gamepad1.left_stick_y,
+                            -gamepad1.left_stick_x
+                    ).rotated(poseEstimate.getHeading());
+                    drive.setWeightedDrivePower(
+                            new Pose2d(
+                                    input.getX(),
+                                    input.getY(),
+                                    -gamepad1.right_stick_x
+                            )
+                    );
+
+                    drive.update();
+                }
+                servosDown(topServo);
+
+            }
+            else if(gamepad2.dpad_right) // Level 2
+            {
+                armCurrentDirection = "up";
+                armEncoder.goTo(1300, 1300, 1);
+                while (armMotorLeft.isBusy() && armMotorRight.isBusy()) {
+                    input = new Vector2d(
+                            -gamepad1.left_stick_y,
+                            -gamepad1.left_stick_x
+                    ).rotated(poseEstimate.getHeading());
+                    drive.setWeightedDrivePower(
+                            new Pose2d(
+                                    input.getX(),
+                                    input.getY(),
+                                    -gamepad1.right_stick_x
+                            )
+                    );
+
+                    drive.update();
+                }
+                servosDown(topServo);
+                armEncoder.goTo(2000, 2000, 1);
+                while (armMotorLeft.isBusy() && armMotorRight.isBusy()) {
+                    input = new Vector2d(
+                            -gamepad1.left_stick_y,
+                            -gamepad1.left_stick_x
+                    ).rotated(poseEstimate.getHeading());
+                    drive.setWeightedDrivePower(
+                            new Pose2d(
+                                    input.getX(),
+                                    input.getY(),
+                                    -gamepad1.right_stick_x
+                            )
+                    );
+
+                    drive.update();
+                }
+            }
+            else if (gamepad1.dpad_down) //Arm Down
+            {
+                armCurrentDirection = "down";
+                // closeServo(leftServo);
+                servosUp(topServo);
+                long setTime = System.currentTimeMillis();
+                boolean hasRun = false;
+                boolean ok = false;
+                while(ok==false)
                 {
-                    if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
-                        if(Math.abs(gamepad1.left_stick_x)>=Math.abs(gamepad1.left_stick_y)){
-                            rotate.RotateRaw(2, gamepad1.left_stick_x);
+                    if(System.currentTimeMillis() - setTime > 1500 && !hasRun) {
+                        hasRun = true;
+                        ok = true;
+                        armEncoder.goTo(-10, -10, 0.7);
+                        while (armMotorLeft.isBusy() && armMotorRight.isBusy()) {
+                            input = new Vector2d(
+                                    -gamepad1.left_stick_y,
+                                    -gamepad1.left_stick_x
+                            ).rotated(poseEstimate.getHeading());
+                            drive.setWeightedDrivePower(
+                                    new Pose2d(
+                                            input.getX(),
+                                            input.getY(),
+                                            -gamepad1.right_stick_x
+                                    )
+                            );
+
+                            drive.update();
                         }
-
-                    }
-                    else if(gamepad1.right_bumper)
-                    {
-                        move.MoveRaw(4, 1);
-                    }
-                    else if(gamepad1.left_bumper)
-                    {
-                        move.MoveRaw(3, 1);
-                    }
-                    else{
-                        move.MoveStop();
-                    }
-
-                    if(gamepad1.right_trigger>0){
-                        move.MoveRaw(1,gamepad1.right_trigger);
-                    }
-                    if(gamepad1.left_trigger>0){
-                        move.MoveRaw(2,gamepad1.left_trigger);
-                    }
-                    if (gamepad1.right_trigger == 0 && gamepad1.left_trigger == 0){
-                        move.MoveStop();
                     }
                 }
+
+                closeServo(clawServo);
+            }
+            if (armCurrentDirection.equals("down")) {
+                armMotorLeft.setPower(0);
+                armMotorRight.setPower(0);
+                armMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                armMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
         }
     }
-    private void servosUp(Servo topServo)
+    private void openServo(Servo _LS)
     {
-        topServo.setPosition(1);
+        _LS.setPosition(1);
     }
+    private void closeServo(Servo _LS)
+    {
+        _LS.setPosition(0);
+    }
+    private void servosUp(Servo topLeftServo)
+    {
+        topLeftServo.setPosition(0);
+        //topRightServo.setPosition(0);
+    }
+    private void servosDown(Servo topLeftServo)
+    {
+        topLeftServo.setPosition(1);
+        //topRightServo.setPosition(1);
+    }
+
 }
