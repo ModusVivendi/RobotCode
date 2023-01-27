@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.Functions.ArmEncoder;
 import org.firstinspires.ftc.teamcode.Functions.ClawServos;
 import org.firstinspires.ftc.teamcode.Functions.TopServos;
 import org.firstinspires.ftc.teamcode.RoadRunner.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.RoadRunner.drive.advanced.PoseStorage;
 import org.firstinspires.ftc.teamcode.RoadRunner.trajectorysequence.TrajectorySequence;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -138,7 +139,7 @@ public class RRAutonomousLeft extends LinearOpMode {
 
             }
             drive.followTrajectorySequence(rightPark);
-
+            PoseStorage.currentPose = drive.getPoseEstimate();
         }
         else if(currentPosition=="CENTER")
         {
@@ -173,7 +174,7 @@ public class RRAutonomousLeft extends LinearOpMode {
             drive.followTrajectorySequence(moveToPutCone);
             openServo(clawServo);
             drive.followTrajectorySequence(centerPark);
-
+            PoseStorage.currentPose = drive.getPoseEstimate();
         }
         else if(currentPosition=="LEFT")
         {
@@ -208,6 +209,7 @@ public class RRAutonomousLeft extends LinearOpMode {
             drive.followTrajectorySequence(moveToPutCone);
             openServo(clawServo);
             drive.followTrajectorySequence(leftPark);
+            PoseStorage.currentPose = drive.getPoseEstimate();
         }
     }
     private void openServo(Servo _LS)
