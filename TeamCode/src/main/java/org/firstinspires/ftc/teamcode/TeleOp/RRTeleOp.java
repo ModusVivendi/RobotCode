@@ -74,13 +74,13 @@ public class RRTeleOp extends LinearOpMode {
                     -gamepad1.left_stick_x
             ).rotated(poseEstimate.getHeading());
 
-            drive.setWeightedDrivePower(
-                    new Pose2d(
-                            input.getX(),
-                            input.getY(),
-                            -gamepad1.right_stick_x
-                    )
-            );
+                drive.setWeightedDrivePower(
+                        new Pose2d(
+                                -gamepad1.left_stick_y,
+                                -gamepad1.left_stick_x,
+                                -gamepad1.right_stick_x
+                        )
+                );
 
             drive.update();
 
@@ -118,8 +118,8 @@ public class RRTeleOp extends LinearOpMode {
 
                     drive.setWeightedDrivePower(
                             new Pose2d(
-                                    input.getX(),
-                                    input.getY(),
+                                    -gamepad1.left_stick_y,
+                                    -gamepad1.left_stick_x,
                                     -gamepad1.right_stick_x
                             )
                     );
@@ -134,8 +134,8 @@ public class RRTeleOp extends LinearOpMode {
                     ).rotated(poseEstimate.getHeading());
                     drive.setWeightedDrivePower(
                             new Pose2d(
-                                    input.getX(),
-                                    input.getY(),
+                                    -gamepad1.left_stick_y,
+                                    -gamepad1.left_stick_x,
                                     -gamepad1.right_stick_x
                             )
                     );
@@ -148,22 +148,33 @@ public class RRTeleOp extends LinearOpMode {
                 armCurrentDirection = "down";
                 // closeServo(leftServo);
                 servosUp(topServo);
-                armEncoder.goTo(-10, -10, 0.7);
-                while (armMotorLeft.isBusy() && armMotorRight.isBusy()) {
-                    input = new Vector2d(
-                            -gamepad1.left_stick_y,
-                            -gamepad1.left_stick_x
-                    ).rotated(poseEstimate.getHeading());
-                    drive.setWeightedDrivePower(
-                            new Pose2d(
-                                    input.getX(),
-                                    input.getY(),
-                                    -gamepad1.right_stick_x
-                            )
-                    );
+                long setTime = System.currentTimeMillis();
+                boolean hasRun = false;
+                boolean ok = false;
+                while(ok==false)
+                {
+                    if(System.currentTimeMillis() - setTime > 1200 && !hasRun) {
+                        hasRun = true;
+                        ok = true;
+                        armEncoder.goTo(-10, -10, 0.7);
+                        while (armMotorLeft.isBusy() && armMotorRight.isBusy()) {
+                            input = new Vector2d(
+                                    -gamepad1.left_stick_y,
+                                    -gamepad1.left_stick_x
+                            ).rotated(poseEstimate.getHeading());
+                            drive.setWeightedDrivePower(
+                                    new Pose2d(
+                                            -gamepad1.left_stick_y,
+                                            -gamepad1.left_stick_x,
+                                            -gamepad1.right_stick_x
+                                    )
+                            );
 
-                    drive.update();
+                            drive.update();
+                        }
+                    }
                 }
+
                 closeServo(clawServo);
             }
             if (gamepad1.dpad_up) // Arm Up
@@ -177,8 +188,8 @@ public class RRTeleOp extends LinearOpMode {
                     ).rotated(poseEstimate.getHeading());
                     drive.setWeightedDrivePower(
                             new Pose2d(
-                                    input.getX(),
-                                    input.getY(),
+                                    -gamepad1.left_stick_y,
+                                    -gamepad1.left_stick_x,
                                     -gamepad1.right_stick_x
                             )
                     );
@@ -194,8 +205,8 @@ public class RRTeleOp extends LinearOpMode {
                     ).rotated(poseEstimate.getHeading());
                     drive.setWeightedDrivePower(
                             new Pose2d(
-                                    input.getX(),
-                                    input.getY(),
+                                    -gamepad1.left_stick_y,
+                                    -gamepad1.left_stick_x,
                                     -gamepad1.right_stick_x
                             )
                     );
@@ -215,8 +226,8 @@ public class RRTeleOp extends LinearOpMode {
                     ).rotated(poseEstimate.getHeading());
                     drive.setWeightedDrivePower(
                             new Pose2d(
-                                    input.getX(),
-                                    input.getY(),
+                                    -gamepad1.left_stick_y,
+                                    -gamepad1.left_stick_x,
                                     -gamepad1.right_stick_x
                             )
                     );
@@ -237,8 +248,8 @@ public class RRTeleOp extends LinearOpMode {
                     ).rotated(poseEstimate.getHeading());
                     drive.setWeightedDrivePower(
                             new Pose2d(
-                                    input.getX(),
-                                    input.getY(),
+                                    -gamepad1.left_stick_y,
+                                    -gamepad1.left_stick_x,
                                     -gamepad1.right_stick_x
                             )
                     );
@@ -254,8 +265,8 @@ public class RRTeleOp extends LinearOpMode {
                     ).rotated(poseEstimate.getHeading());
                     drive.setWeightedDrivePower(
                             new Pose2d(
-                                    input.getX(),
-                                    input.getY(),
+                                    -gamepad1.left_stick_y,
+                                    -gamepad1.left_stick_x,
                                     -gamepad1.right_stick_x
                             )
                     );
@@ -284,8 +295,8 @@ public class RRTeleOp extends LinearOpMode {
                             ).rotated(poseEstimate.getHeading());
                             drive.setWeightedDrivePower(
                                     new Pose2d(
-                                            input.getX(),
-                                            input.getY(),
+                                            -gamepad1.left_stick_y,
+                                            -gamepad1.left_stick_x,
                                             -gamepad1.right_stick_x
                                     )
                             );
