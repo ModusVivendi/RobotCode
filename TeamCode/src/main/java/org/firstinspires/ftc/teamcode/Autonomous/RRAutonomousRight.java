@@ -43,6 +43,7 @@ public class RRAutonomousRight extends LinearOpMode {
         sleeveDetection = new SleeveDetection();
         camera.setPipeline(sleeveDetection);
         drive.setPoseEstimate(new Pose2d(-62.70, -37.5, Math.toRadians(0.0)));
+
         TrajectorySequence basictTraj = drive.trajectorySequenceBuilder(new Pose2d(-62.70, -37.5, Math.toRadians(0.0))) //basic traj
                 .strafeLeft(24.0)
                 .forward(24.0)
@@ -51,7 +52,7 @@ public class RRAutonomousRight extends LinearOpMode {
 
         TrajectorySequence secondTraj = drive.trajectorySequenceBuilder(new Pose2d(-60.70, -12.38, Math.toRadians(0.0)))
                 .forward(48.0)
-                .turn(45.0)
+                .turn(Math.toRadians(45))
                 .build();
 
         TrajectorySequence splineTraj = drive.trajectorySequenceBuilder(new Pose2d(-12.70, -0.0, Math.toRadians(0.0)))
@@ -139,7 +140,6 @@ public class RRAutonomousRight extends LinearOpMode {
 
             }
             drive.followTrajectorySequence(rightPark);
-            PoseStorage.currentPose = drive.getPoseEstimate();
         }
         else if(currentPosition=="CENTER")
         {
@@ -174,7 +174,6 @@ public class RRAutonomousRight extends LinearOpMode {
             drive.followTrajectorySequence(moveToPutCone);
             openServo(clawServo);
             drive.followTrajectorySequence(centerPark);
-            PoseStorage.currentPose = drive.getPoseEstimate();
         }
         else if(currentPosition=="LEFT")
         {
@@ -209,9 +208,7 @@ public class RRAutonomousRight extends LinearOpMode {
             drive.followTrajectorySequence(moveToPutCone);
             openServo(clawServo);
             drive.followTrajectorySequence(leftPark);
-            PoseStorage.currentPose = drive.getPoseEstimate();
         }
-
     }
     private void openServo(Servo _LS)
     {

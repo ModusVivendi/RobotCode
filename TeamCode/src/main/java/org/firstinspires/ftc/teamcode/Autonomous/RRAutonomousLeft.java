@@ -44,6 +44,7 @@ public class RRAutonomousLeft extends LinearOpMode {
         camera.setPipeline(sleeveDetection);
         drive.setPoseEstimate(new Pose2d(-62.70, 37.5, Math.toRadians(0.0)));
         TrajectorySequence basictTraj = drive.trajectorySequenceBuilder(new Pose2d(-62.70, 37.5, Math.toRadians(0.0))) //basic traj
+                .waitSeconds(10)
                 .strafeRight(23.0)
                 .forward(24.0)
                 .strafeRight(9.0)
@@ -68,7 +69,7 @@ public class RRAutonomousLeft extends LinearOpMode {
 
         TrajectorySequence leftPark = drive.trajectorySequenceBuilder(new Pose2d(-37.0, 0.0, Math.toRadians(0.0)))
                 .back(3.0)
-                .strafeLeft(10.0)
+                .strafeLeft(12.0)
                 .forward(24.0)
                 .strafeLeft(48.0)
                 .back(24.0)
@@ -76,9 +77,9 @@ public class RRAutonomousLeft extends LinearOpMode {
 
         TrajectorySequence centerPark = drive.trajectorySequenceBuilder(new Pose2d(-37.0, 0.0, Math.toRadians(0.0)))
                 .back(3.0)
-                .strafeLeft(15.0)
+                .strafeLeft(16.0)
                 .forward(24.0)
-                .strafeLeft(21.0)
+                .strafeLeft(23.0)
                 .build();
 
         TrajectorySequence rightPark = drive.trajectorySequenceBuilder(new Pose2d(-37.0, 0.0, Math.toRadians(0.0)))
@@ -88,7 +89,7 @@ public class RRAutonomousLeft extends LinearOpMode {
 
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
-            @Override
+        ;    @Override
             public void onOpened()
             {
                 camera.startStreaming(432,240, OpenCvCameraRotation.SIDEWAYS_LEFT);
@@ -139,7 +140,6 @@ public class RRAutonomousLeft extends LinearOpMode {
 
             }
             drive.followTrajectorySequence(rightPark);
-            PoseStorage.currentPose = drive.getPoseEstimate();
         }
         else if(currentPosition=="CENTER")
         {
@@ -174,7 +174,6 @@ public class RRAutonomousLeft extends LinearOpMode {
             drive.followTrajectorySequence(moveToPutCone);
             openServo(clawServo);
             drive.followTrajectorySequence(centerPark);
-            PoseStorage.currentPose = drive.getPoseEstimate();
         }
         else if(currentPosition=="LEFT")
         {
@@ -209,7 +208,6 @@ public class RRAutonomousLeft extends LinearOpMode {
             drive.followTrajectorySequence(moveToPutCone);
             openServo(clawServo);
             drive.followTrajectorySequence(leftPark);
-            PoseStorage.currentPose = drive.getPoseEstimate();
         }
     }
     private void openServo(Servo _LS)
