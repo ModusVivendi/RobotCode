@@ -19,11 +19,12 @@ public class ArmEncoder {
          */
         armMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        armMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         armMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         armMotorRight.setDirection(DcMotor.Direction.REVERSE);
+
         armLeftPos = 0;
         armRightPos = 0;
     }

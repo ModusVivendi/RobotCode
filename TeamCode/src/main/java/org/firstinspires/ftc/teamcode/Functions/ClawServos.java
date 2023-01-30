@@ -4,21 +4,21 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class ClawServos {
 
-    private Servo leftServo;
+    private Servo servo;
     private boolean status1;
     public ClawServos(Servo _LS)
     {
-        leftServo = _LS;
+        servo = _LS;
         status1 = false;
     }
 
     public void Open()
     {
-        leftServo.setPosition(1);
+        servo.setPosition(1);
         status1 = true;
     }
     public void Close() {
-        leftServo.setPosition(0);
+        servo.setPosition(0);
         status1 = false;
     }
 
