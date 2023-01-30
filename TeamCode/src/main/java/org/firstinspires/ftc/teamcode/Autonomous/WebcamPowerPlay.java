@@ -50,7 +50,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  * is explained below.
  */
 @TeleOp(name = "Webcam Power Play", group = "Concept")
-//@Disabled
+@Disabled
 public class WebcamPowerPlay extends LinearOpMode {
 
     /*
