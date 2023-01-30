@@ -21,7 +21,6 @@ public class ArmEncoder {
         armMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         armMotorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         armMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-       // armMotor.setDirection(DcMotor.Direction.REVERSE);
         armMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armMotorRight.setDirection(DcMotor.Direction.REVERSE);
@@ -36,7 +35,6 @@ public class ArmEncoder {
     }
     public void goTo(int armLeftTarget, int armRightTarget, double power)
     {
-      //  armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         armLeftPos = 0;
         armRightPos = 0;
@@ -52,12 +50,6 @@ public class ArmEncoder {
 
         armMotorLeft.setPower(power);
         armMotorRight.setPower(power);
-
-//        while(armMotor.isBusy())
-//        {
-//
-//        }
-
 
     }
 }
