@@ -66,7 +66,16 @@ public class RRTeleOp extends LinearOpMode {
         runtime.reset();
         if (isStopRequested()) return;
 
-        while(opModeIsActive() && !isStopRequested()) {
+        while(opModeIsActive() && !isStopRequested() && runtime.seconds()<=130.0) {
+            if(runtime.seconds() >= 90.0)
+            {
+                gamepad1.rumble(10000);
+                gamepad2.rumble(10000);
+                gamepad1.stopRumble();
+                gamepad2.stopRumble();
+            }
+            telemetry.addData("Seconds", runtime.seconds());
+            telemetry.update();
             Pose2d poseEstimate = drive.getPoseEstimate();
 
             Vector2d input = new Vector2d(
@@ -84,11 +93,7 @@ public class RRTeleOp extends LinearOpMode {
 
             drive.update();
 
-            if(runtime.seconds() == 90.0)
-            {
-                gamepad1.rumble(2000);
-                gamepad2.rumble(2000);
-            }
+
 
             if(gamepad1.y)
             {
