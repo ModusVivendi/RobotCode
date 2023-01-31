@@ -45,6 +45,7 @@ public class RotationDetectorTest extends LinearOpMode {
         leftMotorBack = hardwareMap.dcMotor.get("BL");
         rightMotorBack = hardwareMap.dcMotor.get("BR");
 
+
         // Create instance of Collector class using the initialized CRServo
         collector = new Collector(collectorCr);
 
@@ -59,6 +60,7 @@ public class RotationDetectorTest extends LinearOpMode {
 
         // Get the BNO055IMU in the hardware map and create an instance of the RotationDetector
         // class using it
+
         rotationDetector = new RotationDetector(hardwareMap.get(BNO055IMU.class, "imu"));
 
         // Wait for the start button to be pressed

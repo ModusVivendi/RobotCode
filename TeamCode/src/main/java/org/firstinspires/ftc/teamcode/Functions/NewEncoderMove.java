@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Functions;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class NewEncoderMove {
@@ -18,8 +19,18 @@ public class NewEncoderMove {
         rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         leftMotorBack.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        leftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        leftMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        rightMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         leftFrontPos = 0;
         leftBackPos = 0;
@@ -56,6 +67,16 @@ public class NewEncoderMove {
      */
     public void DriveTo(int leftFrontTarget, int leftBackTarget, int rightFrontTarget, int rightBackTarget, double power, boolean opMode)
     {
+        leftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        leftFrontPos = 0;
+        leftBackPos = 0;
+        rightFrontPos = 0;
+        rightBackPos = 0;
+
         leftFrontPos += leftFrontTarget;
         leftBackPos += leftBackTarget;
         rightFrontPos += rightFrontTarget;
@@ -76,9 +97,18 @@ public class NewEncoderMove {
         rightMotor.setPower(power);
         rightMotorBack.setPower(power);
 
-        while(opMode && leftMotor.isBusy() && leftMotorBack.isBusy() && rightMotor.isBusy() && rightMotorBack.isBusy())
+        while(opMode && leftMotor.isBusy() || leftMotorBack.isBusy() || rightMotor.isBusy() || rightMotorBack.isBusy())
         {
 
         }
+        leftMotor.setPower(0);
+        leftMotorBack.setPower(0);
+        rightMotor.setPower(0);
+        rightMotorBack.setPower(0);
+
+        leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 }
