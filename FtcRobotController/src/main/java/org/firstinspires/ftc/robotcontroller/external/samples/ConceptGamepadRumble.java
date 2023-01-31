@@ -104,7 +104,7 @@ public class ConceptGamepadRumble extends LinearOpMode
     @Override
     public void runOpMode()
     {
-        // Example 1. a)   start by creating a three-pulse rumble sequence: right, LEFT, LEFT
+        // Created a three-pulse rumble sequence: RIGHT, LEFT, LEFT
         customRumbleEffect = new Gamepad.RumbleEffect.Builder()
                 .addStep(0.0, 1.0, 500)  //  Rumble right motor 100% for 500 mSec
                 .addStep(0.0, 0.0, 300)  //  Pause for 300 mSec

@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -30,11 +31,43 @@ public class RRTeleOp extends LinearOpMode {
     private TopServos topServos;
     String armCurrentDirection = "up";
     private ElapsedTime runtime = new ElapsedTime();
+    final double END_GAME = 90.0;
+    final double HALF_TIME = 60.0;
+    final double QUARTER_TIME = 30.0;
+    final double HALF_QUARTER_TIME = 15.0;
+    final double NO_TIME = 5.0;
+    boolean secondHalf = false;
+    boolean secondEnd = false;
+    boolean secondQuarter = false;
+    boolean secondHalfQuarter = false;
+    boolean secondNo = false;
+    Gamepad.RumbleEffect customRumbleEffectQuarter, customRumbleEffectHalf, customRumbleEffectHalfQuarter, customRumbleEffectEnd; //quarter e cu no
+    //half e cu halfquarter
 
     @Override
     public void runOpMode() throws InterruptedException {
+        // Created a three-pulse rumble sequence: RIGHT, LEFT, LEFT
+        customRumbleEffectQuarter = new Gamepad.RumbleEffect.Builder()
+                .addStep(1.0, 1.0, 500)  //  Rumble right motor 100% for 500 mSec
+                .addStep(0.0, 0.0, 300)  //  Pause for 300 mSec
+                .addStep(1.0, 1.0, 500)  //  Rumble left motor 100% for 250 mSec
+                .build();
 
-        double movementSensitivity = 0.6;
+        customRumbleEffectHalf = new Gamepad.RumbleEffect.Builder()
+                .addStep(1.0, 1.0, 500)  //  Rumble right motor 100% for 500 mSec
+                .addStep(0.0, 0.0, 300)  //  Pause for 300 mSec
+                .addStep(1.0, 1.0, 500)  //  Rumble left motor 100% for 250 mSec
+                .addStep(0.0, 0.0, 300)
+                .addStep(1.0, 1.0, 500)
+                .build();
+
+        customRumbleEffectEnd = new Gamepad.RumbleEffect.Builder()
+                .addStep(1.0, 1.0, 500)  //  Rumble right motor 100% for 500 mSec
+                .addStep(0.0, 0.0, 300)  //  Pause for 300 mSec
+                .addStep(1.0, 1.0, 500)  //  Rumble left motor 100% for 250 mSec
+                .addStep(0.0, 0.0, 300)
+                .addStep(1.0, 1.0, 1000)
+                .build();
 
         leftMotor = hardwareMap.dcMotor.get("FL");
         rightMotor = hardwareMap.dcMotor.get("FR");
@@ -63,21 +96,42 @@ public class RRTeleOp extends LinearOpMode {
 
         servosUp(topServo);
         waitForStart();
-        runtime.reset();
+        runtime.reset(); // Start game timer.
+
         if (isStopRequested()) return;
 
-        while(opModeIsActive() && !isStopRequested() && runtime.seconds()<=130.0) {
-            if(runtime.seconds() >= 5.0)
-            {
-                gamepad1.rumbleBlips(5);
-                gamepad2.rumbleBlips(5);
-                gamepad1.stopRumble();
-                gamepad2.stopRumble();
+        while(opModeIsActive() && !isStopRequested()) {
+            //Watch the runtime timer, and run the custom rumble when we hit half-time.
+            //Make sure we only signal once by setting "secondHalf" flag to prevent further rumbles.
+            if ((runtime.seconds() > HALF_TIME) && !secondHalf)  {
+                gamepad1.runRumbleEffect(customRumbleEffectHalf);
+                secondHalf =true;
             }
-            telemetry.addData("Seconds", runtime.seconds());
-            telemetry.update();
-            Pose2d poseEstimate = drive.getPoseEstimate();
+            else if ((runtime.seconds() > END_GAME) && !secondEnd)  {
+                gamepad1.runRumbleEffect(customRumbleEffectEnd);
+                secondEnd =true;
+            }
+            else if ((runtime.seconds() > NO_TIME) && !secondNo)  {
+                gamepad1.runRumbleEffect(customRumbleEffectQuarter);
+                secondNo =true;
+            }
+            else if ((runtime.seconds() > HALF_QUARTER_TIME) && !secondHalfQuarter)  {
+                gamepad1.runRumbleEffect(customRumbleEffectHalf);
+                secondHalfQuarter =true;
+            }
+            else if ((runtime.seconds() > QUARTER_TIME) && !secondQuarter)  {
+                gamepad1.runRumbleEffect(customRumbleEffectQuarter);
+                secondQuarter =true;
+            }
 
+            // Display the time remaining while we are still counting down.
+            if (!secondHalf) {
+                telemetry.addData(">", "Halftime Alert Countdown: %3.0f Sec \n", (HALF_TIME - runtime.seconds()) );
+                telemetry.update();
+            }
+
+
+            Pose2d poseEstimate = drive.getPoseEstimate();
             Vector2d input = new Vector2d(
                     -gamepad1.left_stick_y,
                     -gamepad1.left_stick_x
@@ -90,12 +144,11 @@ public class RRTeleOp extends LinearOpMode {
                             -gamepad1.right_stick_x
                     )
             );
-
             drive.update();
 
 
 
-            if(gamepad1.y)
+            if(gamepad1.right_bumper)
             {
                 drive.setPoseEstimate(PoseStorage.currentPose);
             }
