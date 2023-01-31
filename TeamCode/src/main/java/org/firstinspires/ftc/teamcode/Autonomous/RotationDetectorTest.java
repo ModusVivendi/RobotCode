@@ -17,7 +17,6 @@ import org.firstinspires.ftc.teamcode.Functions.RotationDetector;
 import org.firstinspires.ftc.teamcode.Functions.VoltageReader;
 
 @Autonomous(name = "RotationDetectorTest", group = "Concept")
-@Disabled
 public class RotationDetectorTest extends LinearOpMode {
     private DcMotor leftMotor, rightMotor, leftMotorBack, rightMotorBack, armMotorLeft, armMotorRight;
     private Servo collectorServo;
