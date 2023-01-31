@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Functions.ArmEncoder;
 import org.firstinspires.ftc.teamcode.Functions.ClawServos;
@@ -28,6 +29,7 @@ public class RRTeleOp extends LinearOpMode {
     private ArmEncoder armEncoder;
     private TopServos topServos;
     String armCurrentDirection = "up";
+    private ElapsedTime runtime = new ElapsedTime();
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -61,7 +63,7 @@ public class RRTeleOp extends LinearOpMode {
 
         servosUp(topServo);
         waitForStart();
-
+        runtime.reset();
         if (isStopRequested()) return;
 
         while(opModeIsActive() && !isStopRequested()) {
@@ -82,10 +84,11 @@ public class RRTeleOp extends LinearOpMode {
 
             drive.update();
 
-            telemetry.addData("x", poseEstimate.getX());
-            telemetry.addData("y", poseEstimate.getY());
-            telemetry.addData("heading", poseEstimate.getHeading());
-            telemetry.update();
+            if(runtime.seconds() == 90.0)
+            {
+                gamepad1.rumble(2000);
+                gamepad2.rumble(2000);
+            }
 
             if(gamepad1.y)
             {
