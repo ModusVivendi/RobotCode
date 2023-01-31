@@ -67,10 +67,10 @@ public class RRTeleOp extends LinearOpMode {
         if (isStopRequested()) return;
 
         while(opModeIsActive() && !isStopRequested() && runtime.seconds()<=130.0) {
-            if(runtime.seconds() >= 90.0)
+            if(runtime.seconds() >= 5.0)
             {
-                gamepad1.rumble(10000);
-                gamepad2.rumble(10000);
+                gamepad1.rumbleBlips(5);
+                gamepad2.rumbleBlips(5);
                 gamepad1.stopRumble();
                 gamepad2.stopRumble();
             }
