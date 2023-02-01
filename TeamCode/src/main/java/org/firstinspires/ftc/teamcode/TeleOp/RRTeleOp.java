@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Functions.ArmEncoder;
 import org.firstinspires.ftc.teamcode.Functions.ClawServos;
 import org.firstinspires.ftc.teamcode.Functions.Move;
+import org.firstinspires.ftc.teamcode.Functions.PIDController;
 import org.firstinspires.ftc.teamcode.Functions.Rotate;
 import org.firstinspires.ftc.teamcode.Functions.TopServos;
 import org.firstinspires.ftc.teamcode.RoadRunner.drive.SampleMecanumDrive;
@@ -24,11 +25,20 @@ public class RRTeleOp extends LinearOpMode {
     private DcMotor leftMotor, rightMotor, leftMotorBack, rightMotorBack;
     private DcMotor armMotorLeft, armMotorRight;
     private Servo clawServo, topServo;
+    private PIDController controller;
     private Move move;
     private Rotate rotate;
     private ClawServos clawServos;
     private ArmEncoder armEncoder;
     private TopServos topServos;
+    double integralSum = 0;
+    public static double Kp = 0;
+    public static double Ki = 0;
+    public static double Kd = 0;
+    public static double Kf = 2;
+
+    ElapsedTime timer = new ElapsedTime();
+    private double lastError = 0;
     String armCurrentDirection = "up";
     private ElapsedTime runtime = new ElapsedTime();
     final double END_GAME = 90.0;
@@ -82,6 +92,7 @@ public class RRTeleOp extends LinearOpMode {
         clawServos = new ClawServos(clawServo);
         armEncoder = new ArmEncoder(armMotorLeft, armMotorRight);
         topServos = new TopServos(topServo);
+        controller = new PIDController(Kp, Ki, Kd, Kf);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -92,6 +103,9 @@ public class RRTeleOp extends LinearOpMode {
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         drive.setPoseEstimate(PoseStorage.currentPose);
+
+        armMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armMotorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         servosUp(topServo);
@@ -105,29 +119,28 @@ public class RRTeleOp extends LinearOpMode {
             //Make sure we only signal once by setting "secondHalf" flag to prevent further rumbles.
             if ((runtime.seconds() > HALF_TIME) && !secondHalf)  {
                 gamepad1.runRumbleEffect(customRumbleEffectHalf);
+                gamepad2.runRumbleEffect(customRumbleEffectHalf);
                 secondHalf =true;
             }
             else if ((runtime.seconds() > END_GAME) && !secondEnd)  {
                 gamepad1.runRumbleEffect(customRumbleEffectEnd);
+                gamepad2.runRumbleEffect(customRumbleEffectEnd);
                 secondEnd =true;
             }
             else if ((runtime.seconds() > NO_TIME) && !secondNo)  {
                 gamepad1.runRumbleEffect(customRumbleEffectQuarter);
+                gamepad2.runRumbleEffect(customRumbleEffectQuarter);
                 secondNo =true;
             }
             else if ((runtime.seconds() > HALF_QUARTER_TIME) && !secondHalfQuarter)  {
                 gamepad1.runRumbleEffect(customRumbleEffectHalf);
+                gamepad2.runRumbleEffect(customRumbleEffectHalf);
                 secondHalfQuarter =true;
             }
             else if ((runtime.seconds() > QUARTER_TIME) && !secondQuarter)  {
                 gamepad1.runRumbleEffect(customRumbleEffectQuarter);
+                gamepad2.runRumbleEffect(customRumbleEffectQuarter);
                 secondQuarter =true;
-            }
-
-            // Display the time remaining while we are still counting down.
-            if (!secondHalf) {
-                telemetry.addData(">", "Halftime Alert Countdown: %3.0f Sec \n", (HALF_TIME - runtime.seconds()) );
-                telemetry.update();
             }
 
 
@@ -147,7 +160,13 @@ public class RRTeleOp extends LinearOpMode {
             drive.update();
 
 
-
+            if(gamepad1.y)
+            {
+                double powerRight = PIDControl(10, armMotorRight.getCurrentPosition());
+                double powerLeft = PIDControl(10, armMotorLeft.getCurrentPosition());
+                armMotorRight.setPower(powerRight);
+                armMotorLeft.setPower(powerLeft);
+            }
             if(gamepad1.right_bumper)
             {
                 drive.setPoseEstimate(PoseStorage.currentPose);
@@ -407,6 +426,17 @@ public class RRTeleOp extends LinearOpMode {
                 armMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
         }
+    }
+    public double PIDControl(double reference, double state) {
+        double error = reference - state;
+        integralSum += error * timer.seconds();
+        double derivative = (error - lastError) / timer.seconds();
+        lastError = error;
+
+        timer.reset();
+
+        double output = (error * Kp) + (derivative * Kd) + (integralSum * Ki) + (reference * Kf);
+        return output;
     }
     private void openServo(Servo _LS)
     {
