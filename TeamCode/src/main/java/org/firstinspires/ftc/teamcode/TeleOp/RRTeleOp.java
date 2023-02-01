@@ -92,7 +92,7 @@ public class RRTeleOp extends LinearOpMode {
         clawServos = new ClawServos(clawServo);
         armEncoder = new ArmEncoder(armMotorLeft, armMotorRight);
         topServos = new TopServos(topServo);
-        controller = new PIDController();
+        controller = new PIDController(armMotorLeft, armMotorRight);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -162,10 +162,7 @@ public class RRTeleOp extends LinearOpMode {
 
             if(gamepad1.y)
             {
-                double powerRight = PIDControl(10, armMotorRight.getCurrentPosition());
-                double powerLeft = PIDControl(10, armMotorLeft.getCurrentPosition());
-                armMotorRight.setPower(powerRight);
-                armMotorLeft.setPower(powerLeft);
+                controller.goTo(1000, 1000);
             }
             if(gamepad1.right_bumper)
             {

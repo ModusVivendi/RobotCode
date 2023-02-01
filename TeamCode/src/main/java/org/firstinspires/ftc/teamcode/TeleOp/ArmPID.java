@@ -15,6 +15,7 @@ import org.firstinspires.ftc.teamcode.Functions.PIDController;
 public class ArmPID extends LinearOpMode{
     private PIDController controller;
     private DcMotor armMotorLeft, armMotorRight;
+    private int armLeftPos, armRightPos;
 
 //    public static double p = 0, i = 0, d = 0;
 //    public static double f = 0;
@@ -29,7 +30,10 @@ public class ArmPID extends LinearOpMode{
         armMotorLeft = hardwareMap.dcMotor.get("AML");
         armMotorRight = hardwareMap.dcMotor.get("AMR");
 
-        controller = new PIDController();
+        controller = new PIDController(armMotorLeft, armMotorRight);
+
+        armMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         armMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -41,10 +45,14 @@ public class ArmPID extends LinearOpMode{
 
         while(opModeIsActive())
         {
-            double commandLeft = controller.PIDControl(target, armMotorLeft.getCurrentPosition());
-            double commandRight = controller.PIDControl(target, armMotorRight.getCurrentPosition());
-            armMotorRight.setPower(-commandRight);
-            armMotorLeft.setPower(-commandLeft);
+            if(gamepad1.y)
+            {
+                controller.goTo(1000, 1000);
+            }
+//            double commandLeft = controller.PIDControl(target, armMotorLeft.getCurrentPosition());
+//            double commandRight = controller.PIDControl(target, armMotorRight.getCurrentPosition());
+//            armMotorRight.setPower(-commandRight);
+//            armMotorLeft.setPower(-commandLeft);
         }
     }
 

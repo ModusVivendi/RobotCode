@@ -9,7 +9,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @Config
 public class PIDController {
 
-    DcMotorEx armMotorLeft, armMotorRight;
+    DcMotor armMotorLeft, armMotorRight;
+    private int armLeftPos, armRightPos;
     double integralSum = 0;
     public static double kp = 0;
     public static double ki = 0;
@@ -18,28 +19,24 @@ public class PIDController {
 
     ElapsedTime timer = new ElapsedTime();
     private double lastError = 0;
-    public PIDController()
+
+    public void Init()
     {
+        armMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armMotorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armMotorRight.setDirection(DcMotor.Direction.REVERSE);
     }
 
-//    @Override
-//    public void runOpMode() throws InterruptedException {
-//        armMotorLeft = hardwareMap.get(DcMotorEx.class, "AML");
-//        armMotorRight = hardwareMap.get(DcMotorEx.class, "AMR");
-//
-//        armMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        armMotorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//
-//        waitForStart();
-//
-//        while(opModeIsActive()) {
-//            double powerRight = PIDControl(1000, armMotorRight.getVelocity());
-//            double powerLeft = PIDControl(1000, armMotorLeft.getVelocity());
-//            armMotorRight.setPower(-powerRight);
-//            armMotorLeft.setPower(-powerLeft);
-//        }
-//
-//    }
+    public PIDController(DcMotor _AML, DcMotor _AMR)
+    {
+        armMotorLeft= _AML;
+        armMotorRight= _AMR;
+        Init();
+    }
 
     public double PIDControl(double reference, double state) {
         double error = reference - state;
@@ -52,4 +49,29 @@ public class PIDController {
         double output = (error * kp) + (derivative * kd) + (integralSum * ki) + (reference * kf);
         return output;
     }
+
+    public void goTo(int armLeftTarget, int armRightTarget)
+    {
+        armLeftPos = 0;
+        armRightPos = 0;
+
+        armLeftPos+=armLeftTarget;
+        armRightPos+=armRightTarget;
+
+        armMotorLeft.setTargetPosition(armLeftPos);
+        armMotorRight.setTargetPosition(armRightPos);
+
+        armMotorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        double powerLeft = PIDControl(armLeftTarget, armMotorLeft.getCurrentPosition());
+        double powerRight = PIDControl(armRightTarget, armMotorRight.getCurrentPosition());
+
+        armMotorLeft.setPower(powerLeft);
+        armMotorRight.setPower(powerRight);
+
+
+    }
+
+
 }
