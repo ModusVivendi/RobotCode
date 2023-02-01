@@ -35,7 +35,6 @@ public class ArmEncoder {
     }
     public void goTo(int armLeftTarget, int armRightTarget, double power)
     {
-      //  armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         armLeftPos = 0;
         armRightPos = 0;
@@ -51,11 +50,6 @@ public class ArmEncoder {
 
         armMotorLeft.setPower(power);
         armMotorRight.setPower(power);
-
-//        while(armMotor.isBusy())
-//        {
-//
-//        }
 
 
     }

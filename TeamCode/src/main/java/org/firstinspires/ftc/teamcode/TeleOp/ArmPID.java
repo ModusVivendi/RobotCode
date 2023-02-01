@@ -16,8 +16,8 @@ public class ArmPID extends LinearOpMode{
     private PIDController controller;
     private DcMotor armMotorLeft, armMotorRight;
 
-    public static double p = 0, i = 0, d = 0;
-    public static double f = 0;
+//    public static double p = 0, i = 0, d = 0;
+//    public static double f = 0;
 
     public static int target = 100;
 
@@ -43,8 +43,8 @@ public class ArmPID extends LinearOpMode{
         {
             double commandLeft = controller.PIDControl(target, armMotorLeft.getCurrentPosition());
             double commandRight = controller.PIDControl(target, armMotorRight.getCurrentPosition());
-            armMotorRight.setPower(commandRight);
-            armMotorLeft.setPower(commandLeft);
+            armMotorRight.setPower(-commandRight);
+            armMotorLeft.setPower(-commandLeft);
         }
     }
 

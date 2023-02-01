@@ -92,7 +92,7 @@ public class RRTeleOp extends LinearOpMode {
         clawServos = new ClawServos(clawServo);
         armEncoder = new ArmEncoder(armMotorLeft, armMotorRight);
         topServos = new TopServos(topServo);
-        controller = new PIDController(Kp, Ki, Kd, Kf);
+        controller = new PIDController();
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);

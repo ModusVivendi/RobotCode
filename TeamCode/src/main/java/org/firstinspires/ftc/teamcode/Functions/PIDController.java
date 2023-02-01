@@ -11,10 +11,10 @@ public class PIDController {
 
     DcMotorEx armMotorLeft, armMotorRight;
     double integralSum = 0;
-    public static double kp;
-    public static double ki;
-    public static double kd;
-    public static double kf;
+    public static double kp = 0;
+    public static double ki = 0;
+    public static double kd = 0;
+    public static double kf = 0;
 
     ElapsedTime timer = new ElapsedTime();
     private double lastError = 0;
