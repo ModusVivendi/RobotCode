@@ -40,44 +40,36 @@ public class RRTeleOp extends LinearOpMode {
     ElapsedTime timer = new ElapsedTime();
     private double lastError = 0;
     String armCurrentDirection = "up";
-    private ElapsedTime runtime = new ElapsedTime();
-    final double END_GAME = 90.0;
-    final double HALF_TIME = 60.0;
-    final double QUARTER_TIME = 30.0;
-    final double HALF_QUARTER_TIME = 15.0;
-    final double NO_TIME = 5.0;
-    boolean secondHalf = false;
-    boolean secondEnd = false;
-    boolean secondQuarter = false;
-    boolean secondHalfQuarter = false;
-    boolean secondNo = false;
-    Gamepad.RumbleEffect customRumbleEffectQuarter, customRumbleEffectHalf, customRumbleEffectHalfQuarter, customRumbleEffectEnd; //quarter e cu no
-    //half e cu halfquarter
 
+    private ElapsedTime runtime = new ElapsedTime();
+
+    final double END_GAME = 90.0;
+    final double FIFTEEN_SECONDS = 105.0;
+    final double FIVE_SECONDS = 115.0;
+    boolean secondFifteen = false;
+    boolean secondEnd = false;
+    boolean secondFive = false;
+    Gamepad.RumbleEffect customRumbleEffectFive, customRumbleEffectFifteen, customRumbleEffectEnd;
     @Override
     public void runOpMode() throws InterruptedException {
-        // Created a three-pulse rumble sequence: RIGHT, LEFT, LEFT
-        customRumbleEffectQuarter = new Gamepad.RumbleEffect.Builder()
-                .addStep(1.0, 1.0, 500)  //  Rumble right motor 100% for 500 mSec
+        customRumbleEffectFive = new Gamepad.RumbleEffect.Builder()
+                .addStep(1.0, 1.0, 500)  //  Rumble both motors 100% for 500 mSec
                 .addStep(0.0, 0.0, 300)  //  Pause for 300 mSec
-                .addStep(1.0, 1.0, 500)  //  Rumble left motor 100% for 250 mSec
+                .addStep(1.0, 1.0, 500)  //  Rumble both motors 100% for 500 mSec
+                .addStep(0.0, 0.0, 300)  //  Pause for 300 mSec
+                .addStep(1.0, 1.0, 500)  //  Rumble both motors 100% for 500 mSec
                 .build();
 
-        customRumbleEffectHalf = new Gamepad.RumbleEffect.Builder()
-                .addStep(1.0, 1.0, 500)  //  Rumble right motor 100% for 500 mSec
+        customRumbleEffectFifteen = new Gamepad.RumbleEffect.Builder()
+                .addStep(1.0, 1.0, 600)  //  Rumble right motor 100% for 500 mSec
                 .addStep(0.0, 0.0, 300)  //  Pause for 300 mSec
-                .addStep(1.0, 1.0, 500)  //  Rumble left motor 100% for 250 mSec
-                .addStep(0.0, 0.0, 300)
-                .addStep(1.0, 1.0, 500)
+                .addStep(1.0, 1.0, 600)  //  Rumble left motor 100% for 250 mSec
                 .build();
 
         customRumbleEffectEnd = new Gamepad.RumbleEffect.Builder()
-                .addStep(1.0, 1.0, 500)  //  Rumble right motor 100% for 500 mSec
-                .addStep(0.0, 0.0, 300)  //  Pause for 300 mSec
-                .addStep(1.0, 1.0, 500)  //  Rumble left motor 100% for 250 mSec
-                .addStep(0.0, 0.0, 300)
-                .addStep(1.0, 1.0, 1000)
+                .addStep(1.0, 1.0, 700)  //  Rumble right motor 100% for 500 mSec
                 .build();
+
 
         leftMotor = hardwareMap.dcMotor.get("FL");
         rightMotor = hardwareMap.dcMotor.get("FR");
@@ -115,32 +107,23 @@ public class RRTeleOp extends LinearOpMode {
         if (isStopRequested()) return;
 
         while(opModeIsActive() && !isStopRequested()) {
+            
             //Watch the runtime timer, and run the custom rumble when we hit half-time.
             //Make sure we only signal once by setting "secondHalf" flag to prevent further rumbles.
-            if ((runtime.seconds() > HALF_TIME) && !secondHalf)  {
-                gamepad1.runRumbleEffect(customRumbleEffectHalf);
-                gamepad2.runRumbleEffect(customRumbleEffectHalf);
-                secondHalf =true;
+            if ((runtime.seconds() > FIFTEEN_SECONDS) && !secondFifteen)  {
+                gamepad1.runRumbleEffect(customRumbleEffectFifteen);
+                gamepad2.runRumbleEffect(customRumbleEffectFifteen);
+                secondFifteen =true;
             }
             else if ((runtime.seconds() > END_GAME) && !secondEnd)  {
                 gamepad1.runRumbleEffect(customRumbleEffectEnd);
                 gamepad2.runRumbleEffect(customRumbleEffectEnd);
                 secondEnd =true;
             }
-            else if ((runtime.seconds() > NO_TIME) && !secondNo)  {
-                gamepad1.runRumbleEffect(customRumbleEffectQuarter);
-                gamepad2.runRumbleEffect(customRumbleEffectQuarter);
-                secondNo =true;
-            }
-            else if ((runtime.seconds() > HALF_QUARTER_TIME) && !secondHalfQuarter)  {
-                gamepad1.runRumbleEffect(customRumbleEffectHalf);
-                gamepad2.runRumbleEffect(customRumbleEffectHalf);
-                secondHalfQuarter =true;
-            }
-            else if ((runtime.seconds() > QUARTER_TIME) && !secondQuarter)  {
-                gamepad1.runRumbleEffect(customRumbleEffectQuarter);
-                gamepad2.runRumbleEffect(customRumbleEffectQuarter);
-                secondQuarter =true;
+            else if ((runtime.seconds() > FIVE_SECONDS) && !secondFive)  {
+                gamepad1.runRumbleEffect(customRumbleEffectFive);
+                gamepad2.runRumbleEffect(customRumbleEffectFive);
+                secondFive =true;
             }
 
 
