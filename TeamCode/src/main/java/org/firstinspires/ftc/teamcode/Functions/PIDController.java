@@ -15,7 +15,7 @@ public class PIDController {
     public static double kp = 0;
     public static double ki = 0;
     public static double kd = 0;
-    public static double kf = 0;
+    public static double kf = 2;
 
     ElapsedTime timer = new ElapsedTime();
     private double lastError = 0;

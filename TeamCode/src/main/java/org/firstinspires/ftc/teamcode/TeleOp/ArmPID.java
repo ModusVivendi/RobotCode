@@ -15,8 +15,11 @@ import org.firstinspires.ftc.teamcode.Functions.PIDController;
 public class ArmPID extends LinearOpMode{
     private PIDController controller;
     private DcMotor armMotorLeft, armMotorRight;
+    private int armLeftPos, armRightPos;
 
     public static int target = 100;
+
+    public final double ticks_in_cm = 384.5/11.2;
 
 
     @Override
@@ -26,8 +29,8 @@ public class ArmPID extends LinearOpMode{
 
         controller = new PIDController(armMotorLeft, armMotorRight);
 
-        armMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        armMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        armMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         armMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -39,7 +42,7 @@ public class ArmPID extends LinearOpMode{
 
         while(opModeIsActive())
         {
-            if(gamepad2.y)
+            if(gamepad1.dpad_up)
             {
                 controller.goTo(1000, 1000);
             }
