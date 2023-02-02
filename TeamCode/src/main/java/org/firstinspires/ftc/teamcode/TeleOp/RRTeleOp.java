@@ -107,7 +107,7 @@ public class RRTeleOp extends LinearOpMode {
         if (isStopRequested()) return;
 
         while(opModeIsActive() && !isStopRequested()) {
-            
+
             //Watch the runtime timer, and run the custom rumble when we hit half-time.
             //Make sure we only signal once by setting "secondHalf" flag to prevent further rumbles.
             if ((runtime.seconds() > FIFTEEN_SECONDS) && !secondFifteen)  {
