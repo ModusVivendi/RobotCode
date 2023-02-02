@@ -12,6 +12,14 @@ public class ArmEncoder {
      */
     private DcMotor armMotorLeft, armMotorRight;
     private int armLeftPos, armRightPos;
+    double integralSum = 0;
+    public static double kp = 0;
+    public static double ki = 0;
+    public static double kd = 0;
+    public static double kf = 2;
+
+    ElapsedTime timer = new ElapsedTime();
+    private double lastError = 0;
     public void Init()
     {
         /**
@@ -33,7 +41,18 @@ public class ArmEncoder {
         armMotorRight= _AMR;
         Init();
     }
-    public void goTo(int armLeftTarget, int armRightTarget, double power)
+    public double PIDControl(double reference, double state) {
+        double error = reference - state;
+        integralSum += error * timer.seconds();
+        double derivative = (error - lastError) / timer.seconds();
+        lastError = error;
+
+        timer.reset();
+
+        double output = (error * kp) + (derivative * kd) + (integralSum * ki) + (reference * kf);
+        return output;
+    }
+    public void goTo(int armLeftTarget, int armRightTarget)
     {
 
         armLeftPos = 0;
@@ -48,9 +67,11 @@ public class ArmEncoder {
         armMotorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        armMotorLeft.setPower(power);
-        armMotorRight.setPower(power);
+        double powerLeft = PIDControl(armLeftTarget, armMotorLeft.getCurrentPosition());
+        double powerRight = PIDControl(armRightTarget, armMotorRight.getCurrentPosition());
 
-
+        armMotorLeft.setPower(powerLeft);
+        armMotorRight.setPower(powerRight);
     }
+
 }

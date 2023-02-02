@@ -112,19 +112,19 @@ public class RRAutonomousLeft extends LinearOpMode {
         if(currentPosition=="RIGHT")
         {
             closeServo(clawServo);
-            armEncoder.goTo(50,50,1);
+            armEncoder.goTo(50,50);
             while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
 
             }
             drive.followTrajectorySequence(basictTraj);
-            armEncoder.goTo(1000,1000,1);
+            armEncoder.goTo(1000,1000);
             while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
 
             }
             servosDown(topServo);
-            armEncoder.goTo(2900,2900,1);
+            armEncoder.goTo(2900,2900);
             while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
 
@@ -134,7 +134,7 @@ public class RRAutonomousLeft extends LinearOpMode {
             sleep(300);
             servosUp(topServo);
             sleep(300);
-            armEncoder.goTo(-10,-10,1);
+            armEncoder.goTo(-10,-10);
             while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
 
@@ -144,19 +144,19 @@ public class RRAutonomousLeft extends LinearOpMode {
         else if(currentPosition=="CENTER")
         {
             closeServo(clawServo);
-            armEncoder.goTo(50,50,1);
+            armEncoder.goTo(50,50);
             while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
 
             }
             drive.followTrajectorySequence(basictTraj);
-            armEncoder.goTo(1000,1000,1);
+            armEncoder.goTo(1000,1000);
             while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
 
             }
             servosDown(topServo);
-            armEncoder.goTo(2900,2900,1);
+            armEncoder.goTo(2900,2900);
             while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
 
@@ -166,7 +166,7 @@ public class RRAutonomousLeft extends LinearOpMode {
             sleep(300);
             servosUp(topServo);
             sleep(300);
-            armEncoder.goTo(-10,-10,1);
+            armEncoder.goTo(-10,-10);
             while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
 
@@ -178,19 +178,19 @@ public class RRAutonomousLeft extends LinearOpMode {
         else if(currentPosition=="LEFT")
         {
             closeServo(clawServo);
-            armEncoder.goTo(50,50,1);
+            armEncoder.goTo(50,50);
             while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
 
             }
             drive.followTrajectorySequence(basictTraj);
-            armEncoder.goTo(1000,1000,1);
+            armEncoder.goTo(1000,1000);
             while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
 
             }
             servosDown(topServo);
-            armEncoder.goTo(2900,2900,1);
+            armEncoder.goTo(2900,2900);
             while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
 
@@ -200,7 +200,7 @@ public class RRAutonomousLeft extends LinearOpMode {
             sleep(300);
             servosUp(topServo);
             sleep(300);
-            armEncoder.goTo(-10,-10,1);
+            armEncoder.goTo(-10,-10);
             while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
 

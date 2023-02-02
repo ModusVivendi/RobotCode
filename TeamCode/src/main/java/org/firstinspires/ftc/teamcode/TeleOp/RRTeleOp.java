@@ -160,14 +160,10 @@ public class RRTeleOp extends LinearOpMode {
                 clawServos.SwitchAndWait(1, getRuntime());
             }
 
-            if(gamepad1.left_bumper)
-            {
-            }
-
             if (gamepad2.dpad_up) // Arm Up
             {
                 armCurrentDirection = "up";
-                armEncoder.goTo(1000, 1000, 1);
+                armEncoder.goTo(1000, 1000);
                 while (armMotorLeft.isBusy() && armMotorRight.isBusy()) {
                     input = new Vector2d(
                             -gamepad1.left_stick_y,
@@ -184,7 +180,7 @@ public class RRTeleOp extends LinearOpMode {
                     drive.update();
                 }
                 servosDown(topServo);
-                armEncoder.goTo(3000, 3000, 1);
+                armEncoder.goTo(3000, 3000);
                 while (armMotorLeft.isBusy() && armMotorRight.isBusy()) {
                     input = new Vector2d(
                             -gamepad1.left_stick_y,
@@ -217,7 +213,7 @@ public class RRTeleOp extends LinearOpMode {
                     if(System.currentTimeMillis() - setTime > 1200 && !hasRun) {
                         hasRun = true;
                         ok = true;
-                        armEncoder.goTo(-10, -10, 0.7);
+                        armEncoder.goTo(-10, -10);
                         while (armMotorLeft.isBusy() && armMotorRight.isBusy()) {
                             input = new Vector2d(
                                     -gamepad1.left_stick_y,
@@ -243,7 +239,7 @@ public class RRTeleOp extends LinearOpMode {
             if (gamepad1.dpad_up) // Arm Up
             {
                 armCurrentDirection = "up";
-                armEncoder.goTo(1000, 1000, 1);
+                armEncoder.goTo(1000, 1000);
                 while (armMotorLeft.isBusy() && armMotorRight.isBusy()) {
                     input = new Vector2d(
                             -gamepad1.left_stick_y,
@@ -261,7 +257,7 @@ public class RRTeleOp extends LinearOpMode {
                     drive.update();
                 }
                 servosDown(topServo);
-                armEncoder.goTo(3000, 3000, 1);
+                armEncoder.goTo(3000, 3000);
                 while (armMotorLeft.isBusy() && armMotorRight.isBusy()) {
                     input = new Vector2d(
                             -gamepad1.left_stick_y,
@@ -283,7 +279,7 @@ public class RRTeleOp extends LinearOpMode {
             else if(gamepad2.dpad_left) // Arm level 1
             {
                 armCurrentDirection = "up";
-                armEncoder.goTo(1300, 1300, 1);
+                armEncoder.goTo(1300, 1300);
                 while (armMotorLeft.isBusy() && armMotorRight.isBusy()) {
                     input = new Vector2d(
                             -gamepad1.left_stick_y,
@@ -306,7 +302,7 @@ public class RRTeleOp extends LinearOpMode {
             else if(gamepad2.dpad_right) // Level 2
             {
                 armCurrentDirection = "up";
-                armEncoder.goTo(1300, 1300, 1);
+                armEncoder.goTo(1300, 1300);
                 while (armMotorLeft.isBusy() && armMotorRight.isBusy()) {
                     input = new Vector2d(
                             -gamepad1.left_stick_y,
@@ -324,7 +320,7 @@ public class RRTeleOp extends LinearOpMode {
                     drive.update();
                 }
                 servosDown(topServo);
-                armEncoder.goTo(2000, 2000, 1);
+                armEncoder.goTo(2000, 2000);
                 while (armMotorLeft.isBusy() && armMotorRight.isBusy()) {
                     input = new Vector2d(
                             -gamepad1.left_stick_y,
@@ -344,7 +340,7 @@ public class RRTeleOp extends LinearOpMode {
             }
             else if (gamepad2.y) {
                 armCurrentDirection = "up";
-                armEncoder.goTo(100, 100, 1);
+                armEncoder.goTo(100, 100);
                 while(armMotorLeft.isBusy() && armMotorRight.isBusy())
                 {
                     input = new Vector2d(
@@ -377,7 +373,7 @@ public class RRTeleOp extends LinearOpMode {
                     if(System.currentTimeMillis() - setTime > 1500 && !hasRun) {
                         hasRun = true;
                         ok = true;
-                        armEncoder.goTo(-10, -10, 0.7);
+                        armEncoder.goTo(-10, -10);
                         while (armMotorLeft.isBusy() && armMotorRight.isBusy()) {
                             input = new Vector2d(
                                     -gamepad1.left_stick_y,
