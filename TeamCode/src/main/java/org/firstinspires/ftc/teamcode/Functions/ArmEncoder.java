@@ -7,26 +7,23 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class ArmEncoder {
-    /**
-     * Made by David
-     */
-    private DcMotor armMotorLeft, armMotorRight;
+
+    private final DcMotor armMotorLeft, armMotorRight;
     private int armLeftPos, armRightPos;
     double integralSum = 0;
-    public static double kp = 0;
-    public static double ki = 0;
-    public static double kd = 0;
-    public static double kf = 2;
+    public static double kp = 1;
+    public static double ki = 1;
+    public static double kd = 1;
+    public static double kf = 1;
+    private double lastError = 0;
 
     ElapsedTime timer = new ElapsedTime();
-    private double lastError = 0;
+
     public void Init()
     {
-        /**
-         * Runs the motor using encoders.
-         */
-        armMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armMotorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         armMotorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -35,13 +32,16 @@ public class ArmEncoder {
         armLeftPos = 0;
         armRightPos = 0;
     }
+
     public ArmEncoder(DcMotor _AML, DcMotor _AMR)
     {
         armMotorLeft= _AML;
         armMotorRight= _AMR;
         Init();
     }
-    public double PIDControl(double reference, double state) {
+
+    public double PIDControl(double reference, double state)
+    {
         double error = reference - state;
         integralSum += error * timer.seconds();
         double derivative = (error - lastError) / timer.seconds();
@@ -51,10 +51,11 @@ public class ArmEncoder {
 
         double output = (error * kp) + (derivative * kd) + (integralSum * ki) + (reference * kf);
         return output;
+
     }
+
     public void goTo(int armLeftTarget, int armRightTarget)
     {
-
         armLeftPos = 0;
         armRightPos = 0;
 
