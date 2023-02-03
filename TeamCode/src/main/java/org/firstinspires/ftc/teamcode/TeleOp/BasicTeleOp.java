@@ -102,7 +102,7 @@ public class BasicTeleOp extends OpMode {
         if(gamepad2.dpad_up) // Arm Up
         {
             armCurrentDirection = "up";
-            armEncoder.goTo(1000,1000,1);
+            armEncoder.goTo(1000,1000);
             while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
                 if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
@@ -134,7 +134,7 @@ public class BasicTeleOp extends OpMode {
                 }
             }
             servosDown(topServo);
-            armEncoder.goTo(2000, 2000,1);
+            armEncoder.goTo(2000, 2000);
             while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
                 if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
@@ -171,7 +171,7 @@ public class BasicTeleOp extends OpMode {
             armCurrentDirection = "down";
             // closeServo(leftServo);
             servosUp(topServo);
-            armEncoder.goTo(0,0,0.8);
+            armEncoder.goTo(0,0);
             while (armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
                 if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
@@ -207,7 +207,7 @@ public class BasicTeleOp extends OpMode {
         if(gamepad1.dpad_up) // Arm Up
         {
             armCurrentDirection = "up";
-            armEncoder.goTo(720,714,1);
+            armEncoder.goTo(720,714);
             while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
                 if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
@@ -239,7 +239,7 @@ public class BasicTeleOp extends OpMode {
                 }
             }
             servosDown(topServo);
-            armEncoder.goTo(2170, 2142,1);
+            armEncoder.goTo(2170, 2142);
             while(armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
                 if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){
@@ -277,7 +277,7 @@ public class BasicTeleOp extends OpMode {
             armCurrentDirection = "down";
            // closeServo(leftServo);
             servosUp(topServo);
-            armEncoder.goTo(0,0,0.8);
+            armEncoder.goTo(0,0);
             while (armMotorLeft.isBusy() && armMotorRight.isBusy())
             {
                 if(gamepad1.left_stick_x!=0 || gamepad1.left_stick_y!=0){

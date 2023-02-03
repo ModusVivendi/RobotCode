@@ -44,7 +44,7 @@ public class ArmPID extends LinearOpMode{
         {
             if(gamepad1.dpad_up)
             {
-                controller.goTo(1000, 1000);
+                controller.goTo(2400, 2400);
             }
         }
     }

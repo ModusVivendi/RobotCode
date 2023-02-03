@@ -67,20 +67,20 @@ public class AutonomieBunStanga extends LinearOpMode {
         {
             openServo(leftServo);
             sleep(1000);
-            armEncoder.goTo(100,100,1);
+            armEncoder.goTo(100,100);
             encoderMove.DriveTo(-150,-150,-150,-150,0.8,opModeIsActive());
             sleep(100);
             encoderMove.DriveTo(1250,-1250,-1250,1250,0.8,opModeIsActive());
             sleep(200);
             encoderMove.DriveTo(-1000,-1000,-1000,-1000,0.8,opModeIsActive());
             sleep(200);
-            armEncoder.goTo(0,0,1);
+            armEncoder.goTo(0,0);
         }
         else if(currentPosition=="CENTER")
         {
             openServo(leftServo);
             sleep(1000);
-            armEncoder.goTo(100,100,1);
+            armEncoder.goTo(100,100);
             encoderMove.DriveTo(-150,-150,-150,-150,0.8,opModeIsActive());
             sleep(100);
             encoderMove.DriveTo(1200,-1200,-1200,1200,0.8,opModeIsActive());
@@ -89,20 +89,20 @@ public class AutonomieBunStanga extends LinearOpMode {
             sleep(200);
             encoderMove.DriveTo(1200,-1200,-1200,1200,0.8,opModeIsActive());
             sleep(200);
-            armEncoder.goTo(0,0,1);
+            armEncoder.goTo(0,0);
         }
         else if(currentPosition=="LEFT")
         {
             openServo(leftServo);
             sleep(1000);
-            armEncoder.goTo(100,100,1);
+            armEncoder.goTo(100,100);
             encoderMove.DriveTo(-150,-150,-150,-150,0.8,opModeIsActive());
             sleep(100);
             encoderMove.DriveTo(1250,-1250,-1250,1250,0.8,opModeIsActive());
             sleep(200);
             encoderMove.DriveTo(-1000,-1000,-1000,-1000,0.8,opModeIsActive());
             sleep(200);
-            armEncoder.goTo(0,0,1);
+            armEncoder.goTo(0,0);
 
         }
 
