@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Functions;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class ClawServos {
@@ -33,6 +35,7 @@ public class ClawServos {
     double currentWaitTime =0;
     double currentTimeStamp =0;
     public void SwitchAndWait(double x, double currentRuntime){
+
         if(currentWaitTime ==0|| currentTimeStamp + currentWaitTime <=currentRuntime){
             Switch();
             currentTimeStamp =currentRuntime;

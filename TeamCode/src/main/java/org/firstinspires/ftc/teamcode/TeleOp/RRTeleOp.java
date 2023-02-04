@@ -31,6 +31,8 @@ public class RRTeleOp extends LinearOpMode {
     private ClawServos clawServos;
     private ArmEncoder armEncoder;
     private TopServos topServos;
+    private Servo servo;
+    private boolean status1;
     int armLevel = 0;
     double integralSum = 0;
     public static double Kp = 0;
@@ -79,8 +81,8 @@ public class RRTeleOp extends LinearOpMode {
         rightMotorBack = hardwareMap.dcMotor.get("BR");
         armMotorLeft = hardwareMap.dcMotor.get("AML");
         armMotorRight = hardwareMap.dcMotor.get("AMR");
-        clawServo = hardwareMap.servo.get("CS");
         topServo = hardwareMap.servo.get("TS");
+        clawServo = hardwareMap.servo.get("CS");
         move = new Move(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
         rotate = new Rotate(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
         clawServos = new ClawServos(clawServo);
@@ -149,26 +151,34 @@ public class RRTeleOp extends LinearOpMode {
             {
                 controller.goTo(1000, 1000);
             }
+            if(gamepad2.x)
+            {
+                telemetry.addData("x", clawServo.getDirection());
+                telemetry.update();
+                clawServos.SwitchAndWait(1,getRuntime());
+            }
+            if (gamepad1.x) {
+                clawServos.SwitchAndWait(1, getRuntime());
+
+            }
             if(gamepad1.right_bumper)
             {
                 drive.setPoseEstimate(PoseStorage.currentPose);
             }
-
-            if (gamepad2.x) {
-                clawServos.SwitchAndWait(1, getRuntime());
+            if(gamepad2.y)
+            {
+                servosDown(topServo);
+            }
+            if(gamepad2.b)
+            {
+                servosUp(topServo);
             }
 
-            if (gamepad1.x) {
-                clawServos.SwitchAndWait(1, getRuntime());
-            }
             if (gamepad2.dpad_up) // Arm Up
             {
                 armCurrentDirection = "up";
                 armEncoder.goTo(2800, 2800);
-                if(armMotorLeft.getCurrentPosition() >=1000 && armMotorRight.getCurrentPosition() >=1000)
-                {
-                    servosDown(topServo);
-                }
+
 
             }
             else if (gamepad2.dpad_down) //Arm Down
@@ -187,8 +197,6 @@ public class RRTeleOp extends LinearOpMode {
 
                 servosDown(topServo);
                 armEncoder.goTo(3000, 3000);
-
-
             }
             else if(gamepad2.dpad_left) // Arm level 1
             {
@@ -207,12 +215,7 @@ public class RRTeleOp extends LinearOpMode {
                 armEncoder.goTo(2000, 2000);
 
             }
-            else if (gamepad2.y) {
-                armCurrentDirection = "up";
-                armEncoder.goTo(100, 100);
 
-
-            }
             else if (gamepad1.dpad_down) //Arm Down
             {
                 armCurrentDirection = "down";
@@ -221,7 +224,7 @@ public class RRTeleOp extends LinearOpMode {
 
                 }
 
-                closeServo(clawServo);
+              //  closeServo(clawServo);
             }
             if (armCurrentDirection.equals("down")) {
                 armMotorLeft.setPower(0);
@@ -261,5 +264,6 @@ public class RRTeleOp extends LinearOpMode {
         topLeftServo.setPosition(1);
         //topRightServo.setPosition(1);
     }
+
 
 }
