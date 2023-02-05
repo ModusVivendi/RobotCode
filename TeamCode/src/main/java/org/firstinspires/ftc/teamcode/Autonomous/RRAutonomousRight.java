@@ -51,12 +51,17 @@ public class RRAutonomousRight extends LinearOpMode {
                 .build();
 
         TrajectorySequence secondTraj = drive.trajectorySequenceBuilder(new Pose2d(-60.70, -12.38, Math.toRadians(0.0)))
-                .forward(48.0)
-                .turn(Math.toRadians(45))
+                .forward(55.0)
+                .strafeLeft(5.0)
+                .turn(Math.toRadians(50.0))
                 .build();
 
-        TrajectorySequence splineTraj = drive.trajectorySequenceBuilder(new Pose2d(-12.70, -0.0, Math.toRadians(0.0)))
-                .lineToSplineHeading(new Pose2d(60.14, -12.09, Math.toRadians(-3.75)))
+        TrajectorySequence splineTrajForward = drive.trajectorySequenceBuilder(new Pose2d(-12.70, -0.0, Math.toRadians(0.0)))
+                .lineToSplineHeading(new Pose2d(60.74, -11.80, Math.toRadians(180.00)))
+                .build();
+
+        TrajectorySequence splineTrajBack = drive.trajectorySequenceBuilder(new Pose2d(-12.70, -0.0, Math.toRadians(0.0)))
+                .lineToSplineHeading(new Pose2d(32.21, -6.16, Math.toRadians(140.00)))
                 .build();
 
         TrajectorySequence moveToPutCone = drive.trajectorySequenceBuilder(new Pose2d(-35.70, 0.0, Math.toRadians(0.0)))
@@ -64,6 +69,11 @@ public class RRAutonomousRight extends LinearOpMode {
                 .build();
 
         TrajectorySequence backfromCone = drive.trajectorySequenceBuilder(new Pose2d(-34.0, 0.0, Math.toRadians(0.0)))
+                .back(5.0)
+                .build();
+
+        TrajectorySequence backfromConeSecond = drive.trajectorySequenceBuilder(new Pose2d(-34.0, 0.0, Math.toRadians(0.0)))
+                .turn(Math.toRadians(60.0))
                 .back(5.0)
                 .build();
 
@@ -109,23 +119,43 @@ public class RRAutonomousRight extends LinearOpMode {
 
         if(isStopRequested()) return;
 
-        if(currentPosition=="RIGHT")
+//        if(currentPosition=="RIGHT")
+//        {
+//            closeServo(clawServo);
+//            armEncoder.goTo(50,50);
+//
+//            drive.followTrajectorySequence(basictTraj);
+//
+//            armEncoder.goTo(2800,2800);
+//            servosDown(topServo);
+//            drive.followTrajectorySequence(moveToPutCone);
+//            openServo(clawServo);
+//            sleep(300);
+//            servosUp(topServo);
+//            sleep(300);
+//            armEncoder.goTo(-10,-10);
+//
+//            drive.followTrajectorySequence(rightPark);
+//        }
+        if(currentPosition == "RIGHT")
         {
             closeServo(clawServo);
             armEncoder.goTo(50,50);
 
-            drive.followTrajectorySequence(basictTraj);
+            drive.followTrajectorySequence(secondTraj);
 
             armEncoder.goTo(2800,2800);
             servosDown(topServo);
-            drive.followTrajectorySequence(moveToPutCone);
             openServo(clawServo);
             sleep(300);
             servosUp(topServo);
             sleep(300);
             armEncoder.goTo(-10,-10);
 
-            drive.followTrajectorySequence(rightPark);
+            drive.followTrajectorySequence(splineTrajForward);
+            armEncoder.goTo(100, 100);
+
+
         }
         else if(currentPosition=="CENTER")
         {
