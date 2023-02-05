@@ -50,13 +50,18 @@ public class RRAutonomousLeft extends LinearOpMode {
                 .strafeRight(9.0)
                 .build();
 
-        TrajectorySequence secondTraj = drive.trajectorySequenceBuilder(new Pose2d(-60.70, -12.38, Math.toRadians(0.0)))
-                .forward(48.0)
-                .turn(45.0)
+        TrajectorySequence secondTraj = drive.trajectorySequenceBuilder(new Pose2d(-37.5, -62.70, Math.toRadians(90.0)))
+                .forward(55.0)
+                .strafeRight(5.0)
+                .turn(Math.toRadians(-50.0))
                 .build();
 
-        TrajectorySequence splineTraj = drive.trajectorySequenceBuilder(new Pose2d(-12.70, -0.0, Math.toRadians(0.0)))
-                .lineToSplineHeading(new Pose2d(60.14, -12.09, Math.toRadians(-3.75)))
+        TrajectorySequence splineTrajForward = drive.trajectorySequenceBuilder(new Pose2d(-12.70, -0.0, Math.toRadians(0.0)))
+                .lineToSplineHeading(new Pose2d(-61.51, -11.89, Math.toRadians(0.00)))
+                .build();
+
+        TrajectorySequence splineTrajBack = drive.trajectorySequenceBuilder(new Pose2d(-12.70, -0.0, Math.toRadians(0.0)))
+                .lineToSplineHeading(new Pose2d(-32.31, -6.16, Math.toRadians(30.00)))
                 .build();
 
         TrajectorySequence moveToPutCone = drive.trajectorySequenceBuilder(new Pose2d(-35.70, 3.0, Math.toRadians(0.0)))
@@ -64,6 +69,11 @@ public class RRAutonomousLeft extends LinearOpMode {
                 .build();
 
         TrajectorySequence backfromCone = drive.trajectorySequenceBuilder(new Pose2d(-34.0, 0.0, Math.toRadians(0.0)))
+                .back(5.0)
+                .build();
+
+        TrajectorySequence backfromConeSecond = drive.trajectorySequenceBuilder(new Pose2d(-34.0, 0.0, Math.toRadians(0.0)))
+                .turn(Math.toRadians(60.0))
                 .back(5.0)
                 .build();
 
