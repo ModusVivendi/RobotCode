@@ -1,19 +1,20 @@
 package org.firstinspires.ftc.teamcode.Functions;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
+@Config
 public class ArmEncoder {
 
     private final DcMotor armMotorLeft, armMotorRight;
     private int armLeftPos, armRightPos;
     double integralSum = 0;
-    public static double kp = 1;
-    public static double ki = 1;
-    public static double kd = 1;
+    public static double kp = 0.5;
+    public static double ki = 0.02;
+    public static double kd = 0.05;
     public static double kf = 1;
     private double lastError = 0;
 

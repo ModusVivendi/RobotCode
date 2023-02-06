@@ -45,7 +45,6 @@ public class RRTeleOp extends LinearOpMode {
     String armCurrentDirection = "up";
 
     private ElapsedTime runtime = new ElapsedTime();
-
     final double END_GAME = 90.0;
     final double FIFTEEN_SECONDS = 105.0;
     final double FIVE_SECONDS = 115.0;
@@ -74,7 +73,7 @@ public class RRTeleOp extends LinearOpMode {
                 .addStep(1.0, 1.0, 700)  //  Rumble right motor 100% for 500 mSec
                 .build();
 
-
+        float movement = gamepad1.right_trigger - gamepad1.left_trigger;
         leftMotor = hardwareMap.dcMotor.get("FL");
         rightMotor = hardwareMap.dcMotor.get("FR");
         leftMotorBack = hardwareMap.dcMotor.get("BL");
