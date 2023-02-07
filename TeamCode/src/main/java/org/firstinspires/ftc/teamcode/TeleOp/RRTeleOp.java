@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Functions.ArmEncoder;
 import org.firstinspires.ftc.teamcode.Functions.ClawServos;
+import org.firstinspires.ftc.teamcode.Functions.GamepadCalc;
 import org.firstinspires.ftc.teamcode.Functions.Move;
 import org.firstinspires.ftc.teamcode.Functions.PIDController;
 import org.firstinspires.ftc.teamcode.Functions.Rotate;
@@ -21,7 +22,6 @@ import org.firstinspires.ftc.teamcode.RoadRunner.drive.advanced.PoseStorage;
 
 @TeleOp(name="RRTeleOp", group = "GAME")
 public class RRTeleOp extends LinearOpMode {
-
     private DcMotor leftMotor, rightMotor, leftMotorBack, rightMotorBack;
     private DcMotor armMotorLeft, armMotorRight;
     private Servo clawServo, topServo;
@@ -39,11 +39,10 @@ public class RRTeleOp extends LinearOpMode {
     public static double Ki = 0;
     public static double Kd = 0;
     public static double Kf = 2;
-
+    double movement;
     ElapsedTime timer = new ElapsedTime();
     private double lastError = 0;
     String armCurrentDirection = "up";
-
     private ElapsedTime runtime = new ElapsedTime();
     final double END_GAME = 90.0;
     final double FIFTEEN_SECONDS = 105.0;
@@ -53,8 +52,11 @@ public class RRTeleOp extends LinearOpMode {
     boolean secondFive = false;
     Gamepad.RumbleEffect customRumbleEffectFive, customRumbleEffectFifteen, customRumbleEffectEnd;
 
+    GamepadCalc gamepadCalc;
+
     @Override
     public void runOpMode() throws InterruptedException {
+
         customRumbleEffectFive = new Gamepad.RumbleEffect.Builder()
                 .addStep(1.0, 1.0, 500)  //  Rumble both motors 100% for 500 mSec
                 .addStep(0.0, 0.0, 300)  //  Pause for 300 mSec
@@ -73,7 +75,6 @@ public class RRTeleOp extends LinearOpMode {
                 .addStep(1.0, 1.0, 700)  //  Rumble right motor 100% for 500 mSec
                 .build();
 
-        float movement = gamepad1.right_trigger - gamepad1.left_trigger;
         leftMotor = hardwareMap.dcMotor.get("FL");
         rightMotor = hardwareMap.dcMotor.get("FR");
         leftMotorBack = hardwareMap.dcMotor.get("BL");
@@ -90,6 +91,8 @@ public class RRTeleOp extends LinearOpMode {
         controller = new PIDController(armMotorLeft, armMotorRight);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
+        gamepadCalc = new GamepadCalc(this);
+
         rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         rightMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         leftMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -104,7 +107,9 @@ public class RRTeleOp extends LinearOpMode {
 
 
         servosUp(topServo);
+
         waitForStart();
+
         runtime.reset(); // Start game timer.
 
         if (isStopRequested()) return;
@@ -129,10 +134,12 @@ public class RRTeleOp extends LinearOpMode {
                 secondFive =true;
             }
 
+            gamepadCalc.calculate();
+            movement = gamepadCalc.getGamepad1().left_trigger - gamepadCalc.getGamepad1().right_trigger;
 
             Pose2d poseEstimate = drive.getPoseEstimate();
             Vector2d input = new Vector2d(
-                    -gamepad1.left_stick_y,
+                    -movement,
                     -gamepad1.left_stick_x
             ).rotated(-poseEstimate.getHeading());
 
@@ -145,20 +152,13 @@ public class RRTeleOp extends LinearOpMode {
             );
             drive.update();
 
-
-            if(gamepad1.y)
-            {
-                controller.goTo(1000, 1000);
-            }
             if(gamepad2.x)
             {
-                telemetry.addData("x", clawServo.getDirection());
-                telemetry.update();
                 clawServos.SwitchAndWait(1,getRuntime());
             }
-            if (gamepad1.x) {
+            if (gamepad1.x)
+            {
                 clawServos.SwitchAndWait(1, getRuntime());
-
             }
             if(gamepad1.right_bumper)
             {

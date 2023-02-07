@@ -42,22 +42,23 @@ public class RRAutonomousRight extends LinearOpMode {
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, webcamName), cameraMonitorViewId);
         sleeveDetection = new SleeveDetection();
         camera.setPipeline(sleeveDetection);
-        drive.setPoseEstimate(new Pose2d(-62.70, -37.5, Math.toRadians(0.0)));
+        drive.setPoseEstimate(new Pose2d(-61.70, -9.0, Math.toRadians(90.0)));
 
-        TrajectorySequence basictTraj = drive.trajectorySequenceBuilder(new Pose2d(-62.70, -37.5, Math.toRadians(0.0))) //basic traj
+        TrajectorySequence basictTraj = drive.trajectorySequenceBuilder(new Pose2d(-61.70, -9.0, Math.toRadians(90.0))) //basic traj
                 .strafeLeft(24.0)
                 .forward(24.0)
                 .strafeLeft(12.0)
                 .build();
 
-        TrajectorySequence secondTraj = drive.trajectorySequenceBuilder(new Pose2d(-60.70, -12.38, Math.toRadians(0.0)))
-                .forward(55.0)
-                .strafeLeft(5.0)
-                .turn(Math.toRadians(50.0))
+        TrajectorySequence secondTraj = drive.trajectorySequenceBuilder(new Pose2d(-61.70, -9.0, Math.toRadians(90.0)))
+                .back(4.0)
+                .strafeLeft(50.0)
+                .forward(5.0)
+                .strafeLeft(3.0)
                 .build();
 
-        TrajectorySequence splineTrajForward = drive.trajectorySequenceBuilder(new Pose2d(-12.70, -0.0, Math.toRadians(0.0)))
-                .lineToSplineHeading(new Pose2d(60.74, -11.80, Math.toRadians(180.00)))
+        TrajectorySequence splineTrajForward = drive.trajectorySequenceBuilder(new Pose2d(-7.70, -8.0, Math.toRadians(45.0)))
+                .lineToSplineHeading(new Pose2d(32.21, -6.16, Math.toRadians(140.00)))
                 .build();
 
         TrajectorySequence splineTrajBack = drive.trajectorySequenceBuilder(new Pose2d(-12.70, -0.0, Math.toRadians(0.0)))
@@ -72,9 +73,9 @@ public class RRAutonomousRight extends LinearOpMode {
                 .back(5.0)
                 .build();
 
-        TrajectorySequence backfromConeSecond = drive.trajectorySequenceBuilder(new Pose2d(-34.0, 0.0, Math.toRadians(0.0)))
-                .turn(Math.toRadians(60.0))
-                .back(5.0)
+        TrajectorySequence backfromConeSecond = drive.trajectorySequenceBuilder(new Pose2d(-7.70, -8.0, Math.toRadians(45.0)))
+                .back(4.0)
+                .turn(Math.toRadians(-45.0))
                 .build();
 
         TrajectorySequence leftPark = drive.trajectorySequenceBuilder(new Pose2d(-37.0, 0.0, Math.toRadians(0.0)))
@@ -139,66 +140,67 @@ public class RRAutonomousRight extends LinearOpMode {
 //        }
         if(currentPosition == "RIGHT")
         {
-            closeServo(clawServo);
-            armEncoder.goTo(50,50);
+//            closeServo(clawServo);
+//            armEncoder.goTo(50,50);
 
             drive.followTrajectorySequence(secondTraj);
-
-            armEncoder.goTo(2800,2800);
-            servosDown(topServo);
-            openServo(clawServo);
-            sleep(300);
-            servosUp(topServo);
-            sleep(300);
-            armEncoder.goTo(-10,-10);
-
             drive.followTrajectorySequence(splineTrajForward);
-            armEncoder.goTo(100, 100);
+
+//            armEncoder.goTo(2800,2800);
+//            servosDown(topServo);
+//            openServo(clawServo);
+//            sleep(300);
+//            servosUp(topServo);
+//            sleep(300);
+//            armEncoder.goTo(-10,-10);
 
 
+//            armEncoder.goTo(100, 100);
         }
         else if(currentPosition=="CENTER")
         {
-            closeServo(clawServo);
-            armEncoder.goTo(50,50);
-
-            drive.followTrajectorySequence(basictTraj);
-            armEncoder.goTo(1000,1000);
-
-            servosDown(topServo);
-            armEncoder.goTo(2900,2900);
-
-            drive.followTrajectorySequence(moveToPutCone);
-            openServo(clawServo);
-            sleep(300);
-            servosUp(topServo);
-            sleep(300);
-            armEncoder.goTo(-10,-10);
-
-            drive.followTrajectorySequence(moveToPutCone);
-            openServo(clawServo);
-            drive.followTrajectorySequence(centerPark);
+            drive.followTrajectorySequence(secondTraj);
+//            closeServo(clawServo);
+//            armEncoder.goTo(50,50);
+//
+//            drive.followTrajectorySequence(basictTraj);
+//            armEncoder.goTo(1000,1000);
+//
+//            servosDown(topServo);
+//            armEncoder.goTo(2900,2900);
+//
+//            drive.followTrajectorySequence(moveToPutCone);
+//            openServo(clawServo);
+//            sleep(300);
+//            servosUp(topServo);
+//            sleep(300);
+//            armEncoder.goTo(-10,-10);
+//
+//            drive.followTrajectorySequence(moveToPutCone);
+//            openServo(clawServo);
+//            drive.followTrajectorySequence(centerPark);
         }
         else if(currentPosition=="LEFT")
         {
-            closeServo(clawServo);
-            armEncoder.goTo(50,50);
-
-            drive.followTrajectorySequence(basictTraj);
-            armEncoder.goTo(1000,1000);
-
-            servosDown(topServo);
-            armEncoder.goTo(2900,2900);
-
-            drive.followTrajectorySequence(moveToPutCone);
-            openServo(clawServo);
-            sleep(300);
-            servosUp(topServo);
-            sleep(300);
-            armEncoder.goTo(-10,-10);
-            drive.followTrajectorySequence(moveToPutCone);
-            openServo(clawServo);
-            drive.followTrajectorySequence(leftPark);
+            drive.followTrajectorySequence(secondTraj);
+//            closeServo(clawServo);
+//            armEncoder.goTo(50,50);
+//
+//            drive.followTrajectorySequence(basictTraj);
+//            armEncoder.goTo(1000,1000);
+//
+//            servosDown(topServo);
+//            armEncoder.goTo(2900,2900);
+//
+//            drive.followTrajectorySequence(moveToPutCone);
+//            openServo(clawServo);
+//            sleep(300);
+//            servosUp(topServo);
+//            sleep(300);
+//            armEncoder.goTo(-10,-10);
+//            drive.followTrajectorySequence(moveToPutCone);
+//            openServo(clawServo);
+//            drive.followTrajectorySequence(leftPark);
         }
     }
     private void openServo(Servo _LS)

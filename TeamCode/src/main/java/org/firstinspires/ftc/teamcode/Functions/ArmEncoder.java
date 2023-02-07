@@ -12,10 +12,10 @@ public class ArmEncoder {
     private final DcMotor armMotorLeft, armMotorRight;
     private int armLeftPos, armRightPos;
     double integralSum = 0;
-    public static double kp = 0.5;
-    public static double ki = 0.02;
-    public static double kd = 0.05;
-    public static double kf = 1;
+    public static double kp = 0.01;
+    public static double ki = 0;
+    public static double kd = 0;
+    public static double kf = 0;
     private double lastError = 0;
 
     ElapsedTime timer = new ElapsedTime();
