@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.Functions.Auxiliary.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @Autonomous(name="Name", group="Group")
+@Disabled
 public abstract class Auto extends LinearDrive {
 
     /**

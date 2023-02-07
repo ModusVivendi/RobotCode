@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
-@Config
 public class ArmEncoder {
 
     private final DcMotor armMotorLeft, armMotorRight;

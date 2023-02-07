@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Functions.Auxiliary.OpMode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.teamcode.Functions.Auxiliary.Movement.Rotation;
 import org.firstinspires.ftc.teamcode.Functions.Auxiliary.DefaultVariables;
 
 @TeleOp(name="Default Name", group="Default Group")
+@Disabled
 public abstract class Drive extends DefaultVariables {
 
 

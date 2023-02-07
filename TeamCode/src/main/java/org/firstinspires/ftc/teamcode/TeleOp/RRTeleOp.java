@@ -152,18 +152,16 @@ public class RRTeleOp extends LinearOpMode {
             );
             drive.update();
 
-            if(gamepad2.x)
-            {
-                clawServos.SwitchAndWait(1,getRuntime());
-            }
-            if (gamepad1.x)
-            {
-                clawServos.SwitchAndWait(1, getRuntime());
-            }
             if(gamepad1.right_bumper)
             {
                 drive.setPoseEstimate(PoseStorage.currentPose);
             }
+
+            if(gamepad2.x)
+            {
+                clawServos.SwitchAndWait(1,getRuntime());
+            }
+
             if(gamepad2.y)
             {
                 servosDown(topServo);
@@ -192,10 +190,9 @@ public class RRTeleOp extends LinearOpMode {
             if (gamepad1.dpad_up) // Arm Up
             {
                 armCurrentDirection = "up";
-                armEncoder.goTo(1000, 1000);
-
-                servosDown(topServo);
                 armEncoder.goTo(3000, 3000);
+                sleep(1000);
+                servosDown(topServo);
             }
             else if(gamepad2.dpad_left) // Arm level 1
             {
@@ -218,13 +215,12 @@ public class RRTeleOp extends LinearOpMode {
             else if (gamepad1.dpad_down) //Arm Down
             {
                 armCurrentDirection = "down";
-                // closeServo(leftServo);
                 servosUp(topServo);
+                armEncoder.goTo(0, 0);
+                closeServo(clawServo);
 
-                }
-
-              //  closeServo(clawServo);
             }
+        }
             if (armCurrentDirection.equals("down")) {
                 armMotorLeft.setPower(0);
                 armMotorRight.setPower(0);
