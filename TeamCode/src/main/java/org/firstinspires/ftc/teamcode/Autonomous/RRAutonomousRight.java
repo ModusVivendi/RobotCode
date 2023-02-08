@@ -45,6 +45,8 @@ public class RRAutonomousRight extends LinearOpMode {
         camera.setPipeline(sleeveDetection);
         drive.setPoseEstimate(new Pose2d(-61.70, -33.0, Math.toRadians(180.0)));
 
+        drive.setMotorPowers(1.0, 1.0, 1.0, 1.0);
+
         TrajectorySequence basictTraj = drive.trajectorySequenceBuilder(new Pose2d(-61.70, -33.0, Math.toRadians(180.0))) //basic traj
                 .strafeLeft(24.0)
                 .forward(24.0)
@@ -56,6 +58,20 @@ public class RRAutonomousRight extends LinearOpMode {
                 .back(5.0)
                 .turn(Math.toRadians(180.0))
                 .forward(45.0)
+                .build();
+
+        TrajectorySequence secondTrajTry = drive.trajectorySequenceBuilder(new Pose2d(-61.70, -33.0, Math.toRadians(180.0)))
+                .strafeLeft(5.0)
+                .lineToLinearHeading(new Pose2d(-10.0, -37.0, Math.toRadians(0.0)))
+                .addDisplacementMarker(30, () ->
+                {
+                    armEncoder.goTo(3000, 3000);
+                })
+                .strafeLeft(12.0)
+                .addDisplacementMarker(8, () ->
+                {
+                    servosDown(topServo);
+                })
                 .build();
 
         TrajectorySequence secondTraj2 = drive.trajectorySequenceBuilder(/*new Pose2d(-11.2, -35.7, Math.toRadians(0.0))*/ secondTraj1.end())

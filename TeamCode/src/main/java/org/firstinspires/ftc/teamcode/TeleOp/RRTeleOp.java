@@ -52,10 +52,8 @@ public class RRTeleOp extends LinearOpMode {
     boolean secondFive = false;
     int count = 400;
     boolean goDown = true;
-    int ticks;
     Gamepad.RumbleEffect customRumbleEffectFive, customRumbleEffectFifteen, customRumbleEffectEnd;
-    boolean hasRun = false;
-    long setTime = System.currentTimeMillis();
+    double speed = .7;
 
     GamepadCalc gamepadCalc;
 
@@ -143,15 +141,15 @@ public class RRTeleOp extends LinearOpMode {
 
             Pose2d poseEstimate = drive.getPoseEstimate();
             Vector2d input = new Vector2d(
-                    -movement,
-                    -gamepad1.right_stick_x
+                    -movement*speed,
+                    -gamepad1.right_stick_x*speed
             ).rotated(-poseEstimate.getHeading());
 
             drive.setWeightedDrivePower(
                     new Pose2d(
                             input.getX(),
                             input.getY(),
-                            -gamepad1.left_stick_x
+                            -gamepad1.left_stick_x*speed
                     )
             );
             drive.update();
