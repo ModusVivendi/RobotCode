@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode.Functions.Unused.FreightFrenzy;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -55,6 +56,7 @@ import org.firstinspires.ftc.teamcode.Functions.RotationDetector;
  */
 
 @TeleOp(name = "TestEncoderArm", group = "Concept")
+@Disabled
 public class TestEncoderArm extends LinearOpMode {
 
     /**

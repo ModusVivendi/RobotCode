@@ -50,7 +50,12 @@ public class RRTeleOp extends LinearOpMode {
     boolean secondFifteen = false;
     boolean secondEnd = false;
     boolean secondFive = false;
+    int count = 400;
+    boolean goDown = true;
+    int ticks;
     Gamepad.RumbleEffect customRumbleEffectFive, customRumbleEffectFifteen, customRumbleEffectEnd;
+    boolean hasRun = false;
+    long setTime = System.currentTimeMillis();
 
     GamepadCalc gamepadCalc;
 
@@ -90,7 +95,6 @@ public class RRTeleOp extends LinearOpMode {
         topServos = new TopServos(topServo);
         controller = new PIDController(armMotorLeft, armMotorRight);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
         gamepadCalc = new GamepadCalc(this);
 
         rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -140,14 +144,14 @@ public class RRTeleOp extends LinearOpMode {
             Pose2d poseEstimate = drive.getPoseEstimate();
             Vector2d input = new Vector2d(
                     -movement,
-                    -gamepad1.left_stick_x
+                    -gamepad1.right_stick_x
             ).rotated(-poseEstimate.getHeading());
 
             drive.setWeightedDrivePower(
                     new Pose2d(
                             input.getX(),
                             input.getY(),
-                            -gamepad1.right_stick_x
+                            -gamepad1.left_stick_x
                     )
             );
             drive.update();
@@ -155,8 +159,49 @@ public class RRTeleOp extends LinearOpMode {
             if(gamepad1.right_bumper)
             {
                 drive.setPoseEstimate(PoseStorage.currentPose);
+                telemetry.addData("Heading reseted to: ", PoseStorage.currentPose);
             }
 
+            if(gamepad2.right_bumper)
+            {
+                telemetry.addData("count:", count);
+                telemetry.update();
+                servosUp(topServo);
+                sleep(500);
+                if (goDown == true) {
+                    switch (count) {
+                        case 500:
+                            armEncoder.goTo(500, 500);
+                            count -= 100;
+                            break;
+                        case 400:
+                            armEncoder.goTo(400, 400);
+                            count -= 100;
+                            break;
+                        case 300:
+                            armEncoder.goTo(300, 300);
+                            count -= 100;
+                            break;
+                        case 200:
+                            armEncoder.goTo(200, 200);
+                            count -= 100;
+                            break;
+                        default:
+                            break;
+                    }
+                    goDown = false;
+                }
+            }
+            if(gamepad2.left_bumper)
+            {
+                goDown = true;
+            }
+            if(gamepad2.a)
+            {
+                count = 500;
+                telemetry.addData("Count reseted to: ", count);
+                telemetry.update();
+            }
             if(gamepad2.x)
             {
                 clawServos.SwitchAndWait(1,getRuntime());
@@ -174,60 +219,34 @@ public class RRTeleOp extends LinearOpMode {
             if (gamepad2.dpad_up) // Arm Up
             {
                 armCurrentDirection = "up";
-                armEncoder.goTo(2800, 2800);
-
-
-            }
-            else if (gamepad2.dpad_down) //Arm Down
-            {
-                armCurrentDirection = "down";
-                // closeServo(leftServo);
-                servosUp(topServo);
-                armEncoder.goTo(0, 0);
-                closeServo(clawServo);
-
-            }
-            if (gamepad1.dpad_up) // Arm Up
-            {
-                armCurrentDirection = "up";
                 armEncoder.goTo(3000, 3000);
-                sleep(1000);
-                servosDown(topServo);
             }
-            else if(gamepad2.dpad_left) // Arm level 1
-            {
-                armCurrentDirection = "up";
-                armEncoder.goTo(1300, 1300);
-
-                servosDown(topServo);
-
-            }
-            else if(gamepad2.dpad_right) // Level 2
-            {
-                armCurrentDirection = "up";
-                armEncoder.goTo(1300, 1300);
-
-                servosDown(topServo);
-                armEncoder.goTo(2000, 2000);
-
-            }
-
-            else if (gamepad1.dpad_down) //Arm Down
+            if (gamepad2.dpad_down) //Arm Down
             {
                 armCurrentDirection = "down";
                 servosUp(topServo);
+                sleep(500);
                 armEncoder.goTo(0, 0);
                 closeServo(clawServo);
-
+            }
+            if(gamepad2.dpad_left) // Arm level 1
+            {
+                armCurrentDirection = "up";
+                armEncoder.goTo(1300, 1300);
+            }
+            if(gamepad2.dpad_right) // Level 2
+            {
+                armCurrentDirection = "up";
+                armEncoder.goTo(2000, 2000);
             }
         }
-            if (armCurrentDirection.equals("down")) {
-                armMotorLeft.setPower(0);
-                armMotorRight.setPower(0);
-                armMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                armMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            }
-        }
+//            if (armCurrentDirection.equals("down")) {
+//                armMotorLeft.setPower(0);
+//                armMotorRight.setPower(0);
+//                armMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                armMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//            }
+    }
 
 
     public double PIDControl(double reference, double state) {
@@ -252,12 +271,10 @@ public class RRTeleOp extends LinearOpMode {
     private void servosUp(Servo topLeftServo)
     {
         topLeftServo.setPosition(0);
-        //topRightServo.setPosition(0);
     }
     private void servosDown(Servo topLeftServo)
     {
         topLeftServo.setPosition(1);
-        //topRightServo.setPosition(1);
     }
 
 

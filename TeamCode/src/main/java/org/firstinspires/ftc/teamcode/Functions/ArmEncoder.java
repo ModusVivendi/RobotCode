@@ -71,8 +71,8 @@ public class ArmEncoder {
         double powerLeft = PIDControl(armLeftTarget, armMotorLeft.getCurrentPosition());
         double powerRight = PIDControl(armRightTarget, armMotorRight.getCurrentPosition());
 
-        armMotorLeft.setPower(powerLeft);
-        armMotorRight.setPower(powerRight);
+        armMotorLeft.setPower(1);
+        armMotorRight.setPower(1);
     }
 
 

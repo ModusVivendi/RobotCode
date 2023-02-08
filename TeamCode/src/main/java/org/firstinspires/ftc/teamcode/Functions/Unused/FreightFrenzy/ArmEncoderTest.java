@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Functions.Unused.FreightFrenzy;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.teamcode.Functions.Rotate;
 import org.firstinspires.ftc.teamcode.Functions.RotationDetector;
 
 @TeleOp(name="ArmEncoder", group="TEST")
+@Disabled
 public class ArmEncoderTest extends OpMode {
 
     /**
