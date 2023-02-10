@@ -1,3 +1,5 @@
+package org.firstinspires.ftc.teamcode.TeleOp;
+
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -12,7 +14,7 @@ public class DistanceSensorTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         colorSensor = hardwareMap.get(ColorSensor.class, "color_sensor");
-
+        distanceSensor = new ColorSensorV3(colorSensor);
         waitForStart();
 
         while (opModeIsActive()) {

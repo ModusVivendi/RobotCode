@@ -92,14 +92,14 @@ public class RRAutonomousRight extends LinearOpMode {
                 .build();
 
         TrajectorySequence poleTraj = drive.trajectorySequenceBuilder(backFromStack.end())
-                .lineToLinearHeading(new Pose2d(/*-11.0, -25.0*/-12.0, -25.0, Math.toRadians(180.0) -1e-6))
+                .lineToLinearHeading(new Pose2d(/*-11.0, -25.0*/-12.0, -24.0, Math.toRadians(180.0) -1e-6))
                 .build();
 
         TrajectorySequence forwardToPole2 = drive.trajectorySequenceBuilder(/*new Pose2d(-35.70, 0.0, Math.toRadians(0.0))*/ poleTraj.end())
                 .back(3.0)
                 .build();
 
-        TrajectorySequence stack2Traj = drive.trajectorySequenceBuilder(/*new Pose2d(-8.5, -25.83, Math.toRadians(0.0))*/ forwardToPole2.end())
+        TrajectorySequence stack2Traj = drive.trajectorySequenceBuilder(/*new Pose2d(-8.5, -25.83, Math.toRadians(0.0))*/ forwardToPole.end())
                 .forward(3.0)
                 .lineToLinearHeading(new Pose2d(-12.0, -58.0, Math.toRadians(90.0) +1e-6))
                 .addTemporalMarker(1, () ->
@@ -187,7 +187,7 @@ public class RRAutonomousRight extends LinearOpMode {
             drive.followTrajectorySequence(backFromStack);
 
             drive.followTrajectorySequence(poleTraj);
-            drive.followTrajectorySequence(forwardToPole2);
+            drive.followTrajectorySequence(forwardToPole);
             servosUp(topServo);
 
             sleep(200);
@@ -211,7 +211,7 @@ public class RRAutonomousRight extends LinearOpMode {
             drive.followTrajectorySequence(backFromStack);
 
             drive.followTrajectorySequence(poleTraj);
-            drive.followTrajectorySequence(forwardToPole2);
+            drive.followTrajectorySequence(forwardToPole);
             servosUp(topServo);
 
             sleep(200);
@@ -234,7 +234,7 @@ public class RRAutonomousRight extends LinearOpMode {
             drive.followTrajectorySequence(backFromStack);
 
             drive.followTrajectorySequence(poleTraj);
-            drive.followTrajectorySequence(forwardToPole2);
+            drive.followTrajectorySequence(forwardToPole);
             servosUp(topServo);
 
             sleep(200);
@@ -276,7 +276,7 @@ public class RRAutonomousRight extends LinearOpMode {
             drive.followTrajectorySequence(backFromStack);
 
             drive.followTrajectorySequence(poleTraj);
-            drive.followTrajectorySequence(forwardToPole2);
+            drive.followTrajectorySequence(forwardToPole);
             servosUp(topServo);
 
             sleep(200);
@@ -300,7 +300,7 @@ public class RRAutonomousRight extends LinearOpMode {
             drive.followTrajectorySequence(backFromStack);
 
             drive.followTrajectorySequence(poleTraj);
-            drive.followTrajectorySequence(forwardToPole2);
+            drive.followTrajectorySequence(forwardToPole);
             servosUp(topServo);
 
             sleep(200);
@@ -323,7 +323,7 @@ public class RRAutonomousRight extends LinearOpMode {
             drive.followTrajectorySequence(backFromStack);
 
             drive.followTrajectorySequence(poleTraj);
-            drive.followTrajectorySequence(forwardToPole2);
+            drive.followTrajectorySequence(forwardToPole);
             servosUp(topServo);
 
             sleep(200);
@@ -363,7 +363,7 @@ public class RRAutonomousRight extends LinearOpMode {
             drive.followTrajectorySequence(backFromStack);
 
             drive.followTrajectorySequence(poleTraj);
-            drive.followTrajectorySequence(forwardToPole2);
+            drive.followTrajectorySequence(forwardToPole);
             servosUp(topServo);
 
             sleep(200);
@@ -387,7 +387,7 @@ public class RRAutonomousRight extends LinearOpMode {
             drive.followTrajectorySequence(backFromStack);
 
             drive.followTrajectorySequence(poleTraj);
-            drive.followTrajectorySequence(forwardToPole2);
+            drive.followTrajectorySequence(forwardToPole);
             servosUp(topServo);
 
             sleep(200);
@@ -410,7 +410,7 @@ public class RRAutonomousRight extends LinearOpMode {
             drive.followTrajectorySequence(backFromStack);
 
             drive.followTrajectorySequence(poleTraj);
-            drive.followTrajectorySequence(forwardToPole2);
+            drive.followTrajectorySequence(forwardToPole);
             servosUp(topServo);
 
             sleep(200);
