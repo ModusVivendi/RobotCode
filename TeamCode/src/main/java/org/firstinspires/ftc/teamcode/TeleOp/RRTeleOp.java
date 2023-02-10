@@ -141,7 +141,7 @@ public class RRTeleOp extends LinearOpMode {
 
             Pose2d poseEstimate = drive.getPoseEstimate();
             Vector2d input = new Vector2d(
-                    -gamepad1.right_stick_y*speed,
+                    -movement*speed,
                     -gamepad1.right_stick_x*speed
             ).rotated(-poseEstimate.getHeading());
 
