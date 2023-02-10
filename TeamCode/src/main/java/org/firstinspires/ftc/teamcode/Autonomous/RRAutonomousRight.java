@@ -63,30 +63,56 @@ public class RRAutonomousRight extends LinearOpMode {
         TrajectorySequence advancedTrajTry = drive.trajectorySequenceBuilder(new Pose2d(-61.70, -33.0, Math.toRadians(180.0)))
                 .strafeLeft(3.0)
                 .lineToConstantHeading(new Vector2d(-12.0, -33.0))
-                .splineToConstantHeading(new Vector2d(-8.0, -25.0), Math.toRadians(0.0))
                 .addTemporalMarker(1, () ->
                 {
                     armEncoder.goTo(2800, 2800);
                 })
-                .forward(0.5)
+                .strafeRight(9.0)
                 .build();
 
         TrajectorySequence forwardToPole = drive.trajectorySequenceBuilder(/*new Pose2d(-35.70, 0.0, Math.toRadians(0.0))*/ advancedTrajTry.end())
-                .forward(1.5)
+                .back(2.0)
                 .build();
 
-        TrajectorySequence stackTraj = drive.trajectorySequenceBuilder(/*new Pose2d(-8.5, -25.83, Math.toRadians(0.0))*/ forwardToPole.end())
+        TrajectorySequence stack1Traj = drive.trajectorySequenceBuilder(/*new Pose2d(-8.5, -25.83, Math.toRadians(0.0))*/ forwardToPole.end())
                 .forward(5.0)
-                .lineToLinearHeading(new Pose2d(-12.0, -60.0, Math.toRadians(90.0) +1e-6))
+                .lineToLinearHeading(new Pose2d(-12.0, -58.0, Math.toRadians(90.0) +1e-6))
+                .addTemporalMarker(1, () ->
+                {
+                    armEncoder.goTo(400, 400);
+                })
                 .build();
 
-        TrajectorySequence backToCone = drive.trajectorySequenceBuilder(/*new Pose2d(-35.70, 0.0, Math.toRadians(0.0))*/ stackTraj.end())
-                .back(3.5)
+        TrajectorySequence stack2Traj = drive.trajectorySequenceBuilder(/*new Pose2d(-8.5, -25.83, Math.toRadians(0.0))*/ forwardToPole.end())
+                .forward(4.0)
+                .lineToLinearHeading(new Pose2d(-12.0, -58.0, Math.toRadians(90.0) +1e-6))
+                .addTemporalMarker(1, () ->
+                {
+                    armEncoder.goTo(300, 300);
+                })
                 .build();
 
-        TrajectorySequence poleTraj = drive.trajectorySequenceBuilder(backToCone.end())
-                .lineToLinearHeading(new Pose2d(-10.0, -26.0, Math.toRadians(0.0) -1e-6))
+
+
+        TrajectorySequence takeConeStack = drive.trajectorySequenceBuilder(/*new Pose2d(-35.70, 0.0, Math.toRadians(0.0))*/ stack1Traj.end())
+                .back(3.0)
                 .build();
+
+        TrajectorySequence backFromStack = drive.trajectorySequenceBuilder(/*new Pose2d(-35.70, 0.0, Math.toRadians(0.0))*/ takeConeStack.end())
+                .forward(7.0)
+                .build();
+
+        TrajectorySequence poleTraj = drive.trajectorySequenceBuilder(backFromStack.end())
+                .lineToLinearHeading(new Pose2d(-11.0, -25.0, Math.toRadians(180.0) -1e-6))
+                .build();
+
+        TrajectorySequence forwardToPole2 = drive.trajectorySequenceBuilder(/*new Pose2d(-35.70, 0.0, Math.toRadians(0.0))*/ poleTraj.end())
+                .back(3.0)
+                .build();
+
+
+
+
 
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -112,23 +138,25 @@ public class RRAutonomousRight extends LinearOpMode {
 
         if(currentPosition == "RIGHT")
         {
+            servosUp(topServo);
             closeServo(clawServo);
             sleep(250);
             armEncoder.goTo(50, 50);
 
             drive.followTrajectorySequence(advancedTrajTry);
             drive.followTrajectorySequence(forwardToPole);
+            servosUp(topServo);
 
             openServo(clawServo);
-            sleep(500);
+            sleep(200);
             armEncoder.goTo(0,0);
 
-            drive.followTrajectorySequence(stackTraj);
 
-            armEncoder.goTo(400, 400);
+            drive.followTrajectorySequence(stack1Traj);
+
             sleep(200);
 
-            drive.followTrajectorySequence(backToCone);
+            drive.followTrajectorySequence(takeConeStack);
 
             sleep(200);
             closeServo(clawServo);
@@ -136,99 +164,241 @@ public class RRAutonomousRight extends LinearOpMode {
 
             armEncoder.goTo(2800, 2800);
 
-            drive.followTrajectorySequence(poleTraj);
+            drive.followTrajectorySequence(backFromStack);
 
-            sleep(500);
-            servosDown(topServo);
-            sleep(500);
-            drive.followTrajectorySequence(forwardToPole);
-            openServo(clawServo);
-            sleep(500);
+            drive.followTrajectorySequence(poleTraj);
+            drive.followTrajectorySequence(forwardToPole2);
             servosUp(topServo);
-            sleep(500);
+
+            sleep(200);
+            openServo(clawServo);
+            sleep(200);
             armEncoder.goTo(0,0);
+
+
+            drive.followTrajectorySequence(stack2Traj);
+
+            sleep(200);
+
+            drive.followTrajectorySequence(takeConeStack);
+
+            sleep(200);
+            closeServo(clawServo);
+            sleep(300);
+
+            armEncoder.goTo(2800, 2800);
+
+            drive.followTrajectorySequence(backFromStack);
+
+            drive.followTrajectorySequence(poleTraj);
+            drive.followTrajectorySequence(forwardToPole2);
+            servosUp(topServo);
+
+            sleep(200);
+            openServo(clawServo);
+            sleep(200);
+            armEncoder.goTo(0,0);
+
+            drive.followTrajectorySequence(stack2Traj);
+
+            sleep(200);
+
+            drive.followTrajectorySequence(takeConeStack);
+
+            sleep(200);
+            closeServo(clawServo);
+            sleep(300);
+
+            armEncoder.goTo(2800, 2800);
+
+            drive.followTrajectorySequence(backFromStack);
+
+            drive.followTrajectorySequence(poleTraj);
+            drive.followTrajectorySequence(forwardToPole2);
+            servosUp(topServo);
+
+            sleep(200);
+            openServo(clawServo);
+            sleep(200);
+            armEncoder.goTo(0,0);
+
+            sleep(2000);
 
         }
         else if(currentPosition=="CENTER")
         {
+            servosUp(topServo);
             closeServo(clawServo);
             sleep(250);
-            telemetry.addData("Ticks AMR: ", armMotorRight.getCurrentPosition());
-            telemetry.addData("Ticks AML: ", armMotorLeft.getCurrentPosition());
-            telemetry.update();
             armEncoder.goTo(50, 50);
+
             drive.followTrajectorySequence(advancedTrajTry);
-            sleep(500);
-            servosDown(topServo);
-            sleep(500);
             drive.followTrajectorySequence(forwardToPole);
-            openServo(clawServo);
-            sleep(500);
             servosUp(topServo);
-            sleep(500);
+
+            openServo(clawServo);
+            sleep(200);
             armEncoder.goTo(0,0);
 
-            drive.followTrajectorySequence(stackTraj);
 
-            armEncoder.goTo(400, 400);
+            drive.followTrajectorySequence(stack1Traj);
+
             sleep(200);
-            drive.followTrajectorySequence(backToCone);
+
+            drive.followTrajectorySequence(takeConeStack);
+
             sleep(200);
             closeServo(clawServo);
             sleep(300);
 
             armEncoder.goTo(2800, 2800);
 
-            drive.followTrajectorySequence(poleTraj);
+            drive.followTrajectorySequence(backFromStack);
 
-            sleep(500);
-            servosDown(topServo);
-            sleep(500);
-            drive.followTrajectorySequence(forwardToPole);
-            openServo(clawServo);
-            sleep(500);
+            drive.followTrajectorySequence(poleTraj);
+            drive.followTrajectorySequence(forwardToPole2);
             servosUp(topServo);
-            sleep(500);
+
+            sleep(200);
+            openServo(clawServo);
+            sleep(200);
             armEncoder.goTo(0,0);
+
+
+            drive.followTrajectorySequence(stack2Traj);
+
+            sleep(200);
+
+            drive.followTrajectorySequence(takeConeStack);
+
+            sleep(200);
+            closeServo(clawServo);
+            sleep(300);
+
+            armEncoder.goTo(2800, 2800);
+
+            drive.followTrajectorySequence(backFromStack);
+
+            drive.followTrajectorySequence(poleTraj);
+            drive.followTrajectorySequence(forwardToPole2);
+            servosUp(topServo);
+
+            sleep(200);
+            openServo(clawServo);
+            sleep(200);
+            armEncoder.goTo(0,0);
+
+            drive.followTrajectorySequence(stack2Traj);
+
+            sleep(200);
+
+            drive.followTrajectorySequence(takeConeStack);
+
+            sleep(200);
+            closeServo(clawServo);
+            sleep(300);
+
+            armEncoder.goTo(2800, 2800);
+
+            drive.followTrajectorySequence(backFromStack);
+
+            drive.followTrajectorySequence(poleTraj);
+            drive.followTrajectorySequence(forwardToPole2);
+            servosUp(topServo);
+
+            sleep(200);
+            openServo(clawServo);
+            sleep(200);
+            armEncoder.goTo(0,0);
+
+            sleep(2000);
         }
         else if(currentPosition=="LEFT")
         {
+            servosUp(topServo);
             closeServo(clawServo);
             sleep(250);
             armEncoder.goTo(50, 50);
+
             drive.followTrajectorySequence(advancedTrajTry);
-            sleep(500);
-            servosDown(topServo);
-            sleep(500);
             drive.followTrajectorySequence(forwardToPole);
-            openServo(clawServo);
-            sleep(500);
             servosUp(topServo);
-            sleep(500);
+
+            openServo(clawServo);
+            sleep(200);
             armEncoder.goTo(0,0);
 
-            drive.followTrajectorySequence(stackTraj);
+            drive.followTrajectorySequence(stack1Traj);
 
-            armEncoder.goTo(400, 400);
             sleep(200);
-            drive.followTrajectorySequence(backToCone);
+
+            drive.followTrajectorySequence(takeConeStack);
+
             sleep(200);
             closeServo(clawServo);
             sleep(300);
 
             armEncoder.goTo(2800, 2800);
 
-            drive.followTrajectorySequence(poleTraj);
+            drive.followTrajectorySequence(backFromStack);
 
-            sleep(500);
-            servosDown(topServo);
-            sleep(500);
-            drive.followTrajectorySequence(forwardToPole);
-            openServo(clawServo);
-            sleep(500);
+            drive.followTrajectorySequence(poleTraj);
+            drive.followTrajectorySequence(forwardToPole2);
             servosUp(topServo);
-            sleep(500);
+
+            sleep(200);
+            openServo(clawServo);
+            sleep(200);
             armEncoder.goTo(0,0);
+
+
+            drive.followTrajectorySequence(stack2Traj);
+
+            sleep(200);
+
+            drive.followTrajectorySequence(takeConeStack);
+
+            sleep(200);
+            closeServo(clawServo);
+            sleep(300);
+
+            armEncoder.goTo(2800, 2800);
+
+            drive.followTrajectorySequence(backFromStack);
+
+            drive.followTrajectorySequence(poleTraj);
+            drive.followTrajectorySequence(forwardToPole2);
+            servosUp(topServo);
+
+            sleep(200);
+            openServo(clawServo);
+            sleep(200);
+            armEncoder.goTo(0,0);
+
+            drive.followTrajectorySequence(stack2Traj);
+
+            sleep(200);
+
+            drive.followTrajectorySequence(takeConeStack);
+
+            sleep(200);
+            closeServo(clawServo);
+            sleep(300);
+
+            armEncoder.goTo(2800, 2800);
+
+            drive.followTrajectorySequence(backFromStack);
+
+            drive.followTrajectorySequence(poleTraj);
+            drive.followTrajectorySequence(forwardToPole2);
+            servosUp(topServo);
+
+            sleep(200);
+            openServo(clawServo);
+            sleep(200);
+            armEncoder.goTo(0,0);
+
+            sleep(2000);
         }
     }
     private void openServo(Servo _LS)
