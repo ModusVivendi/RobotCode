@@ -49,14 +49,16 @@ public class RRAutonomousLeft extends LinearOpMode {
         TrajectorySequence advancedTrajTry, forwardToPole, stackTraj1, stackTraj2, takeConeStack1, takeConeStack2, backFromStack1, backFromStack2, poleTraj1, poleTraj2, forwardToPoleStack1, forwardToPoleStack2;
         int ticks = 400;
 
-        advancedTrajTry = drive.trajectorySequenceBuilder(new Pose2d(-61.70, 33.0, Math.toRadians(180.0)))
+        advancedTrajTry = drive.trajectorySequenceBuilder(new Pose2d(-61.70, -33.0, Math.toRadians(180.0)))
                 .strafeLeft(3.0)
-                .lineToConstantHeading(new Vector2d(-12.0, 33.0))
-                .addTemporalMarker(0.2, () ->
+                .lineToConstantHeading(new Vector2d(-8.0, 33.0)) // -12 -33
+
+                .addTemporalMarker(0.20, () ->
                 {
-//                    armEncoder.goTo(2800, 2800);
+                    armEncoder.goTo(2800, 2800);
                 })
-                .strafeLeft(9.0)
+                .lineToConstantHeading(new Vector2d(-12,33))
+                .strafeRight(9.0)
                 .build();
 
         forwardToPole = drive.trajectorySequenceBuilder(/*new Pose2d(-35.70, 0.0, Math.toRadians(0.0))*/ advancedTrajTry.end())
@@ -177,9 +179,9 @@ public class RRAutonomousLeft extends LinearOpMode {
         if(currentPosition == "LEFT")
         {
             servosUp(topServo);
-//            closeServo(clawServo);
+            closeServo(clawServo);
             sleep(250);
-//            armEncoder.goTo(50, 50);
+            armEncoder.goTo(50, 50);
 
             drive.followTrajectorySequence(advancedTrajTry);
             drive.followTrajectorySequence(forwardToPole);

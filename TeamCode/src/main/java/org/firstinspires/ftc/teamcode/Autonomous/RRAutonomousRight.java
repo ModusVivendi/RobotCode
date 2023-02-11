@@ -51,11 +51,13 @@ public class RRAutonomousRight extends LinearOpMode {
 
         advancedTrajTry = drive.trajectorySequenceBuilder(new Pose2d(-61.70, -33.0, Math.toRadians(180.0)))
                 .strafeLeft(3.0)
-                .lineToConstantHeading(new Vector2d(-12.0, -33.0))
-                .addTemporalMarker(0.2, () ->
+                .lineToConstantHeading(new Vector2d(-8.0, -33.0)) // -12 -33
+
+                .addTemporalMarker(0.20, () ->
                 {
                     armEncoder.goTo(2800, 2800);
                 })
+                .lineToConstantHeading(new Vector2d(-12,-33))
                 .strafeRight(9.0)
                 .build();
 
@@ -81,7 +83,7 @@ public class RRAutonomousRight extends LinearOpMode {
                 .build();
 
         poleTraj1 = drive.trajectorySequenceBuilder(backFromStack1.end())
-                .lineToSplineHeading(new Pose2d(-11.0, -23.0, Math.toRadians(180.0) +1e-6)) //13 si 26 cu minus
+                .lineToSplineHeading(new Pose2d(-11.0, -23.5, Math.toRadians(180.0) +1e-6)) //13 si 26 cu minus
                 .build();
 
         forwardToPoleStack1 = drive.trajectorySequenceBuilder(/*new Pose2d(-35.70, 0.0, Math.toRadians(0.0))*/ poleTraj1.end())
@@ -107,11 +109,11 @@ public class RRAutonomousRight extends LinearOpMode {
                 .build();
 
        poleTraj2 = drive.trajectorySequenceBuilder(backFromStack2.end())
-                .lineToSplineHeading(new Pose2d(-9.0, -21.0, Math.toRadians(180.0) +1e-6)) //15 si 27
+                .lineToSplineHeading(new Pose2d(-9.0, -23.2, Math.toRadians(180.0) +1e-6)) //15 si 27
                 .build();
 
        forwardToPoleStack2 = drive.trajectorySequenceBuilder(/*new Pose2d(-35.70, 0.0, Math.toRadians(0.0))*/ poleTraj2.end())
-                .back(5.0)
+                .back(4.8)
                 .build();
 
        TrajectorySequence stackTraj3 = drive.trajectorySequenceBuilder(/*new Pose2d(-8.5, -25.83, Math.toRadians(0.0))*/ forwardToPoleStack2.end())
@@ -119,12 +121,12 @@ public class RRAutonomousRight extends LinearOpMode {
                .lineToSplineHeading(new Pose2d(-3.0, -56.0, Math.toRadians(90.0)))
                 .addTemporalMarker(1, () ->
                 {
-                    armEncoder.goTo(250, 250);
+                    armEncoder.goTo(170, 170);
                 })
                 .build();
 
        TrajectorySequence takeConeStack3 = drive.trajectorySequenceBuilder(/*new Pose2d(-35.70, 0.0, Math.toRadians(0.0))*/ stackTraj3.end())
-                .back(1.5)
+                .back(1.7)
                 .build();
 
 
@@ -133,7 +135,7 @@ public class RRAutonomousRight extends LinearOpMode {
                 .build();
 
        TrajectorySequence poleTraj3 = drive.trajectorySequenceBuilder(backFromStack3.end())
-                .lineToSplineHeading(new Pose2d(-9.0, -15.0, Math.toRadians(180.0) +1e-6)) //15 si 27
+                .lineToSplineHeading(new Pose2d(-9.1, -21.0, Math.toRadians(180.0) +1e-6)) //15 si 27
                 .build();
 
        TrajectorySequence forwardToPoleStack3 = drive.trajectorySequenceBuilder(/*new Pose2d(-35.70, 0.0, Math.toRadians(0.0))*/ poleTraj3.end())
@@ -141,7 +143,7 @@ public class RRAutonomousRight extends LinearOpMode {
                 .build();
 
         TrajectorySequence leftPark = drive.trajectorySequenceBuilder(/*new Pose2d(-35.70, 0.0, Math.toRadians(0.0))*/ forwardToPoleStack3.end())
-                .strafeRight(10.0)
+                .strafeRight(10.5)
                 .build();
 
         TrajectorySequence centerPark = drive.trajectorySequenceBuilder(/*new Pose2d(-35.70, 0.0, Math.toRadians(0.0))*/ forwardToPoleStack3.end())
@@ -171,14 +173,13 @@ public class RRAutonomousRight extends LinearOpMode {
 
         waitForStart();
         currentPosition = String.valueOf(sleeveDetection.getPosition());
-
         if(isStopRequested()) return;
 
         if(currentPosition == "LEFT")
         {
             servosUp(topServo);
             closeServo(clawServo);
-            sleep(250);
+            sleep(200);
             armEncoder.goTo(50, 50);
 
             drive.followTrajectorySequence(advancedTrajTry);
@@ -186,7 +187,7 @@ public class RRAutonomousRight extends LinearOpMode {
             servosUp(topServo);
 
             openServo(clawServo);
-            sleep(200);
+            sleep(100);
             armEncoder.goTo(0,0);
 
             //Con preloaded
@@ -194,74 +195,75 @@ public class RRAutonomousRight extends LinearOpMode {
 
             drive.followTrajectorySequence(stackTraj1);
 
-            sleep(200);
+            sleep(100);
 
             drive.followTrajectorySequence(takeConeStack1);
 
-            sleep(200);
+            sleep(150);
             closeServo(clawServo);
-            sleep(300);
+            sleep(200);
 
             armEncoder.goTo(2800, 2800);
-
+            sleep(200);
 //            drive.followTrajectorySequence(backFromStack1);
 
             drive.followTrajectorySequence(poleTraj1);
             drive.followTrajectorySequence(forwardToPoleStack1);
             servosUp(topServo);
 
-            sleep(200);
+            sleep(150);
             openServo(clawServo);
-            sleep(200);
+            sleep(100);
             armEncoder.goTo(0,0);
 
             //Con 1 Stack
 
             drive.followTrajectorySequence(stackTraj2);
 
-            sleep(200);
+            sleep(150);
 
             drive.followTrajectorySequence(takeConeStack2);
 
-            sleep(200);
+            sleep(150);
             closeServo(clawServo);
-            sleep(300);
+            sleep(200);
 
             armEncoder.goTo(2800, 2800);
+            sleep(200);
 //            drive.followTrajectorySequence(backFromStack2);
 
             drive.followTrajectorySequence(poleTraj2);
             drive.followTrajectorySequence(forwardToPoleStack2);
             servosUp(topServo);
 
-            sleep(200);
+            sleep(150);
             openServo(clawServo);
-            sleep(200);
+            sleep(100);
             armEncoder.goTo(0,0);
 
             //Con 2 Stack
 
             drive.followTrajectorySequence(stackTraj3);
 
-            sleep(200);
+            sleep(150);
 
             drive.followTrajectorySequence(takeConeStack3);
 
-            sleep(200);
+            sleep(150);
             closeServo(clawServo);
-            sleep(300);
+            sleep(260);
 
             armEncoder.goTo(2800, 2800);
-
+            sleep(200);
 //            drive.followTrajectorySequence(backFromStack3);
 
             drive.followTrajectorySequence(poleTraj3);
             drive.followTrajectorySequence(forwardToPoleStack3);
             servosUp(topServo);
 
-            sleep(200);
+            sleep(150);
             openServo(clawServo);
-            sleep(200);
+            sleep(100);
             armEncoder.goTo(0,0);
 
             //Cone 3 Stack
@@ -281,9 +283,8 @@ public class RRAutonomousRight extends LinearOpMode {
             servosUp(topServo);
 
             openServo(clawServo);
-            sleep(200);
+            sleep(100);
             armEncoder.goTo(0,0);
-
             //Con preloaded
 
 
@@ -295,10 +296,10 @@ public class RRAutonomousRight extends LinearOpMode {
 
             sleep(200);
             closeServo(clawServo);
-            sleep(300);
+            sleep(250);
 
             armEncoder.goTo(2800, 2800);
-
+            sleep(200);
 //            drive.followTrajectorySequence(backFromStack1);
 
             drive.followTrajectorySequence(poleTraj1);
@@ -307,7 +308,7 @@ public class RRAutonomousRight extends LinearOpMode {
 
             sleep(200);
             openServo(clawServo);
-            sleep(200);
+            sleep(100);
             armEncoder.goTo(0,0);
 
             //Con 1 Stack
@@ -320,10 +321,10 @@ public class RRAutonomousRight extends LinearOpMode {
 
             sleep(200);
             closeServo(clawServo);
-            sleep(300);
+            sleep(250);
 
             armEncoder.goTo(2800, 2800);
-
+            sleep(200);
 //            drive.followTrajectorySequence(backFromStack2);
 
             drive.followTrajectorySequence(poleTraj2);
@@ -332,7 +333,7 @@ public class RRAutonomousRight extends LinearOpMode {
 
             sleep(200);
             openServo(clawServo);
-            sleep(200);
+            sleep(100);
             armEncoder.goTo(0,0);
 
             //Con 2 Stack
@@ -345,10 +346,10 @@ public class RRAutonomousRight extends LinearOpMode {
 
             sleep(200);
             closeServo(clawServo);
-            sleep(300);
+            sleep(250);
 
             armEncoder.goTo(2800, 2800);
-
+            sleep(200);
 //            drive.followTrajectorySequence(backFromStack3);
 
             drive.followTrajectorySequence(poleTraj3);
@@ -357,7 +358,7 @@ public class RRAutonomousRight extends LinearOpMode {
 
             sleep(200);
             openServo(clawServo);
-            sleep(200);
+            sleep(100);
             armEncoder.goTo(0,0);
 
             //Cone 3 Stack
@@ -376,7 +377,7 @@ public class RRAutonomousRight extends LinearOpMode {
             servosUp(topServo);
 
             openServo(clawServo);
-            sleep(200);
+            sleep(100);
             armEncoder.goTo(0,0);
 
             //Con preloaded
@@ -384,16 +385,16 @@ public class RRAutonomousRight extends LinearOpMode {
 
             drive.followTrajectorySequence(stackTraj1);
 
-            sleep(200);
+            sleep(150);
 
             drive.followTrajectorySequence(takeConeStack1);
 
             sleep(200);
             closeServo(clawServo);
-            sleep(300);
+            sleep(250);
 
             armEncoder.goTo(2800, 2800);
-
+            sleep(200);
 //            drive.followTrajectorySequence(backFromStack1);
 
             drive.followTrajectorySequence(poleTraj1);
@@ -402,23 +403,23 @@ public class RRAutonomousRight extends LinearOpMode {
 
             sleep(200);
             openServo(clawServo);
-            sleep(200);
+            sleep(100);
             armEncoder.goTo(0,0);
 
             //Con 1 Stack
 
             drive.followTrajectorySequence(stackTraj2);
 
-            sleep(200);
+            sleep(150);
 
             drive.followTrajectorySequence(takeConeStack2);
 
             sleep(200);
             closeServo(clawServo);
-            sleep(300);
+            sleep(250);
 
             armEncoder.goTo(2800, 2800);
-
+            sleep(200);
 //            drive.followTrajectorySequence(backFromStack2);
 
             drive.followTrajectorySequence(poleTraj2);
@@ -427,23 +428,23 @@ public class RRAutonomousRight extends LinearOpMode {
 
             sleep(200);
             openServo(clawServo);
-            sleep(200);
+            sleep(100);
             armEncoder.goTo(0,0);
 
             //Con 2 Stack
 
             drive.followTrajectorySequence(stackTraj3);
 
-            sleep(200);
+            sleep(150);
 
             drive.followTrajectorySequence(takeConeStack3);
 
             sleep(200);
             closeServo(clawServo);
-            sleep(300);
+            sleep(250);
 
             armEncoder.goTo(2800, 2800);
-
+            sleep(200);
 //            drive.followTrajectorySequence(backFromStack3);
 
             drive.followTrajectorySequence(poleTraj3);
@@ -452,7 +453,7 @@ public class RRAutonomousRight extends LinearOpMode {
 
             sleep(200);
             openServo(clawServo);
-            sleep(200);
+            sleep(100);
             armEncoder.goTo(0,0);
 
             //Cone 3 Stack
