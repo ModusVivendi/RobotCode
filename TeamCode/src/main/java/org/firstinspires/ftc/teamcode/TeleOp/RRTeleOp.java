@@ -23,15 +23,15 @@ import org.firstinspires.ftc.teamcode.RoadRunner.drive.advanced.PoseStorage;
 @TeleOp(name="RRTeleOp", group = "GAME")
 public class RRTeleOp extends LinearOpMode {
     private DcMotor leftMotor, rightMotor, leftMotorBack, rightMotorBack;
-    private DcMotor armMotorLeft, armMotorRight;
-    private Servo clawServo, topServo;
-    private PIDController controller;
-    private Move move;
-    private Rotate rotate;
-    private ClawServos clawServos;
-    private ArmEncoder armEncoder;
-    private TopServos topServos;
-    private Servo servo;
+//    private DcMotor armMotorLeft, armMotorRight;
+//    private Servo clawServo, topServo;
+//    private PIDController controller;
+//    private Move move;
+//    private Rotate rotate;
+//    private ClawServos clawServos;
+//    private ArmEncoder armEncoder;
+//    private TopServos topServos;
+//    private Servo servo;
     private boolean status1;
     int armLevel = 0;
     double integralSum = 0;
@@ -82,16 +82,16 @@ public class RRTeleOp extends LinearOpMode {
         rightMotor = hardwareMap.dcMotor.get("FR");
         leftMotorBack = hardwareMap.dcMotor.get("BL");
         rightMotorBack = hardwareMap.dcMotor.get("BR");
-        armMotorLeft = hardwareMap.dcMotor.get("AML");
-        armMotorRight = hardwareMap.dcMotor.get("AMR");
-        topServo = hardwareMap.servo.get("TS");
-        clawServo = hardwareMap.servo.get("CS");
-        move = new Move(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
-        rotate = new Rotate(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
-        clawServos = new ClawServos(clawServo);
-        armEncoder = new ArmEncoder(armMotorLeft, armMotorRight);
-        topServos = new TopServos(topServo);
-        controller = new PIDController(armMotorLeft, armMotorRight);
+//        armMotorLeft = hardwareMap.dcMotor.get("AML");
+//        armMotorRight = hardwareMap.dcMotor.get("AMR");
+//        topServo = hardwareMap.servo.get("TS");
+//        clawServo = hardwareMap.servo.get("CS");
+//        move = new Move(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
+//        rotate = new Rotate(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
+//        clawServos = new ClawServos(clawServo);
+//        armEncoder = new ArmEncoder(armMotorLeft, armMotorRight);
+//        topServos = new TopServos(topServo);
+//        controller = new PIDController(armMotorLeft, armMotorRight);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         gamepadCalc = new GamepadCalc(this);
 
@@ -104,11 +104,11 @@ public class RRTeleOp extends LinearOpMode {
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         drive.setPoseEstimate(PoseStorage.currentPose);
 
-        armMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        armMotorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-
-        servosUp(topServo);
+//        armMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        armMotorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//
+//
+//        servosUp(topServo);
 
         waitForStart();
 
@@ -136,6 +136,7 @@ public class RRTeleOp extends LinearOpMode {
                 secondFive =true;
             }
 
+
             gamepadCalc.calculate();
             movement = gamepadCalc.getGamepad1().left_trigger - gamepadCalc.getGamepad1().right_trigger;
 
@@ -160,83 +161,82 @@ public class RRTeleOp extends LinearOpMode {
                 telemetry.addData("Heading reseted to: ", PoseStorage.currentPose);
             }
 
-            if(gamepad2.right_bumper)
-            {
-                telemetry.addData("count:", count);
-                telemetry.update();
-                servosUp(topServo);
-                sleep(500);
-                if (goDown == true) {
-                    switch (count) {
-                        case 500:
-                            armEncoder.goTo(500, 500);
-                            count -= 100;
-                            break;
-                        case 400:
-                            armEncoder.goTo(400, 400);
-                            count -= 100;
-                            break;
-                        case 300:
-                            armEncoder.goTo(300, 300);
-                            count -= 100;
-                            break;
-                        case 200:
-                            armEncoder.goTo(200, 200);
-                            count -= 100;
-                            break;
-                        default:
-                            break;
-                    }
-                    goDown = false;
-                }
-            }
-            if(gamepad2.left_bumper)
-            {
-                goDown = true;
-            }
-            if(gamepad2.a)
-            {
-                count = 500;
-                telemetry.addData("Count reseted to: ", count);
-                telemetry.update();
-            }
-            if(gamepad2.x)
-            {
-                clawServos.SwitchAndWait(1,getRuntime());
-            }
-
-            if(gamepad2.y)
-            {
-                servosDown(topServo);
-            }
-            if(gamepad2.b)
-            {
-                servosUp(topServo);
-            }
-
-            if (gamepad2.dpad_up) // Arm Up
-            {
-                armCurrentDirection = "up";
-                armEncoder.goTo(3000, 3000);
-            }
-            if (gamepad2.dpad_down) //Arm Down
-            {
-                armCurrentDirection = "down";
-                servosUp(topServo);
-                sleep(500);
-                armEncoder.goTo(0, 0);
-                closeServo(clawServo);
-            }
-            if(gamepad2.dpad_left) // Arm level 1
-            {
-                armCurrentDirection = "up";
-                armEncoder.goTo(1300, 1300);
-            }
-            if(gamepad2.dpad_right) // Level 2
-            {
-                armCurrentDirection = "up";
-                armEncoder.goTo(2000, 2000);
-            }
+//            {
+//                telemetry.addData("count:", count);
+//                telemetry.update();
+//                servosUp(topServo);
+//                sleep(500);
+//                if (goDown == true) {
+//                    switch (count) {
+//                        case 500:
+//                            armEncoder.goTo(500, 500);
+//                            count -= 100;
+//                            break;
+//                        case 400:
+//                            armEncoder.goTo(400, 400);
+//                            count -= 100;
+//                            break;
+//                        case 300:
+//                            armEncoder.goTo(300, 300);
+//                            count -= 100;
+//                            break;
+//                        case 200:
+//                            armEncoder.goTo(200, 200);
+//                            count -= 100;
+//                            break;
+//                        default:
+//                            break;
+//                    }
+//                    goDown = false;
+//                }
+//            }
+//            if(gamepad2.left_bumper)
+//            {
+//                goDown = true;
+//            }
+//            if(gamepad2.a)
+//            {
+//                count = 500;
+//                telemetry.addData("Count reseted to: ", count);
+//                telemetry.update();
+//            }
+//            if(gamepad2.x)
+//            {
+//                clawServos.SwitchAndWait(1,getRuntime());
+//            }
+//
+//            if(gamepad2.y)
+//            {
+//                servosDown(topServo);
+//            }
+//            if(gamepad2.b)
+//            {
+//                servosUp(topServo);
+//            }
+//
+//            if (gamepad2.dpad_up) // Arm Up
+//            {
+//                armCurrentDirection = "up";
+//                armEncoder.goTo(3000, 3000);
+//            }
+//            if (gamepad2.dpad_down) //Arm Down
+//            {
+//                armCurrentDirection = "down";
+//                servosUp(topServo);
+//                sleep(500);
+//                armEncoder.goTo(0, 0);
+//                closeServo(clawServo);
+//            }
+//            if(gamepad2.dpad_left) // Arm level 1
+//            {
+//                armCurrentDirection = "up";
+//                armEncoder.goTo(1300, 1300);
+//            }
+//            if(gamepad2.dpad_right) // Level 2
+//            {
+//                armCurrentDirection = "up";
+//                armEncoder.goTo(2000, 2000);
+//            }
         }
 //            if (armCurrentDirection.equals("down")) {
 //                armMotorLeft.setPower(0);
