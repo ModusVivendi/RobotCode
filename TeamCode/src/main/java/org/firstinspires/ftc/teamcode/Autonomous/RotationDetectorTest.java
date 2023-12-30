@@ -48,7 +48,7 @@ public class RotationDetectorTest extends LinearOpMode {
 
 
         // Create instance of Collector class using the initialized CRServo
-        collector = new Collector(collectorCr);
+    //    collector = new Collector(collectorCr);
 
         // Create instances of Move and Rotate classes using the initialized motors
         move = new Move(leftMotor, rightMotor, leftMotorBack, rightMotorBack);

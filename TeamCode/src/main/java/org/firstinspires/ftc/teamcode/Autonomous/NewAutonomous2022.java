@@ -117,7 +117,7 @@ public class NewAutonomous2022 extends LinearOpMode {
         move = new Move(leftMotor, rightMotor, leftMotor, rightMotor);
         rotate = new Rotate(leftMotor, rightMotor, leftMotor, rightMotor);
         encoderMove = new EncoderMove(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
-        armServos = new ArmServos(L1Servo, L2Servo);
+      //  armServos = new ArmServos(L1Servo, L2Servo);
         armMotorRight = hardwareMap.get(DcMotorEx.class, "AMR");
         armMotorLeft = hardwareMap.get(DcMotorEx.class, "AML");
 
@@ -125,14 +125,14 @@ public class NewAutonomous2022 extends LinearOpMode {
         waitForStart();
         arm.Start(-1);
         sleep(2000);
-        armServos.Level2Up();
+       // armServos.Level2Up();
         sleep(2000);
         arm.Stop();
         sleep(3000);
 
         arm.Start(-1);
         sleep(2000);
-        armServos.Level2Down();
+      //  armServos.Level2Down();
         sleep(2000);
         arm.Stop();
 

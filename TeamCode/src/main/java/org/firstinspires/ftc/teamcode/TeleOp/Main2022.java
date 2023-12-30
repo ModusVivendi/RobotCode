@@ -62,10 +62,10 @@ public class Main2022 extends OpMode {
         //moveJoystick = new MoveJoystick(rotationDetector, move, rotate);
         //_carouselMotor = new CarouselMotor(carouselMotor);
         collectorCr = hardwareMap.crservo.get("CR");
-        collector = new Collector(collectorCr);
+//        collector = new Collector(collectorCr);
         level1 = hardwareMap.servo.get("L1S");
         level2 = hardwareMap.servo.get("L2S");
-        armServos = new ArmServos(level1, level2);
+//        armServos = new ArmServos(level1, level2);
         rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         rightMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         leftMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -148,11 +148,11 @@ public class Main2022 extends OpMode {
         }
         if(gamepad2.b)
         {
-            armServos.Level2Up();
+//            armServos.Level2Up();
         }
         if(gamepad2.a)
         {
-            armServos.Level1Up();
+//            armServos.Level1Up();
         }
         if(gamepad1.right_trigger>0){
             move.MoveRaw(2,gamepad1.right_trigger);

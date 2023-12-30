@@ -16,6 +16,7 @@ import org.firstinspires.ftc.teamcode.Functions.Move;
 import org.firstinspires.ftc.teamcode.Functions.PIDController;
 import org.firstinspires.ftc.teamcode.Functions.Rotate;
 import org.firstinspires.ftc.teamcode.Functions.TopServos;
+import org.firstinspires.ftc.teamcode.Functions.Vacuum;
 import org.firstinspires.ftc.teamcode.RoadRunner.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.RoadRunner.drive.StandardTrackingWheelLocalizer;
 import org.firstinspires.ftc.teamcode.RoadRunner.drive.advanced.PoseStorage;
@@ -23,9 +24,12 @@ import org.firstinspires.ftc.teamcode.RoadRunner.drive.advanced.PoseStorage;
 @TeleOp(name="RRTeleOp", group = "GAME")
 public class RRTeleOp extends LinearOpMode {
     private DcMotor leftMotor, rightMotor, leftMotorBack, rightMotorBack;
-//    private DcMotor armMotorLeft, armMotorRight;
+    private DcMotor aspiratorMotor;
+
+    Vacuum vacuum;
+        private DcMotor armMotorLeft, armMotorRight;
 //    private Servo clawServo, topServo;
-//    private PIDController controller;
+    private PIDController controller;
 //    private Move move;
 //    private Rotate rotate;
 //    private ClawServos clawServos;
@@ -82,8 +86,9 @@ public class RRTeleOp extends LinearOpMode {
         rightMotor = hardwareMap.dcMotor.get("FR");
         leftMotorBack = hardwareMap.dcMotor.get("BL");
         rightMotorBack = hardwareMap.dcMotor.get("BR");
-//        armMotorLeft = hardwareMap.dcMotor.get("AML");
-//        armMotorRight = hardwareMap.dcMotor.get("AMR");
+        aspiratorMotor = hardwareMap.dcMotor.get("AS");
+        armMotorLeft = hardwareMap.dcMotor.get("SL");
+        armMotorRight = hardwareMap.dcMotor.get("SR");
 //        topServo = hardwareMap.servo.get("TS");
 //        clawServo = hardwareMap.servo.get("CS");
 //        move = new Move(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
@@ -91,7 +96,8 @@ public class RRTeleOp extends LinearOpMode {
 //        clawServos = new ClawServos(clawServo);
 //        armEncoder = new ArmEncoder(armMotorLeft, armMotorRight);
 //        topServos = new TopServos(topServo);
-//        controller = new PIDController(armMotorLeft, armMotorRight);
+        controller = new PIDController(armMotorLeft, armMotorRight);
+        vacuum = new Vacuum(aspiratorMotor);
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         gamepadCalc = new GamepadCalc(this);
 
@@ -104,8 +110,8 @@ public class RRTeleOp extends LinearOpMode {
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         drive.setPoseEstimate(PoseStorage.currentPose);
 
-//        armMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        armMotorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armMotorLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        armMotorRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 //
 //
 //        servosUp(topServo);
@@ -161,6 +167,19 @@ public class RRTeleOp extends LinearOpMode {
                 telemetry.addData("Heading reseted to: ", PoseStorage.currentPose);
             }
 
+            if (gamepad1.x) {
+                vacuum.Start();
+            }
+            if (gamepad1.y){
+                vacuum.Stop();
+            }
+//            if (gamepad1.dpad_up){
+//                controller.goTo(500, 500);
+//            }
+//
+//            if (gamepad1.dpad_down){
+//                controller.goTo(0, 0);
+//            }
 //            {
 //                telemetry.addData("count:", count);
 //                telemetry.update();

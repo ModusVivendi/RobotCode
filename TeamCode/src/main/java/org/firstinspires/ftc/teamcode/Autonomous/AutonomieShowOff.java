@@ -56,10 +56,10 @@ public class AutonomieShowOff extends LinearOpMode {
         vaccum = new Vacuum(vaccumLeft);
         rotationDetector = new RotationDetector(hardwareMap.get(BNO055IMU.class, "imu"));
         collectorCr = hardwareMap.crservo.get("CR");
-        collector = new Collector(collectorCr);
+     //   collector = new Collector();
         VoltageSensor VS = this.hardwareMap.voltageSensor.iterator().next();
         voltageReader = new VoltageReader(VS);
-        armServos = new ArmServos(L1Servo, L2Servo);
+      //  armServos = new ArmServos(L1Servo, L2Servo);
         AutoCorrection = new MoveAutocorrect2(rotationDetector,move,rotate);
 
         waitForStart();
@@ -70,7 +70,7 @@ public class AutonomieShowOff extends LinearOpMode {
 
         arm.Start(-1);
         sleep(2000);
-        armServos.Level1Up();
+      //  armServos.Level1Up();
         sleep(1000);
         arm.Stop();
         sleep(1000);
@@ -101,7 +101,7 @@ public class AutonomieShowOff extends LinearOpMode {
 
         arm.Start(-1);
         sleep(1000);
-        armServos.Level1Down();
+       // armServos.Level1Down();
         sleep(1000);
         arm.Stop();
         sleep(1000);

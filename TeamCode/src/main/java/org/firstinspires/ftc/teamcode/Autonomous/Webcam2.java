@@ -136,10 +136,10 @@ public class Webcam2 extends LinearOpMode {
         rotationDetector = new RotationDetector(hardwareMap.get(BNO055IMU.class, "imu"));
         //_carouselMotor = new CarouselMotor(carouselMotor);
         collectorCr = hardwareMap.crservo.get("CR");
-        collector = new Collector(collectorCr);
+       // collector = new Collector(collectorCr);
         VoltageSensor VS = this.hardwareMap.voltageSensor.iterator().next();
         voltageReader = new VoltageReader(VS);
-        armServos = new ArmServos(L1Servo, L2Servo);
+        //armServos = new ArmServos(L1Servo, L2Servo);
         encoderMove = new EncoderMove(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
         AutoCorrection = new MoveAutocorrect2(rotationDetector,move,rotate);
 //        rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -285,7 +285,7 @@ public class Webcam2 extends LinearOpMode {
 
         arm.Start(-1);
         sleep(2000);
-        armServos.Level1Up();
+       // armServos.Level1Up();
         sleep(1000);
         arm.Stop();
         sleep(1000);
@@ -304,7 +304,7 @@ public class Webcam2 extends LinearOpMode {
 
         arm.Start(-1);
         sleep(1000);
-        armServos.Level1Down();
+       //armServos.Level1Down();
         sleep(1000);
         arm.Stop();
         sleep(1000);
@@ -379,7 +379,7 @@ public class Webcam2 extends LinearOpMode {
 
         arm.Start(-1);
         sleep(1400);
-        armServos.Level2Up();
+        //.Level2Up();
         sleep(1000);
         arm.Stop();
         sleep(1000);
@@ -398,7 +398,7 @@ public class Webcam2 extends LinearOpMode {
 
         arm.Start(-1);
         sleep(1000);
-        armServos.Level2Down();
+//        armServos.Level2Down();
         sleep(1000);
         arm.Stop();
         sleep(1000);
@@ -647,7 +647,7 @@ public class Webcam2 extends LinearOpMode {
 
         arm.Start(-1);
         sleep(1500);
-        armServos.Level1Down();
+//        armServos.Level1Down();
         sleep(500);
         arm.Stop();
         sleep(1000);
@@ -669,7 +669,7 @@ public class Webcam2 extends LinearOpMode {
 
         arm.Start(-1);
         sleep(1000);
-        armServos.Level1Up();
+//        armServos.Level1Up();
         sleep(1000);
         arm.Stop();
         sleep(1000);
@@ -863,7 +863,7 @@ public class Webcam2 extends LinearOpMode {
 
         arm.Start(-1);
         sleep(1500);
-        armServos.Level2Down();
+//        armServos.Level2Down();
         sleep(500);
         arm.Stop();
         sleep(1000);
@@ -901,7 +901,7 @@ public class Webcam2 extends LinearOpMode {
 
         arm.Start(-1);
         sleep(1000);
-        armServos.Level2Up();
+//        armServos.Level2Up();
         sleep(1000);
         arm.Stop();
         sleep(1000);

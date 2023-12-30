@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.Functions;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class Vacuum {
-    private DcMotor vaccumLeft/*, vaccumRight*/;
+    private DcMotor vaccumLeft;
     /**
      * The status variables may be true (vacuum is on) or false (vacuum is off).
      */
@@ -17,7 +17,6 @@ public class Vacuum {
 
     public Vacuum(DcMotor _VL){
         vaccumLeft = _VL;
-        //vaccumRight = _VR;
 
         status =false;
         statusInv =false;

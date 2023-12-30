@@ -3,7 +3,8 @@ package org.firstinspires.ftc.teamcode.Functions;
 import com.qualcomm.robotcore.hardware.CRServo;
 
 public class Collector {
-    private CRServo servoCr;
+    private CRServo servoCrLeft;
+    private CRServo servoCrRight;
     private boolean status, statusCr,statusInv;
 
     // Start da start la servoCr
@@ -12,9 +13,10 @@ public class Collector {
      * This method initialises the motors.
      * @param : servo
      */
-    public Collector(CRServo _servoCr)
+    public Collector(CRServo _servoCr, CRServo _servoCrRight)
     {
-        servoCr = _servoCr;
+        servoCrLeft = _servoCr;
+        servoCrRight = _servoCrRight;
         statusCr=false;
         statusInv=false;
 
@@ -25,7 +27,8 @@ public class Collector {
      */
     public void Start()
     {
-        servoCr.setPower(-1);
+        servoCrLeft.setPower(-1);
+        servoCrRight.setPower(1);
         statusCr=true;
         statusInv=false;
     }
@@ -34,7 +37,8 @@ public class Collector {
      */
     public void StartInv()
     {
-        servoCr.setPower(1);
+        servoCrLeft.setPower(1);
+        servoCrRight.setPower(-1);
         statusCr=false;
         statusInv=true;
     }
@@ -43,8 +47,10 @@ public class Collector {
      */
     public void Stop()
     {
-        servoCr.setPower(0);
+        servoCrLeft.setPower(0);
+        servoCrRight.setPower(0);
         statusCr=false;
+        statusInv = false;
     }
 
 
@@ -63,7 +69,7 @@ public class Collector {
     }
     public void SwitchInv()
     {
-        if(status)
+        if(statusInv)
         {
             Stop();
         }

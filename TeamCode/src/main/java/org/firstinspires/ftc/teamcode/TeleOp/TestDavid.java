@@ -62,8 +62,8 @@ public class TestDavid extends OpMode {
         collectorCr = hardwareMap.crservo.get("CR");
         level1 = hardwareMap.servo.get("L1");
         level2 = hardwareMap.servo.get("L2");
-        armServos = new ArmServos(level1, level2);
-        collector = new Collector(collectorCr);
+//        armServos = new ArmServos(level1, level2);
+//        collector = new Collector(collectorCr);
         rightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         rightMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         leftMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -129,14 +129,14 @@ public class TestDavid extends OpMode {
              collector.SwitchAndWaitContinuous(1, getRuntime());
          }
          telemetry.update();
-         if(gamepad2.b)
-         {
-             armServos.SwitchAndWaitLevel2(1, getRuntime());
-         }
-         if(gamepad2.a)
-         {
-             armServos.SwitchAndWaitLevel1(1,getRuntime());
-         }
+//         if(gamepad2.b)
+//         {
+//             armServos.SwitchAndWaitLevel2(1, getRuntime());
+//         }
+//         if(gamepad2.a)
+//         {
+//             armServos.SwitchAndWaitLevel1(1,getRuntime());
+//         }
 
     }
 }

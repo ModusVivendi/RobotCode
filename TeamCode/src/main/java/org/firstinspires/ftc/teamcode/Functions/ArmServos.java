@@ -1,74 +1,254 @@
 package org.firstinspires.ftc.teamcode.Functions;
 
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 
 public class ArmServos {
-    private Servo level1Servo, level2Servo;
-    private boolean status1, status2;
+    private CRServo servoCrLeft, servoCrRight;
+    private boolean statusCr, statusInv;
 
-    public ArmServos(Servo L1S, Servo L2S) {
-        level1Servo = L1S;
-        level2Servo = L2S;
-        status1 = false;
-        status2 = false;
-    }
-    public void Level1Up(){
-        level1Servo.setPosition(0);
-        status1 = true;
-    }
-    public void Level1Down(){
-        level1Servo.setPosition(1);
-        status1 = false;
-    }
-    public void Level2Up(){
-        level2Servo.setPosition(1);
-        status2 = true;
-    }
-    public void Level2Down(){
-        level2Servo.setPosition(0);
-        status2 = false;
-    }
-    public void Level2Middle(){
-        level2Servo.setPosition(0.5);
-        status2 = false;
+    public ArmServos(CRServo L1S, CRServo L2S) {
+        servoCrLeft = L1S;
+        servoCrRight = L2S;
+        statusCr = false;
+        statusInv = false;
     }
 
-    public void SwitchLevel1(){
-        if(status1){
-            Level1Up();
+    /**
+     * This method starts the servo.
+     */
+    public void Start()
+    {
+        servoCrLeft.setPower(-1);
+        servoCrRight.setPower(1);
+        statusCr=true;
+        statusInv=false;
+    }
+    /**
+     * This method starts the servo in the opposite direction.
+     */
+    public void StartInv()
+    {
+        servoCrLeft.setPower(1);
+        servoCrRight.setPower(-1);
+        statusCr=false;
+        statusInv=true;
+    }
+    /**
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     * This method stops the servo.
+     */
+    public void Stop()
+    {
+        servoCrLeft.setPower(0);
+        servoCrRight.setPower(0);
+        statusCr=false;
+        statusInv = false;
+    }
+
+
+    /**
+     * This method starts/stops the vacuum depending on the value of status(variable).
+     */
+    public void Switch()
+    {
+        if(statusCr)
+        {
+            Stop();
         }
-        else{
-            Level1Down();
+        else {
+            Start();
         }
     }
-    public void SwitchLevel2(){
-        if(status2){
-            Level2Up();
+    public void SwitchInv()
+    {
+        if(statusInv)
+        {
+            Stop();
         }
-        else{
-            Level2Down();
-        }
-    }
-
-    double currentWaitTimeL1 =0;
-    double currentTimeStampL1 =0;
-
-    public void SwitchAndWaitLevel1(double x, double currentRuntime){
-        if(currentWaitTimeL1 ==0|| currentTimeStampL1 + currentWaitTimeL1 <=currentRuntime){
-            SwitchLevel1();
-            currentTimeStampL1 =currentRuntime;
-            currentWaitTimeL1 =x;
+        else
+        {
+            StartInv();
         }
     }
 
-    double currentWaitTimeL2 =0;
-    double currentTimeStampL2 =0;
 
-    public void SwitchAndWaitLevel2(double x, double currentRuntime){
-        if(currentWaitTimeL2 ==0|| currentTimeStampL2 + currentWaitTimeL2 <=currentRuntime){
-            SwitchLevel2();
-            currentTimeStampL2 =currentRuntime;
-            currentWaitTimeL2 =x;
+    double currentWaitTime =0;
+    double currentTimeStamp =0;
+
+    /**
+     * This method checks if x seconds have passed, and if that's true => .
+     */
+
+    public void SwitchAndWaitContinuous(double x, double currentRuntime)
+    {
+        if(currentRuntime == 0 || currentTimeStamp + currentWaitTime <= currentRuntime) {
+            Switch();
+            currentTimeStamp = currentRuntime;
+            currentWaitTime = x;
+        }
+    }
+    public void SwitchAndWaitContinuousInv(double x, double currentRuntime)
+    {
+        if(currentRuntime == 0 || currentTimeStamp + currentWaitTime <= currentRuntime) {
+            SwitchInv();
+            currentTimeStamp = currentRuntime;
+            currentWaitTime = x;
         }
     }
 }
