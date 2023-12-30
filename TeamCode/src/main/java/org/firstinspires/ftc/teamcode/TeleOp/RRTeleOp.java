@@ -31,7 +31,7 @@ public class RRTeleOp extends LinearOpMode {
 //    private Servo clawServo, topServo;
     private PIDController controller;
 //    private Move move;
-//    private Rotate rotate;
+    private Rotate rotate;
 //    private ClawServos clawServos;
 //    private ArmEncoder armEncoder;
 //    private TopServos topServos;
@@ -92,7 +92,7 @@ public class RRTeleOp extends LinearOpMode {
 //        topServo = hardwareMap.servo.get("TS");
 //        clawServo = hardwareMap.servo.get("CS");
 //        move = new Move(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
-//        rotate = new Rotate(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
+        rotate = new Rotate(leftMotor, rightMotor, leftMotorBack, rightMotorBack);
 //        clawServos = new ClawServos(clawServo);
 //        armEncoder = new ArmEncoder(armMotorLeft, armMotorRight);
 //        topServos = new TopServos(topServo);
@@ -160,6 +160,15 @@ public class RRTeleOp extends LinearOpMode {
                     )
             );
             drive.update();
+
+            if(gamepad1.dpad_left)
+            {
+                rotate.RotateFull(1);
+            }
+            if(gamepad1.dpad_right)
+            {
+                rotate.RotateFull(2);
+            }
 
             if(gamepad1.right_bumper)
             {
